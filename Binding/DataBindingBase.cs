@@ -28,11 +28,11 @@ namespace UnityMVVM
                 }
             }
 
-            //[HideInInspector]
+            [HideInInspector]
             public ViewModelBase _viewModel;
 
 
-            //[HideInInspector]
+            [HideInInspector]
             public string ViewModelName = null;
 
             protected List<string> ViewModels = new List<string>();
