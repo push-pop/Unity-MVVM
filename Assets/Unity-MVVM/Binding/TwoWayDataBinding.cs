@@ -20,10 +20,10 @@ namespace UnityMVVM
         public class TwoWayDataBinding
             : OneWayDataBinding
         {
-            //[HideInInspector]
+            [HideInInspector]
             public string _dstChangedEventName = null;
 
-            //[HideInInspector]
+            [HideInInspector]
             public List<string> DstChangedEvents = new List<string>();
 
             public override void RegisterDataBinding()
