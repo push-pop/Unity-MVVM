@@ -8,20 +8,20 @@ public enum Visibility
 {
     Visible,
     Hidden,
-    Invisible
+    Collapsed
 };
 
 public class ViewBase : MonoBehaviour, IView
 {
-    [SerializeField]
-    Image img;
-
     public Visibility ElementVisibility
     {
         set
         {
-            _visibility = value;
-            SetVisibility(value);
+            if (_visibility != value)
+            {
+                _visibility = value;
+                SetVisibility(_visibility);
+            }
         }
         get
         {
@@ -31,9 +31,47 @@ public class ViewBase : MonoBehaviour, IView
     [SerializeField]
     Visibility _visibility;
 
-
+    public RectTransform rectTransform
+    {
+        get
+        {
+            if (_rectTransform == null)
+                _rectTransform = GetComponent<RectTransform>();
+            return _rectTransform;
+        }
+    }
+    RectTransform _rectTransform;
     CanvasGroup cg;
-    private float targetAlpha = 1f;
+
+    private void Awake()
+    {
+        cg = GetComponent<CanvasGroup>();
+        if (cg == null)
+            cg = gameObject.AddComponent<CanvasGroup>();
+    }
+
+    private void Start()
+    {
+        SetInitialVisibility();
+    }
+
+    private void SetInitialVisibility()
+    {
+        switch (_visibility)
+        {
+            case Visibility.Visible:
+                cg.alpha = 1;
+                break;
+            case Visibility.Hidden:
+                cg.alpha = 0f;
+                break;
+            case Visibility.Collapsed:
+                gameObject.SetActive(false);
+                break;
+            default:
+                break;
+        }
+    }
 
     public virtual void Hide()
     {
@@ -45,31 +83,32 @@ public class ViewBase : MonoBehaviour, IView
         {
             case Visibility.Visible:
                 gameObject.SetActive(true);
-                targetAlpha = 1f;
+                cg.CancelAnimation();
+                cg.FadeIn();
                 break;
             case Visibility.Hidden:
-                gameObject.SetActive(false);
-                targetAlpha = 0f;
-                break;
-            case Visibility.Invisible:
                 gameObject.SetActive(true);
-                targetAlpha = 0f;
+                cg.CancelAnimation();
+                cg.FadeOut();
+                break;
+            case Visibility.Collapsed:
+                cg.FadeOut(() =>
+                {
+                    gameObject.SetActive(false);
+                });
                 break;
             default:
                 break;
         }
     }
 
-    private void Update()
-    {
-        if (cg == null)
-            cg = GetComponent<CanvasGroup>();
-
-        cg.alpha = Mathf.Lerp(cg.alpha, targetAlpha, .2f);
-    }
-
-
     public virtual void Show()
     {
+
+    }
+
+    public virtual void UpdateView()
+    {
+
     }
 }

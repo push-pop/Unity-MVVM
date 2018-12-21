@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>Binding Property</Title>
+      <Shortcut>bindprop</Shortcut>
+      <Description>Code snippet for property, serialized backing field, and NotifyPropertyChanged</Description>
+      <Author>Nate Turley</Author>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal>
+          <ID>type</ID>
+          <ToolTip>Property type</ToolTip>
+          <Default>int</Default>
+        </Literal>
+        <Literal>
+          <ID>property</ID>
+          <ToolTip>Property name</ToolTip>
+          <Default>MyProperty</Default>
+        </Literal>
+        <Literal>
+          <ID>field</ID>
+          <ToolTip>The variable backing this property</ToolTip>
+          <Default>myVar</Default>
+        </Literal>
+      </Declarations>
+      <Code Language="csharp">
+        <![CDATA[public $type$ $property$
+	{
+		get { return $field$;}
+		set {
+    if(value != $field$)
+    {
+    $field$ = value;
+    NotifyPropertyChanged(nameof($property$));
+    }
+    }
+	}
+  
+    [SerializeField]
+        private $type$ $field$;
+	$end$]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

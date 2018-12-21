@@ -47,62 +47,7 @@ namespace UnityMVVM
 
             }
 
-            public static Delegate CreateDelegate(Type delegateType, Action<object[]> target)
-            {
-                var sourceParameters = delegateType.GetMethod("Invoke").GetParameters();
 
-                var parameters = sourceParameters.Select(p => Expression.Parameter(p.ParameterType, p.Name)).ToArray();
-
-                var castParameters = parameters.Select(p => Expression.TypeAs(p, typeof(object))).ToArray();
-
-                var createArray = Expression.NewArrayInit(typeof(object), castParameters);
-
-                var invokeTarget = Expression.Invoke(Expression.Constant(target), createArray);
-
-                var lambdaExpression = Expression.Lambda(delegateType, invokeTarget, parameters);
-
-                return lambdaExpression.Compile();
-            }
-
-
-
-            private void BindEvent(object evn, Action handler)
-            {
-                var args = evn.GetType().GetGenericArguments();
-                Debug.Log("Generic Args: ");
-                foreach (var arg in args)
-                {
-                    Debug.Log(arg);
-                }
-                Type eventType = typeof(UnityEvent<>);
-                Type genericType = eventType.MakeGenericType(args);
-
-            }
-
-            public void GetEventType<T>(dynamic even)
-            {
-
-            }
-
-            public void OnChange(string change)
-            {
-                Debug.Log("Change: " + change);
-                src.SetValue(dst.GetValue());
-            }
-
-            static bool IsSubclassOfRawGeneric(Type generic, Type toCheck)
-            {
-                while (toCheck != null && toCheck != typeof(object))
-                {
-                    var cur = toCheck.IsGenericType ? toCheck.GetGenericTypeDefinition() : toCheck;
-                    if (generic == cur)
-                    {
-                        return true;
-                    }
-                    toCheck = toCheck.BaseType;
-                }
-                return false;
-            }
 
             protected override void OnValidate()
             {
