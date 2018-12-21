@@ -23,7 +23,7 @@ namespace UnityMVVM
                 if (state == HiddenState)
                     return Visibility.Hidden;
                 if (state == InvisibleState)
-                    return Visibility.Invisible;
+                    return Visibility.Collapsed;
 
                 return null;
             }

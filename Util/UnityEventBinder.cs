@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -11,6 +12,16 @@ public class UnityEventBinder
     //HACK: Currently no way to unsubscribe these bindings without destroying the whole object
 
     public delegate void ParamsAction(params object[] arguments);
+
+    public static MethodInfo GetAddListener(object e)
+    {
+        return e.GetType().GetMethod("AddListener");
+    }
+
+    public static MethodInfo GetRemoveListener(object e)
+    {
+        return e.GetType().GetMethod("RemoveListener");
+    }
 
     public static void BindEventWithArgs(object e, ParamsAction callback)
     {

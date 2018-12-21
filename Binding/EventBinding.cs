@@ -36,23 +36,50 @@ namespace UnityMVVM
             [HideInInspector]
             public ViewModelBase _dstViewModel;
 
+            
             MethodInfo _method;
             PropertyInfo _srcEventProp;
+
+
 
             // Use this for initialization
             void Awake()
             {
-                UnityEventBinder.BindEventWithArgs(_srcEventProp.GetValue(_srcView), DelegateHandler);
+                UpdateBindings();
+                var method = UnityEventBinder.GetAddListener(_srcEventProp.GetValue(_srcView));
+
+                var arg = method.GetParameters()[0];
+                var d = Delegate.CreateDelegate(arg.ParameterType, _dstViewModel, _method);
+
+                var p = new object[] { d };
+
+                method.Invoke(_srcEventProp.GetValue(_srcView), p);
             }
 
-            void DelegateHandler(params object[] args)
+            public void handler(object caller, params object[] args)
             {
-                _method.Invoke(_dstViewModel, args);
+                var newArgs = new object[args.Length + 1];
+                newArgs[0] = _srcView;
+                args.CopyTo(newArgs, 1);
+
+                _method.Invoke(_dstViewModel, newArgs);
             }
 
             private void OnValidate()
             {
                 UpdateBindings();
+            }
+
+            private void OnDestroy()
+            {
+                var method = UnityEventBinder.GetRemoveListener(_srcEventProp.GetValue(_srcView));
+
+                var arg = method.GetParameters()[0];
+                var d = Delegate.CreateDelegate(arg.ParameterType, _dstViewModel, _method);
+
+                var p = new object[] { d };
+
+                method.Invoke(_srcEventProp.GetValue(_srcView), p);
             }
 
             private void UpdateBindings()
@@ -61,9 +88,11 @@ namespace UnityMVVM
 
                 if (_srcView != null)
                 {
-                    var props = _srcView.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public);
-                    SrcEvents = props.Where(p => p.PropertyType.IsSubclassOf(typeof(UnityEventBase))
-                                                   && !p.GetCustomAttributes(typeof(ObsoleteAttribute), true).Any())
+                    var props = _srcView.GetType().GetProperties(BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public);
+
+                    SrcEvents = props
+                        .Where(p => p.PropertyType.IsSubclassOf(typeof(UnityEventBase))
+                                       && !p.GetCustomAttributes(typeof(ObsoleteAttribute), true).Any())
                                             .Select(p => p.Name).ToList();
 
                     if (!string.IsNullOrEmpty(SrcEventName))
@@ -72,7 +101,7 @@ namespace UnityMVVM
 
                 if (!string.IsNullOrEmpty(ViewModelName))
                 {
-                    _dstViewModel = FindObjectOfType(ViewModelProvider.GetViewModel(ViewModelName)) as ViewModelBase;
+                    _dstViewModel = FindObjectOfType(ViewModelProvider.GetViewModelType(ViewModelName)) as ViewModelBase;
                     var methods = ViewModelProvider.GetViewModelMethods(ViewModelName, BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public);
 
                     DstMethods = methods.Where(m => !m.IsSpecialName && !m.GetCustomAttributes(typeof(ObsoleteAttribute), true).Any()).Select(e => e.Name).ToList(); ;

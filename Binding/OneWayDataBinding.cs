@@ -17,7 +17,6 @@ namespace UnityMVVM
     namespace Binding
     {
 
-        [CanEditMultipleObjects]
         public class OneWayDataBinding
             : DataBindingBase
         {
@@ -81,8 +80,7 @@ namespace UnityMVVM
                 if (!string.IsNullOrEmpty(ViewModelName))
                 {
                     var props = ViewModelProvider.GetViewModelProperties(ViewModelName);
-                    SrcProps = props.Where(prop => prop.GetSetMethod(false) != null
-                           && prop.GetGetMethod(false) != null
+                    SrcProps = props.Where(prop => prop.GetGetMethod(false) != null
                            && !prop.GetCustomAttributes(typeof(ObsoleteAttribute), true).Any()
                         ).Select(e => e.Name).ToList();
                 }
@@ -92,10 +90,18 @@ namespace UnityMVVM
             {
                 base.OnSrcUpdated();
 
-                if (_converter)
-                    dst.SetValue(_converter.Convert(src.GetValue(), dst.property.PropertyType, null));
-                else
-                    dst.SetValue(Convert.ChangeType(src.GetValue(), dst.property.PropertyType));
+                try
+                {
+                    if (_converter)
+                        dst.SetValue(_converter.Convert(src.GetValue(), dst.property.PropertyType, null));
+                    else
+                        dst.SetValue(Convert.ChangeType(src.GetValue(), dst.property.PropertyType));
+                }
+                catch
+                {
+                    Debug.LogError("Data binding error in: " + gameObject.name);
+                    
+                }
             }
 
             protected override void OnDestroy()
@@ -106,6 +112,7 @@ namespace UnityMVVM
                     _connection.Dispose();
             }
 #if UNITY_EDITOR
+            [CanEditMultipleObjects]
             [CustomEditor(typeof(OneWayDataBinding), true)]
             public class OneWayDataBindingEditor : DataBindingBaseEditor
             {

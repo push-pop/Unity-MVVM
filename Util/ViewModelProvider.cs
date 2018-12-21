@@ -36,7 +36,7 @@ namespace UnityMVVM
                 return mscorlib.GetTypes().Where(e => e.IsSubclassOf(t)).Select(e => e.ToString()).ToList();
             }
 
-            public static Type GetViewModel(string typeString)
+            public static Type GetViewModelType(string typeString)
             {
                 Assembly asm = Assembly.GetExecutingAssembly();
                 return asm.GetType(typeString);

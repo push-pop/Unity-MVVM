@@ -49,11 +49,15 @@ namespace UnityMVVM
 
             protected virtual void UpdateBindings()
             {
+                ViewModels = ViewModelProvider.Viewmodels;
+            }
+
+            protected void FindViewModel()
+            {
                 if (!string.IsNullOrEmpty(ViewModelName))
                 {
-                    _viewModel = FindObjectOfType(ViewModelProvider.GetViewModel(ViewModelName)) as ViewModelBase;
+                    _viewModel = FindObjectOfType(ViewModelProvider.GetViewModelType(ViewModelName)) as ViewModelBase;
                 }
-                ViewModels = ViewModelProvider.Viewmodels;
             }
 
             public virtual void OnSrcUpdated()
@@ -67,6 +71,7 @@ namespace UnityMVVM
 
             protected virtual void Awake()
             {
+                FindViewModel();
                 RegisterDataBinding();
             }
 
