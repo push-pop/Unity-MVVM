@@ -26,7 +26,7 @@ namespace UnityMVVM
             protected List<GameObject> InstantiatedItems = new List<GameObject>();
 
             [SerializeField]
-            CollectionViewSource _src;
+            protected CollectionViewSource _src;
 
             // Use this for initialization
             protected void Awake()
@@ -60,6 +60,11 @@ namespace UnityMVVM
                     _src.OnCollectionReset -= ResetView;
                     _src.OnElementUpdated -= UpdateElement;
                 }
+            }
+
+            protected virtual void SetData(GameObject go, object item)
+            {
+
             }
 
 
@@ -99,6 +104,8 @@ namespace UnityMVVM
                     go.transform.SetSiblingIndex(newStartingIndex);
 
                     gameObjects.Add(go);
+
+                    SetData(go, item);
                 }
 
                 InstantiatedItems.InsertRange(newStartingIndex, gameObjects);

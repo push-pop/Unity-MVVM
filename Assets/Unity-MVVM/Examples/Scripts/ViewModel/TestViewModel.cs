@@ -168,7 +168,7 @@ namespace UnityMVVM
                 while (true)
                 {
                     State = (ApplicationState)((int)(_state + 1) % 3);
-                    yield return new WaitForSeconds(2f);
+                    yield return new WaitForSeconds(3f);
                 }
             }
 

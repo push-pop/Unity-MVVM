@@ -11,150 +11,147 @@ using UnityEngine;
 using UnityMVVM.Util;
 using UnityMVVM.ViewModel;
 
-namespace UnityMVVM
+namespace UnityMVVM.Binding
 {
-    namespace Binding
+
+    public class DataBindingBase :
+MonoBehaviour,
+IDataBinding
     {
-
-        public class DataBindingBase :
-    MonoBehaviour,
-    IDataBinding
+        public ViewModelBase ViewModelSrc
         {
-            public ViewModelBase ViewModelSrc
+            get
             {
-                get
-                {
-                    return _viewModel;
-                }
+                return _viewModel;
             }
+        }
 
-            [HideInInspector]
-            public ViewModelBase _viewModel;
+        [HideInInspector]
+        public ViewModelBase _viewModel;
 
 
-            [HideInInspector]
-            public string ViewModelName = null;
+        [HideInInspector]
+        public string ViewModelName = null;
 
-            protected List<string> ViewModels = new List<string>();
+        protected List<string> ViewModels = new List<string>();
 
-            public virtual void RegisterDataBinding()
+        public virtual void RegisterDataBinding()
+        {
+
+        }
+
+        protected virtual void OnValidate()
+        {
+            UpdateBindings();
+        }
+
+        protected virtual void UpdateBindings()
+        {
+            ViewModels = ViewModelProvider.Viewmodels;
+        }
+
+        protected void FindViewModel()
+        {
+            if (!string.IsNullOrEmpty(ViewModelName))
             {
-
+                _viewModel = FindObjectOfType(ViewModelProvider.GetViewModelType(ViewModelName)) as ViewModelBase;
             }
+        }
 
-            protected virtual void OnValidate()
-            {
-                UpdateBindings();
-            }
+        public virtual void OnSrcUpdated()
+        {
 
-            protected virtual void UpdateBindings()
-            {
-                ViewModels = ViewModelProvider.Viewmodels;
-            }
+        }
 
-            protected void FindViewModel()
-            {
-                if (!string.IsNullOrEmpty(ViewModelName))
-                {
-                    _viewModel = FindObjectOfType(ViewModelProvider.GetViewModelType(ViewModelName)) as ViewModelBase;
-                }
-            }
+        public virtual void UnregisterDataBinding()
+        {
+        }
 
-            public virtual void OnSrcUpdated()
-            {
+        protected virtual void Awake()
+        {
+            FindViewModel();
+            RegisterDataBinding();
+        }
 
-            }
-
-            public virtual void UnregisterDataBinding()
-            {
-            }
-
-            protected virtual void Awake()
-            {
-                FindViewModel();
-                RegisterDataBinding();
-            }
-
-            protected virtual void OnDestroy()
-            {
-                UnregisterDataBinding();
-            }
+        protected virtual void OnDestroy()
+        {
+            UnregisterDataBinding();
+        }
 
 #if UNITY_EDITOR
-            [CustomEditor(typeof(DataBindingBase), true)]
-            public class DataBindingBaseEditor : Editor
+        [CustomEditor(typeof(DataBindingBase), true)]
+        public class DataBindingBaseEditor : Editor
+        {
+
+            public int _viewModelIdx = 0;
+
+
+            SerializedProperty _viewmodelNameProp;
+
+            private void OnEnable()
+            {
+                CollectSerializedProperties();
+            }
+
+            protected virtual void CollectSerializedProperties()
+            {
+                _viewmodelNameProp = serializedObject.FindProperty("ViewModelName");
+            }
+
+            protected virtual void DrawChangeableElements()
+            {
+                var myClass = target as DataBindingBase;
+
+                EditorGUILayout.LabelField("Source ViewModel");
+                _viewModelIdx = EditorGUILayout.Popup(_viewModelIdx, myClass.ViewModels.ToArray());
+
+
+
+            }
+
+            protected virtual void UpdateSerializedProperties()
+            {
+                var myClass = target as DataBindingBase;
+
+                myClass.ViewModelName = _viewModelIdx > -1 ?
+                             myClass.ViewModels[_viewModelIdx] : null;
+
+
+            }
+
+            public override void OnInspectorGUI()
             {
 
-                public int _viewModelIdx = 0;
+                serializedObject.Update();
 
+                DrawDefaultInspector();
 
-                SerializedProperty _viewmodelNameProp;
+                var myClass = target as DataBindingBase;
 
-                private void OnEnable()
+                _viewModelIdx = myClass.ViewModels.IndexOf(_viewmodelNameProp.stringValue);
+
+                if (_viewModelIdx < 0 && myClass.ViewModels.Count > 0)
                 {
-                    CollectSerializedProperties();
+                    _viewModelIdx = 0;
+                    myClass.ViewModelName = myClass.ViewModels.FirstOrDefault();
                 }
 
-                protected virtual void CollectSerializedProperties()
+                EditorGUI.BeginChangeCheck();
+
+                DrawChangeableElements();
+
+                if (EditorGUI.EndChangeCheck())
                 {
-                    _viewmodelNameProp = serializedObject.FindProperty("ViewModelName");
-                }
+                    UpdateSerializedProperties();
 
-                protected virtual void DrawChangeableElements()
-                {
-                    var myClass = target as DataBindingBase;
+                    EditorUtility.SetDirty(target);
 
-                    EditorGUILayout.LabelField("Source ViewModel");
-                    _viewModelIdx = EditorGUILayout.Popup(_viewModelIdx, myClass.ViewModels.ToArray());
+                    serializedObject.ApplyModifiedProperties();
 
-
-
-                }
-
-                protected virtual void UpdateSerializedProperties()
-                {
-                    var myClass = target as DataBindingBase;
-
-                    myClass.ViewModelName = _viewModelIdx > -1 ?
-                                 myClass.ViewModels[_viewModelIdx] : null;
-
-
-                }
-
-                public override void OnInspectorGUI()
-                {
-
-                    serializedObject.Update();
-
-                    DrawDefaultInspector();
-
-                    var myClass = target as DataBindingBase;
-
-                    _viewModelIdx = myClass.ViewModels.IndexOf(_viewmodelNameProp.stringValue);
-
-                    if (_viewModelIdx < 0 && myClass.ViewModels.Count > 0)
-                    {
-                        _viewModelIdx = 0;
-                        myClass.ViewModelName = myClass.ViewModels.FirstOrDefault();
-                    }
-
-                    EditorGUI.BeginChangeCheck();
-
-                    DrawChangeableElements();
-
-                    if (EditorGUI.EndChangeCheck())
-                    {
-                        UpdateSerializedProperties();
-
-                        EditorUtility.SetDirty(target);
-
-                        serializedObject.ApplyModifiedProperties();
-
-                        myClass.UpdateBindings();
-                    }
+                    myClass.UpdateBindings();
                 }
             }
-#endif
         }
+#endif
     }
 }

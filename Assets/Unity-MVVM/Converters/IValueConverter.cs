@@ -1,17 +1,10 @@
 ﻿using System;
 
-namespace UnityMVVM
+namespace UnityMVVM.Binding.Converters
 {
-    namespace Binding
+    public interface IValueConverter
     {
-        namespace Converters
-        {
-            public interface IValueConverter
-            {
-
-                object Convert(object value, Type targetType, object parameter);
-                object ConvertBack(object value, Type targetType, object parameter);
-            }
-        }
+        object Convert(object value, Type targetType, object parameter);
+        object ConvertBack(object value, Type targetType, object parameter);
     }
 }

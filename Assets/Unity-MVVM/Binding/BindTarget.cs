@@ -4,50 +4,49 @@ using System.Reflection;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace UnityMVVM
+namespace UnityMVVM.Binding
 {
-    namespace Binding
+    [System.Serializable]
+    public class BindTarget
     {
-        [System.Serializable]
-        public class BindTarget
+        public object propertyOwner;
+
+        public string propertyName;
+
+        public string propertyPath;
+
+        public PropertyInfo property;
+
+        public BindTarget(object propOwner, string propName, string path = null, UnityEvent dstChangedEvent = null)
         {
+            propertyOwner = propOwner;
+            propertyName = propName;
+            propertyPath = path;
 
-            public object propertyOwner;
-
-            public string propertyName;
-
-            public PropertyInfo property;
-
-            public BindTarget(object propOwner, string propName, UnityEvent dstChangedEvent = null)
+            if (propertyOwner == null)
             {
-                propertyOwner = propOwner;
-                propertyName = propName;
+                Debug.LogErrorFormat("Could not find ViewModel for Property {0}", propName);
+            }
 
-                if (propertyOwner == null)
+            property = propertyOwner.GetType().GetProperty(propertyName);//.ResolvePath(path);
+
+            if (dstChangedEvent != null)
+                dstChangedEvent.AddListener(new UnityAction(() =>
                 {
-                    Debug.LogErrorFormat("Could not find ViewModel for Property {0}", propName);
-                }
 
-                property = propertyOwner.GetType().GetProperty(propertyName);
+                }));
+        }
 
-                if (dstChangedEvent != null)
-                    dstChangedEvent.AddListener(new UnityAction(() =>
-                    {
+        public object GetValue()
+        {
+            return property != null ? property.GetValue(propertyOwner, null) : null;
+        }
 
-                    }));
-            }
+        public void SetValue(object src)
+        {
+            if (property == null) return;
 
-            public object GetValue()
-            {
-                return property != null ? property.GetValue(propertyOwner, null) : null;
-            }
-
-            public void SetValue(object src)
-            {
-                if (property == null) return;
-
-                property.SetValue(propertyOwner, src, null);
-            }
+            property.SetValue(propertyOwner, src, null);
         }
     }
 }

@@ -1,30 +1,22 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityMVVM.View;
 
-namespace UnityMVVM
+namespace UnityMVVM.Binding.Converters
 {
-    namespace Binding
+    public class BoolToVisibilityConverter : ValueConverterBase
     {
-        namespace Converters
+        [SerializeField]
+        bool _collapse;
+
+        public override object Convert(object value, Type targetType, object parameter)
         {
-            public class BoolToVisibilityConverter : ValueConverterBase
-            {
-                [SerializeField]
-                bool _collapse;
+            return (bool)value ? Visibility.Visible : _collapse ? Visibility.Collapsed : Visibility.Hidden;
+        }
 
-                public override object Convert(object value, Type targetType, object parameter)
-                {
-                    return (bool)value ? Visibility.Visible : _collapse ? Visibility.Collapsed : Visibility.Hidden;
-                }
-
-                public override object ConvertBack(object value, Type targetType, object parameter)
-                {
-                    throw new NotImplementedException();
-                }
-            }
-
+        public override object ConvertBack(object value, Type targetType, object parameter)
+        {
+            throw new NotImplementedException();
         }
     }
 }
