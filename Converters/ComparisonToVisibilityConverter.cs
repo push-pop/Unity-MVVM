@@ -1,28 +1,22 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityMVVM.Binding.Converters;
 using UnityMVVM.View;
 
 namespace UnityMVVM.Binding.Converters
 {
-    public class EnumToVisibilityConverter : EnumToBoolConverter
+    public class ComparisonToVisibilityConverter : ComparisonToBoolConverter
     {
-        [SerializeField]
-        string _expectedValue;
-
         [SerializeField]
         bool _collapse;
 
-        [SerializeField]
-        bool _invert;
-
         public override object Convert(object value, Type targetType, object parameter)
         {
-            var equals = (bool) base.Convert(value, typeof(bool), parameter);
+            var result = (bool)base.Convert(value, typeof(bool), parameter);
 
-            equals = _invert ? !equals : equals;
-
-            return equals ?
-                Visibility.Visible : _collapse ? Visibility.Collapsed : Visibility.Hidden;
+            return result ? Visibility.Visible : _collapse ? Visibility.Collapsed : Visibility.Hidden;
         }
 
         public override object ConvertBack(object value, Type targetType, object parameter)

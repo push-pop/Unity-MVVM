@@ -1,24 +1,17 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+
 namespace UnityMVVM.Binding.Converters
 {
-    public class FormatStringConverter : ValueConverterBase
+    public class StringToEnumConverter : ValueConverterBase
     {
-        [SerializeField]
-        string _format = "{0}";
-
         public override object Convert(object value, Type targetType, object parameter)
         {
-            return string.Format(_format, value);
+            return Enum.Parse(targetType, value.ToString());
         }
 
         public override object ConvertBack(object value, Type targetType, object parameter)
         {
             throw new NotImplementedException();
         }
-
     }
 }
-

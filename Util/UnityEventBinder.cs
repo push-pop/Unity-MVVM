@@ -25,6 +25,12 @@ public class UnityEventBinder
 
     public static void BindEventWithArgs(object e, ParamsAction callback)
     {
+        var args = e.GetType().GetGenericArguments();
+        foreach (var arg in args)
+        {
+            Debug.Log(arg);
+        }
+
         if (e as UnityEvent<string> != null)
             (e as UnityEvent<string>).AddListener(new UnityAction<string>((newval) => { callback?.Invoke(newval); }));
         else if (e as UnityEvent<int> != null)
@@ -50,6 +56,8 @@ public class UnityEventBinder
             (e as UnityEvent<int>).AddListener(new UnityAction<int>((newVal) => { callback?.Invoke(); }));
         else if (e as UnityEvent<bool> != null)
             (e as UnityEvent<bool>).AddListener(new UnityAction<bool>((newVal) => { callback?.Invoke(); }));
+        else if (e as UnityEvent<float> != null)
+            (e as UnityEvent<float>).AddListener(new UnityAction<float>((newVal) => { callback?.Invoke(); }));
         else if (e as UnityEvent != null)
             (e as UnityEvent).AddListener(new UnityAction(() => { callback?.Invoke(); }));
         else

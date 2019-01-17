@@ -4,111 +4,142 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum Visibility
+namespace UnityMVVM.View
 {
-    Visible,
-    Hidden,
-    Collapsed
-};
-
-public class ViewBase : MonoBehaviour, IView
-{
-    public Visibility ElementVisibility
+    public enum Visibility
     {
-        set
+        Visible,
+        Hidden,
+        Collapsed
+    };
+
+    public class ViewBase : MonoBehaviour, IView
+    {
+        public Visibility ElementVisibility
         {
-            if (_visibility != value)
+            set
             {
-                _visibility = value;
-                SetVisibility(_visibility);
+                if (_visibility != value)
+                {
+                    _visibility = value;
+                    SetVisibility(_visibility);
+                }
+            }
+            get
+            {
+                return Visibility.Hidden;
             }
         }
-        get
+        [SerializeField]
+        Visibility _visibility;
+
+        public RectTransform rectTransform
         {
-            return Visibility.Hidden;
+            get
+            {
+                if (_rectTransform == null)
+                    _rectTransform = GetComponent<RectTransform>();
+                return _rectTransform;
+            }
         }
-    }
-    [SerializeField]
-    Visibility _visibility;
+        RectTransform _rectTransform;
 
-    public RectTransform rectTransform
-    {
-        get
+        public float Alpha
         {
-            if (_rectTransform == null)
-                _rectTransform = GetComponent<RectTransform>();
-            return _rectTransform;
+            get
+            {
+                return cg.alpha;
+            }
+            set
+            {
+                cg.alpha = value;
+            }
         }
-    }
-    RectTransform _rectTransform;
-    CanvasGroup cg;
 
-    private void Awake()
-    {
-        cg = GetComponent<CanvasGroup>();
-        if (cg == null)
-            cg = gameObject.AddComponent<CanvasGroup>();
-    }
-
-    private void Start()
-    {
-        SetInitialVisibility();
-    }
-
-    private void SetInitialVisibility()
-    {
-        switch (_visibility)
+        public CanvasGroup cg
         {
-            case Visibility.Visible:
-                cg.alpha = 1;
-                break;
-            case Visibility.Hidden:
-                cg.alpha = 0f;
-                break;
-            case Visibility.Collapsed:
-                gameObject.SetActive(false);
-                break;
-            default:
-                break;
+            get
+            {
+                if (_cg == null)
+                    _cg = GetComponent<CanvasGroup>();
+                if (_cg == null)
+                    _cg = gameObject.AddComponent<CanvasGroup>();
+                return _cg;
+            }
         }
-    }
 
-    public virtual void Hide()
-    {
-    }
+        private CanvasGroup _cg;
 
-    public virtual void SetVisibility(Visibility visibility)
-    {
-        switch (visibility)
+        public Coroutine animationRoutine;
+
+        [SerializeField]
+        float _fadeTime = AnimationDefaults.FadeTime;
+
+        private void Awake()
         {
-            case Visibility.Visible:
-                gameObject.SetActive(true);
-                cg.CancelAnimation();
-                cg.FadeIn();
-                break;
-            case Visibility.Hidden:
-                gameObject.SetActive(true);
-                cg.CancelAnimation();
-                cg.FadeOut();
-                break;
-            case Visibility.Collapsed:
-                cg.FadeOut(() =>
-                {
+
+        }
+
+        private void Start()
+        {
+            SetInitialVisibility();
+        }
+
+        private void SetInitialVisibility()
+        {
+            switch (_visibility)
+            {
+                case Visibility.Visible:
+                    cg.alpha = 1;
+                    break;
+                case Visibility.Hidden:
+                    cg.alpha = 0f;
+                    break;
+                case Visibility.Collapsed:
                     gameObject.SetActive(false);
-                });
-                break;
-            default:
-                break;
+                    break;
+                default:
+                    break;
+            }
         }
-    }
 
-    public virtual void Show()
-    {
+        public virtual void Hide()
+        {
+        }
 
-    }
+        public virtual void SetVisibility(Visibility visibility)
+        {
+            switch (visibility)
+            {
+                case Visibility.Visible:
+                    gameObject.SetActive(true);
+                    this.CancelAnimation();
+                    this.FadeIn(fadeTime: _fadeTime);
+                    break;
+                case Visibility.Hidden:
+                    gameObject.SetActive(true);
+                    this.CancelAnimation();
+                    this.FadeOut(fadeTime: _fadeTime);
+                    break;
+                case Visibility.Collapsed:
+                    this.FadeOut(() =>
+                    {
+                        gameObject.SetActive(false);
+                    }, fadeTime: _fadeTime);
+                    break;
+                default:
+                    break;
+            }
+        }
 
-    public virtual void UpdateView()
-    {
+        public virtual void Show()
+        {
 
+        }
+
+        public virtual void UpdateView()
+        {
+
+        }
     }
 }

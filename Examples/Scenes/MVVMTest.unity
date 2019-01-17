@@ -233,8 +233,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7708fc3a686358d4da40d71b8a782bfb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _viewModel: {fileID: 1679655144}
-  ViewModelName: UnityMVVM.Examples.MainViewModel
+  _viewModel: {fileID: 0}
+  ViewModelName: UnityMVVM.Examples.TestViewModel
   SrcPropertyName: Color
   DstPropertyName: color
   _dstView: {fileID: 174998486}
@@ -381,7 +381,7 @@ MonoBehaviour:
   m_ChildAlignment: 0
   m_Spacing: 0
   m_ChildForceExpandWidth: 1
-  m_ChildForceExpandHeight: 0
+  m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
   m_ChildControlHeight: 0
 --- !u!114 &297211020
@@ -665,8 +665,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4799f2f41e61cc4fb4685c710626741, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _viewModel: {fileID: 1679655144}
-  ViewModelName: UnityMVVM.Examples.MainViewModel
+  _viewModel: {fileID: 0}
+  ViewModelName: UnityMVVM.Examples.TestViewModel
   SrcPropertyName: Text
   DstPropertyName: text
   _dstView: {fileID: 458916786}
@@ -1047,8 +1047,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7708fc3a686358d4da40d71b8a782bfb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _viewModel: {fileID: 1679655144}
-  ViewModelName: UnityMVVM.Examples.MainViewModel
+  _viewModel: {fileID: 0}
+  ViewModelName: UnityMVVM.Examples.TestViewModel
   SrcPropertyName: Color
   DstPropertyName: color
   _dstView: {fileID: 691889571}
@@ -1066,7 +1066,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SrcEventName: onClick
-  ViewModelName: UnityMVVM.Examples.MainViewModel
+  ViewModelName: UnityMVVM.Examples.TestViewModel
   DstMethodName: ChangeColor
   SrcEvents:
   - onClick
@@ -1074,11 +1074,10 @@ MonoBehaviour:
   - ChangeColor
   - SetText
   ViewModels:
-  - UnityMVVM.Examples.MainViewModel
   - UnityMVVM.Examples.OtherViewModel
   - UnityMVVM.Examples.TestViewModel
   _srcView: {fileID: 691889570}
-  _dstViewModel: {fileID: 1679655144}
+  _dstViewModel: {fileID: 1679655145}
 --- !u!114 &691889570
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1300,8 +1299,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7708fc3a686358d4da40d71b8a782bfb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _viewModel: {fileID: 1679655144}
-  ViewModelName: UnityMVVM.Examples.MainViewModel
+  _viewModel: {fileID: 0}
+  ViewModelName: UnityMVVM.Examples.TestViewModel
   SrcPropertyName: Color
   DstPropertyName: text
   _dstView: {fileID: 1270270532}
@@ -1513,7 +1512,7 @@ GameObject:
   - component: {fileID: 1630440235}
   - component: {fileID: 1630440234}
   - component: {fileID: 1630440238}
-  - component: {fileID: 1630440239}
+  - component: {fileID: 1630440237}
   - component: {fileID: 1630440232}
   - component: {fileID: 1630440233}
   m_Layer: 5
@@ -1569,7 +1568,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   VisibleState: 0
   HiddenState: 2
-  InvisibleState: 1
+  CollapsedState: 1
 --- !u!114 &1630440234
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1649,6 +1648,24 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1630440230}
   m_CullTransparentMesh: 0
+--- !u!114 &1630440237
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1630440230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e31f2e59e31301c4bba62b78cf483dd6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _viewModel: {fileID: 0}
+  ViewModelName: UnityMVVM.Examples.TestViewModel
+  SrcPropertyName: State
+  DstPropertyName: ElementVisibility
+  _dstView: {fileID: 1630440238}
+  _converter: {fileID: 1630440233}
 --- !u!114 &1630440238
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1661,26 +1678,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36e16e99659927e499b53960ffda2d3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  img: {fileID: 1630440235}
   _visibility: 0
---- !u!114 &1630440239
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1630440230}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7708fc3a686358d4da40d71b8a782bfb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _viewModel: {fileID: 1679655144}
-  ViewModelName: UnityMVVM.Examples.MainViewModel
-  SrcPropertyName: State
-  DstPropertyName: ElementVisibility
-  _dstView: {fileID: 1630440238}
-  _converter: {fileID: 1630440233}
+  _fadeTime: 1
 --- !u!1 &1632300674
 GameObject:
   m_ObjectHideFlags: 0
@@ -1814,8 +1813,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1679655143}
-  - component: {fileID: 1679655144}
   - component: {fileID: 1679655145}
+  - component: {fileID: 1679655144}
   m_Layer: 0
   m_Name: MainViewModel
   m_TagString: Untagged
@@ -1846,16 +1845,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1679655142}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1c8f472c4e23e01438a2c52acabdaa23, type: 3}
+  m_Script: {fileID: 11500000, guid: 5f8f85ae85ea4474b9b7262bfacba2da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _state: 0
-  _text: 
-  _color: {r: 0, g: 0, b: 0, a: 0}
-  _color2: {r: 0, g: 0, b: 0, a: 0}
-  _color3: {r: 0, g: 0, b: 0, a: 0}
-  _color4: {r: 0, g: 0, b: 0, a: 0}
-  _color5: {r: 0, g: 0, b: 0, a: 0}
+  _intField: 0
+  _boolField: 0
 --- !u!114 &1679655145
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1868,6 +1862,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0775fdfd20d8ce54482d4a243f6a7598, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _state: 0
+  _text: 
+  _color: {r: 0, g: 0, b: 0, a: 0}
+  _color2: {r: 0, g: 0, b: 0, a: 0}
+  _color3: {r: 0, g: 0, b: 0, a: 0}
+  _color4: {r: 0, g: 0, b: 0, a: 0}
+  _color5: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &1755598730
 GameObject:
   m_ObjectHideFlags: 0

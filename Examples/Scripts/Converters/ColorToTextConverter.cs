@@ -2,23 +2,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-namespace UnityMVVM.Binding.Converters
-{
-    public class FormatStringConverter : ValueConverterBase
-    {
-        [SerializeField]
-        string _format = "{0}";
+using UnityMVVM.Binding.Converters;
 
+namespace UnityMVVM.Examples
+{
+    public class ColorToTextConverter : ValueConverterBase
+    {
         public override object Convert(object value, Type targetType, object parameter)
         {
-            return string.Format(_format, value);
+            return string.Format("The Color is: {0}", ((Color)value));
         }
 
         public override object ConvertBack(object value, Type targetType, object parameter)
         {
             throw new NotImplementedException();
         }
-
     }
 }
-
