@@ -235,6 +235,46 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _viewModel: {fileID: 0}
   ViewModelName: UnityMVVM.Examples.TestViewModel
+  SrcProps:
+  - State
+  - Text
+  - Color
+  - Color2
+  - Color3
+  - Color4
+  - Color5
+  - useGUILayout
+  - runInEditMode
+  - enabled
+  - isActiveAndEnabled
+  - transform
+  - gameObject
+  - tag
+  - name
+  - hideFlags
+  DstProps:
+  - sprite
+  - overrideSprite
+  - type
+  - preserveAspect
+  - fillCenter
+  - fillMethod
+  - fillAmount
+  - fillClockwise
+  - fillOrigin
+  - alphaHitTestMinimumThreshold
+  - useSpriteMesh
+  - material
+  - onCullStateChanged
+  - maskable
+  - color
+  - raycastTarget
+  - useGUILayout
+  - runInEditMode
+  - enabled
+  - tag
+  - name
+  - hideFlags
   SrcPropertyName: Color
   DstPropertyName: color
   _dstView: {fileID: 174998486}
@@ -667,6 +707,61 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _viewModel: {fileID: 0}
   ViewModelName: UnityMVVM.Examples.TestViewModel
+  SrcProps:
+  - State
+  - Text
+  - Color
+  - Color2
+  - Color3
+  - Color4
+  - Color5
+  - useGUILayout
+  - runInEditMode
+  - enabled
+  - isActiveAndEnabled
+  - transform
+  - gameObject
+  - tag
+  - name
+  - hideFlags
+  DstProps:
+  - shouldHideMobileInput
+  - text
+  - caretBlinkRate
+  - caretWidth
+  - textComponent
+  - placeholder
+  - caretColor
+  - customCaretColor
+  - selectionColor
+  - onEndEdit
+  - onValueChanged
+  - onValidateInput
+  - characterLimit
+  - contentType
+  - lineType
+  - inputType
+  - keyboardType
+  - characterValidation
+  - readOnly
+  - asteriskChar
+  - caretPosition
+  - selectionAnchorPosition
+  - selectionFocusPosition
+  - navigation
+  - transition
+  - colors
+  - spriteState
+  - animationTriggers
+  - targetGraphic
+  - interactable
+  - image
+  - useGUILayout
+  - runInEditMode
+  - enabled
+  - tag
+  - name
+  - hideFlags
   SrcPropertyName: Text
   DstPropertyName: text
   _dstView: {fileID: 458916786}
@@ -1049,6 +1144,46 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _viewModel: {fileID: 0}
   ViewModelName: UnityMVVM.Examples.TestViewModel
+  SrcProps:
+  - State
+  - Text
+  - Color
+  - Color2
+  - Color3
+  - Color4
+  - Color5
+  - useGUILayout
+  - runInEditMode
+  - enabled
+  - isActiveAndEnabled
+  - transform
+  - gameObject
+  - tag
+  - name
+  - hideFlags
+  DstProps:
+  - sprite
+  - overrideSprite
+  - type
+  - preserveAspect
+  - fillCenter
+  - fillMethod
+  - fillAmount
+  - fillClockwise
+  - fillOrigin
+  - alphaHitTestMinimumThreshold
+  - useSpriteMesh
+  - material
+  - onCullStateChanged
+  - maskable
+  - color
+  - raycastTarget
+  - useGUILayout
+  - runInEditMode
+  - enabled
+  - tag
+  - name
+  - hideFlags
   SrcPropertyName: Color
   DstPropertyName: color
   _dstView: {fileID: 691889571}
@@ -1301,6 +1436,48 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _viewModel: {fileID: 0}
   ViewModelName: UnityMVVM.Examples.TestViewModel
+  SrcProps:
+  - State
+  - Text
+  - Color
+  - Color2
+  - Color3
+  - Color4
+  - Color5
+  - useGUILayout
+  - runInEditMode
+  - enabled
+  - isActiveAndEnabled
+  - transform
+  - gameObject
+  - tag
+  - name
+  - hideFlags
+  DstProps:
+  - font
+  - text
+  - supportRichText
+  - resizeTextForBestFit
+  - resizeTextMinSize
+  - resizeTextMaxSize
+  - alignment
+  - alignByGeometry
+  - fontSize
+  - horizontalOverflow
+  - verticalOverflow
+  - lineSpacing
+  - fontStyle
+  - onCullStateChanged
+  - maskable
+  - color
+  - raycastTarget
+  - material
+  - useGUILayout
+  - runInEditMode
+  - enabled
+  - tag
+  - name
+  - hideFlags
   SrcPropertyName: Color
   DstPropertyName: text
   _dstView: {fileID: 1270270532}
@@ -1416,6 +1593,42 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _viewModel: {fileID: 1669541576}
   ViewModelName: UnityMVVM.Examples.OtherViewModel
+  SrcProps:
+  - IntProp
+  - BoolProp
+  - TestCollection
+  - useGUILayout
+  - runInEditMode
+  - enabled
+  - isActiveAndEnabled
+  - transform
+  - gameObject
+  - tag
+  - name
+  - hideFlags
+  DstProps:
+  - sprite
+  - overrideSprite
+  - type
+  - preserveAspect
+  - fillCenter
+  - fillMethod
+  - fillAmount
+  - fillClockwise
+  - fillOrigin
+  - alphaHitTestMinimumThreshold
+  - useSpriteMesh
+  - material
+  - onCullStateChanged
+  - maskable
+  - color
+  - raycastTarget
+  - useGUILayout
+  - runInEditMode
+  - enabled
+  - tag
+  - name
+  - hideFlags
   SrcPropertyName: BoolProp
   DstPropertyName: color
   _dstView: {fileID: 1383601613}
@@ -1662,6 +1875,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _viewModel: {fileID: 0}
   ViewModelName: UnityMVVM.Examples.TestViewModel
+  SrcProps:
+  - State
+  - Text
+  - Color
+  - Color2
+  - Color3
+  - Color4
+  - Color5
+  - useGUILayout
+  - runInEditMode
+  - enabled
+  - isActiveAndEnabled
+  - transform
+  - gameObject
+  - tag
+  - name
+  - hideFlags
+  DstProps:
+  - ElementVisibility
+  - Alpha
+  - useGUILayout
+  - runInEditMode
+  - enabled
+  - tag
+  - name
+  - hideFlags
   SrcPropertyName: State
   DstPropertyName: ElementVisibility
   _dstView: {fileID: 1630440238}
@@ -1946,6 +2185,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _listItemPrefab: {fileID: 1576776248439620, guid: 12084e8be413c694a97a0483d88fe9ac,
     type: 3}
+  InstantiatedItems: []
   _src: {fileID: 1755598734}
 --- !u!114 &1755598734
 MonoBehaviour:
