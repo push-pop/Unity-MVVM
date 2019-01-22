@@ -50,11 +50,6 @@ IDataBinding
                 Debug.LogErrorFormat("ViewModel Null: {0}", gameObject.name);
         }
 
-        public virtual void OnSrcUpdated()
-        {
-
-        }
-
         public virtual void UnregisterDataBinding()
         {
         }
