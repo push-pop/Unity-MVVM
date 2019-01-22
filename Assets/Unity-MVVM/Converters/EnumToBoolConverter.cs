@@ -6,10 +6,10 @@ namespace UnityMVVM.Binding.Converters
     public class EnumToBoolConverter : ValueConverterBase
     {
         [SerializeField]
-        string _expectedValue;
+        protected string _expectedValue;
 
         [SerializeField]
-        bool _invert;
+        protected bool _invert;
 
         public override object Convert(object value, Type targetType, object parameter)
         {

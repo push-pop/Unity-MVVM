@@ -6,23 +6,6 @@ namespace UnityMVVM.Binding.Converters
 {
     public class FlagToVisibilityConverter : FlagToBoolConverter
     {
-        enum Operation
-        {
-            AND,
-            OR,
-            EQUALS,
-            NOR,
-            XOR
-        }
-
-        [SerializeField]
-        string _expectedValue;
-        [SerializeField]
-        Operation _operation;
-
-        [SerializeField]
-        bool _invert;
-
         [SerializeField]
         bool _collapse;
 
@@ -30,7 +13,6 @@ namespace UnityMVVM.Binding.Converters
         {
             bool isTrue = (bool) base.Convert(value, typeof(bool), parameter);
            
-            isTrue = _invert ? !isTrue : isTrue;
             return isTrue ? Visibility.Visible : _collapse ? Visibility.Collapsed : Visibility.Hidden;
         }
 

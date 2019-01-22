@@ -5,7 +5,7 @@ namespace UnityMVVM.Binding.Converters
 {
     public class FlagToBoolConverter : ValueConverterBase
     {
-        enum Operation
+        public enum Operation
         {
             AND,
             OR,
@@ -15,23 +15,29 @@ namespace UnityMVVM.Binding.Converters
         }
 
         [SerializeField]
-        string _expectedValue;
-        [SerializeField]
-        Operation _operation;
+        protected string _expectedValue;
 
+        [SerializeField]
+        protected Operation _operation;
+
+        [SerializeField]
+        protected bool _invert;
 
         public override object Convert(object value, Type targetType, object parameter)
         {
             var flagVal = (Enum)Enum.Parse(value.GetType(), _expectedValue.ToString());
-
+            var result = false;
             switch (_operation)
             {
                 case Operation.AND:
-                    return And(flagVal, (Enum)value);
+                    result = And(flagVal, (Enum)value);
+                    break;
                 case Operation.OR:
-                    return Or(flagVal, (Enum)value);
+                    result = Or(flagVal, (Enum)value);
+                    break;
                 case Operation.EQUALS:
-                    return Equals(flagVal, (Enum)value);
+                    result = Equals(flagVal, (Enum)value);
+                    break;
                 case Operation.NOR:
                     throw new NotImplementedException();
                 case Operation.XOR:
@@ -39,6 +45,8 @@ namespace UnityMVVM.Binding.Converters
                 default:
                     throw new NotImplementedException();
             }
+
+            return _invert ? !result : result;
         }
 
 
