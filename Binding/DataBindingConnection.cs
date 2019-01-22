@@ -67,7 +67,7 @@ namespace UnityMVVM.Binding
             PropertyChangedAction = OnSrcUpdated;
         }
 
-        private void OnSrcUpdated()
+        public void OnSrcUpdated()
         {
             try
             {

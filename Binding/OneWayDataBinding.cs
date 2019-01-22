@@ -11,10 +11,6 @@ namespace UnityMVVM.Binding
     public class OneWayDataBinding
         : DataBindingBase
     {
-        //protected BindTarget src;
-
-        //protected BindTarget dst;
-
         protected DataBindingConnection _connection;
 
         [HideInInspector]
@@ -91,14 +87,14 @@ namespace UnityMVVM.Binding
 
         private void Start()
         {
-            OnSrcUpdated();
+            _connection.OnSrcUpdated();
             _isStartup = false;
         }
 
         protected virtual void OnEnable()
         {
             if (!_isStartup)
-                OnSrcUpdated();
+                _connection.OnSrcUpdated();
         }
 
         private void OnDisable()
