@@ -20,14 +20,14 @@ namespace UnityMVVM.Binding
         BindTarget _src;
         BindTarget _dst;
         IValueConverter _converter;
-        GameObject _owner;
+        GameObject _gameObject;
 
         public DataBindingConnection()
         { }
 
-        public DataBindingConnection(GameObject owner, BindTarget src, BindTarget dst, IValueConverter converter = null, bool isTwoWay = false)
+        public DataBindingConnection(GameObject owner, BindTarget src, BindTarget dst, IValueConverter converter = null)
         {
-            _owner = owner;
+            _gameObject = owner;
             _src = src;
             _dst = dst;
             _converter = converter;
@@ -37,30 +37,6 @@ namespace UnityMVVM.Binding
             if (notifyChange != null)
                 notifyChange.PropertyChanged += PropertyChangedHandler;
         }
-
-        //public DataBindingConnection(BindTarget src, Action action)
-        //{
-        //    //PropertyName = src.propertyName;
-        //    //PropertyOwner = src.propertyOwner;
-
-        //    var notifyChange = src.propertyOwner as INotifyPropertyChanged;
-        //    if (notifyChange != null)
-        //        notifyChange.PropertyChanged += NotifyChange_PropertyChanged;
-
-        //    PropertyChangedAction = action;
-        //}
-
-        //public DataBindingConnection(object owner, string propertyName, Action action)
-        //{
-        //    //PropertyName = propertyName;
-        //    //PropertyOwner = owner;
-        //    PropertyChangedAction = action;
-
-        //    var notifyChange = owner as INotifyPropertyChanged;
-
-        //    if (notifyChange != null)
-        //        notifyChange.PropertyChanged += NotifyChange_PropertyChanged;
-        //}
 
         public void AddHandler(Action action)
         {
@@ -102,7 +78,7 @@ namespace UnityMVVM.Binding
             }
             catch (Exception e)
             {
-                Debug.LogError("Data binding error in: " + _owner.name + ": " + e.Message);
+                Debug.LogError("Data binding error in: " + _gameObject.name + ": " + e.Message);
             }
         }
 
