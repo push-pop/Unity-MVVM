@@ -1,15 +1,9 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Reflection;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.UI;
 
 namespace UnityMVVM.Binding
 {
@@ -22,27 +16,44 @@ namespace UnityMVVM.Binding
         [HideInInspector]
         public List<string> DstChangedEvents = new List<string>();
 
+        UnityEventBinder _binder = new UnityEventBinder();
+        Delegate changeDelegate;
         public override void RegisterDataBinding()
         {
             base.RegisterDataBinding();
 
             var propInfo = _dstView.GetType().GetProperty(_dstChangedEventName);
-            //dynamic evn = propInfo.GetValue(_dstView);
+
             var type = propInfo.PropertyType.BaseType;
-            var argType = type.GetGenericArguments().FirstOrDefault();
+            var args = type.GetGenericArguments();
+
             var evn = propInfo.GetValue(_dstView);
 
-            UnityEventBinder.BindEvent(evn, () =>
-            {
-                    //Debug.Log("Change: " + dst.GetValue());
-                    if (_converter != null)
-                    src.SetValue(_converter.ConvertBack(dst.GetValue(), src.property.PropertyType, null));
-                else
-                    src.SetValue(Convert.ChangeType(dst.GetValue(), src.property.PropertyType));
-            });
+            var addListenerMethod = UnityEventBinder.GetAddListener(propInfo.GetValue(_dstView));
 
+            changeDelegate = UnityEventBinder.GetDelegate(_binder, args);
+
+            var p = new object[] { changeDelegate };
+
+            _binder.OnChange += _connection.DstUpdated;
+
+            addListenerMethod.Invoke(propInfo.GetValue(_dstView), p);
         }
 
+        public override void UnregisterDataBinding()
+        {
+            base.UnregisterDataBinding();
+
+            var propInfo = _dstView.GetType().GetProperty(_dstChangedEventName);
+            var removeListenerMethod = UnityEventBinder.GetRemoveListener(propInfo.GetValue(_dstView));
+
+
+            var p = new object[] { changeDelegate };
+
+            _binder.OnChange -= _connection.DstUpdated;
+
+            removeListenerMethod.Invoke(propInfo.GetValue(_dstView), p);
+        }
 
 
         protected override void OnValidate()
@@ -61,55 +72,5 @@ namespace UnityMVVM.Binding
                                         .Select(p => p.Name).ToList();
             }
         }
-
-#if UNITY_EDITOR
-
-        [CustomEditor(typeof(TwoWayDataBinding), true)]
-        public class TwoWayDataBindingEditor : OneWayDataBindingEditor
-        {
-            private void OnEnable()
-            {
-                CollectSerializedProperties();
-            }
-
-            protected override void CollectSerializedProperties()
-            {
-                base.CollectSerializedProperties();
-                _eventNameProp = serializedObject.FindProperty("_dstChangedEventName");
-            }
-
-            int _eventIdx = 0;
-            SerializedProperty _eventNameProp;
-
-            protected override void DrawChangeableElements()
-            {
-                base.DrawChangeableElements();
-                var myClass = target as TwoWayDataBinding;
-
-                EditorGUILayout.LabelField("Destination Changed Event");
-                _eventIdx = EditorGUILayout.Popup(_eventIdx, myClass.DstChangedEvents.ToArray());
-            }
-
-            protected override void UpdateSerializedProperties()
-            {
-                base.UpdateSerializedProperties();
-
-                var myClass = target as TwoWayDataBinding;
-
-                myClass._dstChangedEventName = _eventIdx > -1 ?
-                    myClass.DstChangedEvents[_eventIdx] : null;
-            }
-
-            public override void OnInspectorGUI()
-            {
-
-                var myClass = target as TwoWayDataBinding;
-
-                _eventIdx = myClass.DstChangedEvents.IndexOf(_eventNameProp.stringValue);
-
-                base.OnInspectorGUI();
-            }
-        }
-#endif
     }
 }

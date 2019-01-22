@@ -1,53 +1,78 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq.Expressions;
 using UnityEngine;
+using UnityMVVM.Binding.Converters;
 
 namespace UnityMVVM.Binding
 {
     [Serializable]
     public class DataBindingConnection : IDisposable
     {
-        object PropertyOwner;
+        //object PropertyOwner;
 
-        public string PropertyName;
+        //public string PropertyName;
 
         public Action PropertyChangedAction;
 
         public bool isDisposed = false;
 
+        BindTarget _src;
+        BindTarget _dst;
+        IValueConverter _converter;
+        GameObject _owner;
+
         public DataBindingConnection()
         { }
 
-        public DataBindingConnection(BindTarget src, Action action)
+        public DataBindingConnection(GameObject owner, BindTarget src, BindTarget dst, IValueConverter converter = null, bool isTwoWay = false)
         {
-            PropertyName = src.propertyName;
-            PropertyOwner = src.propertyOwner;
+            _owner = owner;
+            _src = src;
+            _dst = dst;
+            _converter = converter;
 
-            var notifyChange = PropertyOwner as INotifyPropertyChanged;
-            if (notifyChange != null)
-                notifyChange.PropertyChanged += NotifyChange_PropertyChanged;
-
-            PropertyChangedAction = action;
-        }
-
-        public DataBindingConnection(object owner, string propertyName, Action action)
-        {
-            PropertyName = propertyName;
-            PropertyOwner = owner;
-            PropertyChangedAction = action;
-
-            var notifyChange = PropertyOwner as INotifyPropertyChanged;
+            var notifyChange = _src.propertyOwner as INotifyPropertyChanged;
 
             if (notifyChange != null)
-                notifyChange.PropertyChanged += NotifyChange_PropertyChanged;
+                notifyChange.PropertyChanged += PropertyChangedHandler;
         }
+
+        //public DataBindingConnection(BindTarget src, Action action)
+        //{
+        //    //PropertyName = src.propertyName;
+        //    //PropertyOwner = src.propertyOwner;
+
+        //    var notifyChange = src.propertyOwner as INotifyPropertyChanged;
+        //    if (notifyChange != null)
+        //        notifyChange.PropertyChanged += NotifyChange_PropertyChanged;
+
+        //    PropertyChangedAction = action;
+        //}
+
+        //public DataBindingConnection(object owner, string propertyName, Action action)
+        //{
+        //    //PropertyName = propertyName;
+        //    //PropertyOwner = owner;
+        //    PropertyChangedAction = action;
+
+        //    var notifyChange = owner as INotifyPropertyChanged;
+
+        //    if (notifyChange != null)
+        //        notifyChange.PropertyChanged += NotifyChange_PropertyChanged;
+        //}
 
         public void AddHandler(Action action)
         {
             PropertyChangedAction = action;
+        }
+
+        public void DstUpdated()
+        {
+            if (_converter != null)
+                _src.SetValue(_converter.ConvertBack(_dst.GetValue(), _src.property.PropertyType, null));
+            else
+                _src.SetValue(Convert.ChangeType(_dst.GetValue(), _src.property.PropertyType));
         }
 
         internal void ClearHandler()
@@ -61,6 +86,26 @@ namespace UnityMVVM.Binding
             return member.Member.Name;
         }
 
+        internal void Bind()
+        {
+            PropertyChangedAction = OnSrcUpdated;
+        }
+
+        private void OnSrcUpdated()
+        {
+            try
+            {
+                if (_converter != null)
+                    _dst.SetValue(_converter.Convert(_src.GetValue(), _src.property.PropertyType, null));
+                else
+                    _dst.SetValue(Convert.ChangeType(_src.GetValue(), _src.property.PropertyType));
+            }
+            catch (Exception e)
+            {
+                Debug.LogError("Data binding error in: " + _owner.name + ": " + e.Message);
+            }
+        }
+
         public void SetHandler(Action handler)
         {
             PropertyChangedAction = handler;
@@ -72,15 +117,10 @@ namespace UnityMVVM.Binding
             return member.Expression.Type;
         }
 
-        //public static T GetPropValue(object src, string propName)
-        //{
-        //    return (T)src.GetType().GetProperty(propName).GetValue(src, null);
-        //}
-
-        private void NotifyChange_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void PropertyChangedHandler(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == PropertyName)
-                PropertyChangedAction?.Invoke();// ((T)Convert.ChangeType(GetPropValue(sender, e.PropertyName), typeof(T)));
+            if (e.PropertyName.Equals(_src.propertyName))
+                PropertyChangedAction?.Invoke();
         }
 
         public void Dispose()
@@ -93,15 +133,13 @@ namespace UnityMVVM.Binding
             if (isDisposed)
                 return;
 
-            if (disposing && PropertyOwner != null)
+            if (disposing && _src.propertyOwner != null)
             {
-                var notifyPropertyChanged = PropertyOwner as INotifyPropertyChanged;
+                var notifyPropertyChanged = _src.propertyOwner as INotifyPropertyChanged;
                 if (notifyPropertyChanged != null)
                 {
-                    notifyPropertyChanged.PropertyChanged -= NotifyChange_PropertyChanged;
+                    notifyPropertyChanged.PropertyChanged -= PropertyChangedHandler;
                 }
-
-                PropertyOwner = null;
             }
 
             isDisposed = true;
