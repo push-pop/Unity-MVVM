@@ -31,11 +31,18 @@ namespace UnityMVVM.Binding
 
         BindTarget src;
 
+
+        public int Count { get
+            {
+                return (src.GetValue() as IList).Count;
+            } }
+
         public object this[int key]
         {
             get
             {
-                return (src.GetValue() as IList)[key];// GetValue(key);
+                var list = (src.GetValue() as IList);
+                return list[key];
             }
             set
             {

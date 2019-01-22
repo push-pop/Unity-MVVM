@@ -44,6 +44,8 @@ namespace UnityMVVM.Binding
         public virtual bool KeepConnectionAliveOnDisable { get { return _keepConnectionAliveOnDisable; } }
         protected bool _keepConnectionAliveOnDisable = false;
 
+        bool _isStartup = true;
+
         public override void RegisterDataBinding()
         {
             base.RegisterDataBinding();
@@ -63,7 +65,6 @@ namespace UnityMVVM.Binding
             }
             else
                 _connection.SetHandler(OnSrcUpdated);
-
         }
 
         public override void UnregisterDataBinding()
@@ -113,10 +114,18 @@ namespace UnityMVVM.Binding
             }
         }
 
-        private void OnEnable()
+        private void Start()
         {
-            RegisterDataBinding();
             OnSrcUpdated();
+            _isStartup = false;
+        }
+
+        protected virtual void OnEnable()
+        {
+            if (!_isStartup)
+                OnSrcUpdated();
+
+            RegisterDataBinding();
         }
 
         private void OnDisable()

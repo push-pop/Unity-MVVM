@@ -40,16 +40,24 @@ namespace UnityMVVM.Binding
         string value;
 
         [SerializeField]
+        bool isProperty;
+
+        [SerializeField]
         ValueConverterBase converter;
 
         BindTarget dst;
+        BindTarget src;
 
         // Use this for initialization
         protected virtual void Awake()
         {
             UpdateBindings();
 
+            _dstViewModel = ViewModelProvider.Instance.GetViewModelBehaviour(ViewModelName);
+
             dst = new BindTarget(_dstViewModel, DstPropName);
+            if (isProperty)
+                src = new BindTarget(_srcView, value);
 
             BindEvent();
         }
@@ -69,13 +77,15 @@ namespace UnityMVVM.Binding
         {
             try
             {
+                var toSet = isProperty ? src.GetValue() : value;
+
                 if (converter != null)
-                    dst.SetValue(converter.Convert(value, dst.property.PropertyType, null));
+                    dst.SetValue(converter.Convert(toSet, dst.property.PropertyType, null));
 
                 else if (dst.property.PropertyType.IsEnum)
-                    dst.SetValue(Enum.Parse(dst.property.PropertyType, value.ToString()));
+                    dst.SetValue(Enum.Parse(dst.property.PropertyType, toSet.ToString()));
                 else
-                    dst.SetValue(Convert.ChangeType(value, dst.property.PropertyType));
+                    dst.SetValue(Convert.ChangeType(toSet, dst.property.PropertyType));
             }
             catch (Exception exc)
             {
@@ -130,19 +140,13 @@ namespace UnityMVVM.Binding
 
                 if (!string.IsNullOrEmpty(ViewModelName))
                 {
-                    _dstViewModel = FindObjectOfType(ViewModelProvider.GetViewModelType(ViewModelName)) as ViewModelBase;
-
-                    if (_dstViewModel != null)
-                    {
-                        var props = _dstViewModel.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public);
-                        DstProps = props.Where(prop => prop.GetSetMethod(false) != null
-                               && prop.GetGetMethod(false) != null
+                    var props = ViewModelProvider.GetViewModelProperties(ViewModelName, BindingFlags.Instance | BindingFlags.Public);
+                    DstProps = props.Where(prop => prop.GetSetMethod(false) != null
                                && !prop.GetCustomAttributes(typeof(ObsoleteAttribute), true).Any()
-                            ).Select(e => e.Name).ToList(); ;
-                    }
+                            ).Select(e => e.Name).ToList();
                 }
 
-                if (_dstViewModel != null && !string.IsNullOrEmpty(DstPropName))
+                if (!string.IsNullOrEmpty(DstPropName))
                     _method = this.GetType().GetMethod(nameof(SetProp));
 
             }
