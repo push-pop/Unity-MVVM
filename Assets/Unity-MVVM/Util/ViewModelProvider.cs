@@ -8,16 +8,13 @@ using UnityMVVM.ViewModel;
 
 namespace UnityMVVM.Util
 {
-    public class ViewModelProvider
+    public class ViewModelProvider : Singleton<ViewModelProvider>
     {
         public static List<string> Viewmodels
         {
             get
             {
-                //if (_viewModels == null)
-                {
-                    _viewModels = GetViewModels();
-                }
+                _viewModels = GetViewModels();
 
                 return _viewModels;
 
@@ -29,7 +26,6 @@ namespace UnityMVVM.Util
         {
             Assembly mscorlib = Assembly.GetExecutingAssembly();
             Type t = typeof(ViewModelBase);
-
 
             return mscorlib.GetTypes().Where(e => e.IsSubclassOf(t)).Select(e => e.ToString()).ToList();
         }
@@ -46,7 +42,18 @@ namespace UnityMVVM.Util
             return asm.GetType(viewModelTypeString).GetProperties();
         }
 
-        public static PropertyInfo[] GetViewModelProperties(string viewModelTypeString, BindingFlags bindingAttr)
+        internal ViewModelBase GetViewModelBehaviour(string viewModelName)
+        {
+            var vm = FindObjectOfType(ViewModelProvider.GetViewModelType(viewModelName)) as ViewModelBase;
+
+            if (vm == null)
+                return gameObject.AddComponent(ViewModelProvider.GetViewModelType(viewModelName)) as ViewModelBase;
+
+            return vm as ViewModelBase;
+
+        }
+
+        public static PropertyInfo[] GetViewModelProperties(string viewModelTypeString, BindingFlags bindingAttr = BindingFlags.Default)
         {
             Assembly asm = Assembly.GetExecutingAssembly();
             return asm.GetType(viewModelTypeString).GetProperties(bindingAttr);

@@ -54,8 +54,11 @@ IDataBinding
         {
             if (!string.IsNullOrEmpty(ViewModelName))
             {
-                _viewModel = FindObjectOfType(ViewModelProvider.GetViewModelType(ViewModelName)) as ViewModelBase;
+                _viewModel = ViewModelProvider.Instance.GetViewModelBehaviour(ViewModelName);
             }
+
+            if (_viewModel == null)
+                Debug.LogErrorFormat("ViewModel Null: {0}", gameObject.name);
         }
 
         public virtual void OnSrcUpdated()

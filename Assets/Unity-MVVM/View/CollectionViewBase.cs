@@ -23,7 +23,7 @@ namespace UnityMVVM
             [SerializeField]
             protected GameObject _listItemPrefab;
 
-            protected List<GameObject> InstantiatedItems = new List<GameObject>();
+            public List<GameObject> InstantiatedItems = new List<GameObject>();
 
             [SerializeField]
             protected CollectionViewSource _src;
@@ -62,7 +62,7 @@ namespace UnityMVVM
                 }
             }
 
-            protected virtual void SetData(GameObject go, object item)
+            protected virtual void InitItem(GameObject go, object item, int index)
             {
 
             }
@@ -96,7 +96,7 @@ namespace UnityMVVM
 
             protected virtual void AddElements(int newStartingIndex, IList newItems)
             {
-
+                int idx = 0;
                 var gameObjects = new List<GameObject>(newItems.Count);
                 foreach (var item in newItems)
                 {
@@ -105,7 +105,8 @@ namespace UnityMVVM
 
                     gameObjects.Add(go);
 
-                    SetData(go, item);
+                    InitItem(go, item, idx);
+                    idx++;
                 }
 
                 InstantiatedItems.InsertRange(newStartingIndex, gameObjects);

@@ -39,16 +39,17 @@ namespace UnityMVVM.Binding
         // Use this for initialization
         protected virtual void Awake()
         {
+
             UpdateBindings();
 
             BindEvent();
 
-            //UnityEventBinder.BindEventWithArgs(_srcEventProp.GetValue(_srcView), (p) =>
-            //{
-            //});
         }
         protected virtual void BindEvent()
         {
+            _dstViewModel = ViewModelProvider.Instance.GetViewModelBehaviour(ViewModelName);
+
+
             var method = UnityEventBinder.GetAddListener(_srcEventProp.GetValue(_srcView));
 
             var arg = method.GetParameters()[0];
@@ -104,16 +105,14 @@ namespace UnityMVVM.Binding
 
             if (!string.IsNullOrEmpty(ViewModelName))
             {
-                _dstViewModel = FindObjectOfType(ViewModelProvider.GetViewModelType(ViewModelName)) as ViewModelBase;
                 var methods = ViewModelProvider.GetViewModelMethods(ViewModelName, BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public);
 
                 DstMethods = methods.Where(m => !m.IsSpecialName && !m.GetCustomAttributes(typeof(ObsoleteAttribute), true).Any()).Select(e => e.Name).ToList(); ;
             }
 
-            if (_dstViewModel != null && !string.IsNullOrEmpty(DstMethodName))
-                _method = _dstViewModel.GetType().GetMethod(DstMethodName);
 
-
+            if (!string.IsNullOrEmpty(DstMethodName))
+                _method = ViewModelProvider.GetViewModelType(ViewModelName).GetMethod(DstMethodName);
         }
 
 #if UNITY_EDITOR
