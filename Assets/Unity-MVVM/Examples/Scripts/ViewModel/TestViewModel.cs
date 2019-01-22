@@ -177,7 +177,7 @@ namespace UnityMVVM
             {
                 if (System.DateTime.Now.Second % 5 == 0)
                 {
-                    //Text = System.DateTime.Now.ToShortTimeString();
+                    Text = System.DateTime.Now.ToShortTimeString();
                 }
 
             }
