@@ -13,7 +13,6 @@ namespace UnityMVVM.Binding.Converters
         {
             var equals = (bool)base.Convert(value, typeof(bool), parameter);
 
-            equals = _invert ? !equals : equals;
 
             return equals ?
                 Visibility.Visible : _collapse ? Visibility.Collapsed : Visibility.Hidden;

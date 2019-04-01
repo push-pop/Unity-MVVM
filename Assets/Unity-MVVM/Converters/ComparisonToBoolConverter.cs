@@ -26,16 +26,16 @@ public class ComparisonToBoolConverter : ValueConverterBase
 
     public override object Convert(object value, Type targetType, object parameter)
     {
-        var val = (double)value;
+        var val = System.Convert.ToDouble(value);
         var result = false;
 
         switch (_comparisonType)
         {
             case ComparisonType.LessThan:
-                result = val < double.Parse(_compareTo); ;
+                result = val < double.Parse(_compareTo);
                 break;
             case ComparisonType.GreaterThan:
-                result = val > double.Parse(_compareTo); ;
+                result = val > double.Parse(_compareTo);
                 break;
             case ComparisonType.EqualTo:
                 result = val.Equals(double.Parse(_compareTo));

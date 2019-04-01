@@ -11,12 +11,15 @@ namespace UnityMVVM.Binding
     public class OneWayDataBinding
         : DataBindingBase
     {
+        public DataBindingConnection Connection { get { return _connection; } }
+
         protected DataBindingConnection _connection;
 
         [HideInInspector]
         public List<string> SrcProps = new List<string>();
         [HideInInspector]
         public List<string> DstProps = new List<string>();
+
 
         [HideInInspector]
         public string SrcPropertyName = null;
@@ -25,7 +28,7 @@ namespace UnityMVVM.Binding
         public string DstPropertyName = null;
 
         [SerializeField]
-        protected UnityEngine.Component _dstView;
+        public UnityEngine.Component _dstView;
 
         [SerializeField]
         protected ValueConverterBase _converter;
@@ -33,8 +36,6 @@ namespace UnityMVVM.Binding
         [HideInInspector]
         protected string PropertyPath = null;
 
-        public virtual bool KeepConnectionAliveOnDisable { get { return _keepConnectionAliveOnDisable; } }
-        protected bool _keepConnectionAliveOnDisable = false;
 
         bool _isStartup = true;
 
@@ -59,11 +60,12 @@ namespace UnityMVVM.Binding
         public override void UnregisterDataBinding()
         {
             base.UnregisterDataBinding();
+
             if (_connection != null)
-                _connection.ClearHandler();
+                _connection.Unbind();
         }
 
-        protected override void UpdateBindings()
+        public override void UpdateBindings()
         {
             base.UpdateBindings();
 
@@ -91,16 +93,12 @@ namespace UnityMVVM.Binding
             _isStartup = false;
         }
 
-        protected virtual void OnEnable()
+        protected override void OnEnable()
         {
+            base.OnEnable();
+
             if (!_isStartup)
                 _connection.OnSrcUpdated();
-        }
-
-        private void OnDisable()
-        {
-            if (!KeepConnectionAliveOnDisable)
-                UnregisterDataBinding();
         }
 
         protected override void OnDestroy()

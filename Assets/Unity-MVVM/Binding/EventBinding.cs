@@ -32,23 +32,37 @@ namespace UnityMVVM.Binding
         MethodInfo _method;
         PropertyInfo _srcEventProp;
 
+        Delegate d;
+
         // Use this for initialization
         protected virtual void Awake()
         {
-
-            UpdateBindings();
-
             BindEvent();
-
         }
+
         protected virtual void BindEvent()
         {
             _dstViewModel = ViewModelProvider.Instance.GetViewModelBehaviour(ViewModelName);
 
+            //TODO: Wrap PropertyInfo & MethodInfo in Serializable classes so we don't need reflection here
+            
+            if (_srcEventProp == null)
+                _srcEventProp = _srcView.GetType().GetProperty(SrcEventName);
+
+            if (_method == null)
+                _method = ViewModelProvider.GetViewModelType(ViewModelName).GetMethod(DstMethodName);
+
+            if (_method == null)
+            {
+                Debug.LogErrorFormat("EventBinding error in {0}. No method found in {1} with name {2}", gameObject.name, ViewModelName, DstMethodName);
+
+                return;
+            }
+
             var method = UnityEventBinder.GetAddListener(_srcEventProp.GetValue(_srcView));
 
             var arg = method.GetParameters()[0];
-            var d = Delegate.CreateDelegate(arg.ParameterType, _dstViewModel, _method);
+            d = Delegate.CreateDelegate(arg.ParameterType, _dstViewModel, _method);
 
             var p = new object[] { d };
 
@@ -73,8 +87,8 @@ namespace UnityMVVM.Binding
         {
             var method = UnityEventBinder.GetRemoveListener(_srcEventProp.GetValue(_srcView));
 
-            var arg = method.GetParameters()[0];
-            var d = Delegate.CreateDelegate(arg.ParameterType, _dstViewModel, _method);
+            if (d == null || method == null)
+                return;
 
             var p = new object[] { d };
 
@@ -87,7 +101,7 @@ namespace UnityMVVM.Binding
 
             if (_srcView != null)
             {
-                var props = _srcView.GetType().GetProperties(BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public);
+                var props = _srcView.GetType().GetProperties(/*BindingFlags.DeclaredOnly |*/ BindingFlags.Instance | BindingFlags.Public);
 
                 SrcEvents = props
                     .Where(p => p.PropertyType.IsSubclassOf(typeof(UnityEventBase))

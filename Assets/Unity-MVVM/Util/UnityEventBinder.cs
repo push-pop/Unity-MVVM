@@ -75,7 +75,7 @@ namespace UnityMVVM.Binding
             OnChange?.Invoke();
         }
 
-        public void FloatHandler(float val)
+        public void SingleHandler(float val)
         {
             OnChange?.Invoke();
         }

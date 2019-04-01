@@ -9,18 +9,20 @@ namespace UnityMVVM.Binding
     [Serializable]
     public class DataBindingConnection : IDisposable
     {
-        //object PropertyOwner;
-
-        //public string PropertyName;
+        public BindTarget SrcTarget { get { return _src; } }
+        public BindTarget DstTarget { get { return _dst; } }
+        public string Owner { get { return _gameObject?.name; } }
 
         public Action PropertyChangedAction;
 
         public bool isDisposed = false;
 
-        BindTarget _src;
-        BindTarget _dst;
+        readonly BindTarget _src;
+        readonly BindTarget _dst;
         IValueConverter _converter;
         GameObject _gameObject;
+
+        public bool IsBound;
 
         public DataBindingConnection()
         { }
@@ -32,10 +34,9 @@ namespace UnityMVVM.Binding
             _dst = dst;
             _converter = converter;
 
-            var notifyChange = _src.propertyOwner as INotifyPropertyChanged;
+            PropertyChangedAction = OnSrcUpdated;
 
-            if (notifyChange != null)
-                notifyChange.PropertyChanged += PropertyChangedHandler;
+            BindingMonitor.RegisterConnection(this);
         }
 
         public void AddHandler(Action action)
@@ -54,6 +55,17 @@ namespace UnityMVVM.Binding
         internal void ClearHandler()
         {
             PropertyChangedAction = null;
+            IsBound = false;
+        }
+
+        internal void Unbind()
+        {
+            if (IsBound)
+            {
+                (_src.propertyOwner as INotifyPropertyChanged).PropertyChanged -= PropertyChangedHandler;
+                IsBound = false;
+            }
+
         }
 
         public static string GetName<T>(Expression<Func<T>> e)
@@ -64,7 +76,11 @@ namespace UnityMVVM.Binding
 
         internal void Bind()
         {
-            PropertyChangedAction = OnSrcUpdated;
+            if (!IsBound)
+            {
+                (_src.propertyOwner as INotifyPropertyChanged).PropertyChanged += PropertyChangedHandler;
+                IsBound = true;
+            }
         }
 
         public void OnSrcUpdated()
@@ -72,13 +88,18 @@ namespace UnityMVVM.Binding
             try
             {
                 if (_converter != null)
-                    _dst.SetValue(_converter.Convert(_src.GetValue(), _src.property.PropertyType, null));
+                    _dst.SetValue(_converter.Convert(_src.GetValue(), _dst.property.PropertyType, null));
+                else if (_src.GetValue() is IConvertible)
+                    _dst.SetValue(Convert.ChangeType(_src.GetValue(), _dst.property.PropertyType));
                 else
-                    _dst.SetValue(Convert.ChangeType(_src.GetValue(), _src.property.PropertyType));
+                    _dst.SetValue(_src.GetValue());
             }
             catch (Exception e)
             {
                 Debug.LogError("Data binding error in: " + _gameObject.name + ": " + e.Message);
+
+                if (e.InnerException != null)
+                    Debug.LogErrorFormat("Inner Exception: {0}", e.InnerException.Message);
             }
         }
 
@@ -101,6 +122,8 @@ namespace UnityMVVM.Binding
 
         public void Dispose()
         {
+            BindingMonitor.UnRegisterConnection(this);
+
             Dispose(true);
         }
 

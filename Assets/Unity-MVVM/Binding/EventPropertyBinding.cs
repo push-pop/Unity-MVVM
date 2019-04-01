@@ -45,11 +45,11 @@ namespace UnityMVVM.Binding
         BindTarget dst;
         BindTarget src;
 
+        Delegate d;
+
         // Use this for initialization
         protected virtual void Awake()
         {
-            UpdateBindings();
-
             _dstViewModel = ViewModelProvider.Instance.GetViewModelBehaviour(ViewModelName);
 
             dst = new BindTarget(_dstViewModel, DstPropName);
@@ -60,14 +60,28 @@ namespace UnityMVVM.Binding
         }
         protected virtual void BindEvent()
         {
-            var method = UnityEventBinder.GetAddListener(_srcEventProp.GetValue(_srcView));
+            //TODO: Wrap PropertyInfo & MethodInfo in Serializable classes so we don't need reflection here
+            try
+            {
+                if (_srcEventProp == null)
+                    _srcEventProp = _srcView.GetType().GetProperty(SrcEventName);
 
-            var arg = method.GetParameters()[0];
-            var d = Delegate.CreateDelegate(arg.ParameterType, this, _method);
+                if (_method == null)
+                    _method = this.GetType().GetMethod(nameof(SetProp));
 
-            var p = new object[] { d };
+                var method = UnityEventBinder.GetAddListener(_srcEventProp.GetValue(_srcView));
 
-            method.Invoke(_srcEventProp.GetValue(_srcView), p);
+                var arg = method.GetParameters()[0];
+                d = Delegate.CreateDelegate(arg.ParameterType, this, _method);
+
+                var p = new object[] { d };
+
+                method.Invoke(_srcEventProp.GetValue(_srcView), p);
+            }
+            catch (Exception e)
+            {
+                Debug.LogErrorFormat("EventPropertyBinding error in {0}. {1}", gameObject.name, e.Message);
+            }
         }
 
         public void SetProp()
@@ -87,6 +101,9 @@ namespace UnityMVVM.Binding
             catch (Exception exc)
             {
                 Debug.LogErrorFormat("[EventPropertyBinding Error] - {0} Can't convert {1} to type {2}", gameObject.name, value, dst.property.PropertyType.Name);
+
+                if (exc.InnerException != null)
+                    Debug.LogErrorFormat("Inner Exception: {0}", exc.InnerException.Message);
             }
         }
 
@@ -108,8 +125,7 @@ namespace UnityMVVM.Binding
         {
             var method = UnityEventBinder.GetRemoveListener(_srcEventProp.GetValue(_srcView));
 
-            var arg = method.GetParameters()[0];
-            var d = Delegate.CreateDelegate(arg.ParameterType, this, _method);
+            if (d == null || method == null) return;
 
             var p = new object[] { d };
 
@@ -124,7 +140,7 @@ namespace UnityMVVM.Binding
 
                 if (_srcView != null)
                 {
-                    var props = _srcView.GetType().GetProperties(BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public);
+                    var props = _srcView.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public);
 
                     SrcEvents = props
                         .Where(p => p.PropertyType.IsSubclassOf(typeof(UnityEventBase))

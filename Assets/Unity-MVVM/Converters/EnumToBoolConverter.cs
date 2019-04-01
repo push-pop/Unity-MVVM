@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using UnityEngine;
 
 namespace UnityMVVM.Binding.Converters
@@ -13,7 +14,14 @@ namespace UnityMVVM.Binding.Converters
 
         public override object Convert(object value, Type targetType, object parameter)
         {
-            var equals = value.ToString().Equals(_expectedValue);
+            var values = _expectedValue.Split('|').Select(p => p.Trim());
+
+            var equals = false;
+
+            foreach (var item in values)
+            {
+                equals |= value.ToString().Equals(item);
+            }
 
             return _invert ? !equals : equals;
         }

@@ -6,12 +6,12 @@ using System;
 using System.Linq;
 using System.Reflection;
 using UnityMVVM.Util;
+using UnityMVVM.Model;
 
 namespace UnityMVVM.Binding
 {
     public class CollectionViewSource : DataBindingBase
     {
-
         INotifyCollectionChanged srcCollection;
 
         [HideInInspector]
@@ -25,13 +25,42 @@ namespace UnityMVVM.Binding
         public Action<int, IList> OnCollectionReset;
         public Action<int, IList> OnElementUpdated;
 
+        public Action<IModel> OnSelectedItemUpdated;
+
+        public IModel SelectedItem
+        {
+            get { return _selectedItem; }
+
+            set
+            {
+                if (value != _selectedItem)
+                {
+                    _selectedItem = value;
+
+                    OnSelectedItemUpdated?.Invoke(value);
+                }
+            }
+        }
+
+        IModel _selectedItem;
+
         BindTarget src;
 
+        DataBindingConnection _conn;
 
-        public int Count { get
+        bool isBound = false;
+
+        public override bool KeepConnectionAliveOnDisable => true;
+
+        public int Count
+        {
+            get
             {
                 return (src.GetValue() as IList).Count;
-            } }
+            }
+        }
+
+        public string SelectedItemPropName;
 
         public object this[int key]
         {
@@ -58,13 +87,22 @@ namespace UnityMVVM.Binding
             src = new BindTarget(_viewModel, SrcCollectionName);
             srcCollection = src.GetValue() as INotifyCollectionChanged;
 
-            if (srcCollection != null)
+            if (srcCollection != null && !isBound)
                 srcCollection.CollectionChanged += CollectionChanged;
+
+            if (!string.IsNullOrEmpty(SelectedItemPropName) && _conn == null)
+            {
+                _conn = new DataBindingConnection(gameObject, new BindTarget(_viewModel, SelectedItemPropName), new BindTarget(this, nameof(SelectedItem)));
+                _conn.OnSrcUpdated();
+                _conn.Bind();
+            }
+
+            isBound = true;
         }
 
         public override void UnregisterDataBinding()
         {
-            if (srcCollection != null)
+            if (srcCollection != null && isBound)
                 srcCollection.CollectionChanged -= CollectionChanged;
         }
 
@@ -89,9 +127,11 @@ namespace UnityMVVM.Binding
                 default:
                     break;
             }
+
+            OnSelectedItemUpdated?.Invoke(SelectedItem);
         }
 
-        protected override void UpdateBindings()
+        public override void UpdateBindings()
         {
             base.UpdateBindings();
 
@@ -106,6 +146,13 @@ namespace UnityMVVM.Binding
 
 
             }
+        }
+        protected override void OnDestroy()
+        {
+            if (_conn != null && !_conn.isDisposed)
+                _conn.Dispose();
+
+            base.OnDestroy();
         }
     }
 }
