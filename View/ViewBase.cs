@@ -44,41 +44,23 @@ namespace UnityMVVM.View
         }
         RectTransform _rectTransform;
 
-        public float Alpha
+
+        public virtual float Alpha
         {
-            get
-            {
-                return cg.alpha;
-            }
-            set
-            {
-                cg.alpha = value;
-            }
+            get { return _alpha; }
+            set { _alpha = value; }
         }
 
-        public CanvasGroup cg
-        {
-            get
-            {
-                if (_cg == null)
-                    _cg = GetComponent<CanvasGroup>();
-                if (_cg == null)
-                    _cg = gameObject.AddComponent<CanvasGroup>();
-                return _cg;
-            }
-        }
+        [SerializeField]
+        float _alpha;
 
-        private CanvasGroup _cg;
+
 
         public Coroutine animationRoutine;
 
         [SerializeField]
-        float _fadeTime = AnimationDefaults.FadeTime;
+        protected float _fadeTime = AnimationDefaults.FadeTime;
 
-        private void Awake()
-        {
-
-        }
 
         private void Start()
         {
@@ -90,10 +72,10 @@ namespace UnityMVVM.View
             switch (_visibility)
             {
                 case Visibility.Visible:
-                    cg.alpha = 1;
+                    Alpha = 1;
                     break;
                 case Visibility.Hidden:
-                    cg.alpha = 0f;
+                    Alpha = 0f;
                     break;
                 case Visibility.Collapsed:
                     gameObject.SetActive(false);

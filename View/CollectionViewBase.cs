@@ -1,14 +1,18 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityMVVM.Binding;
+using UnityMVVM.Model;
 
 namespace UnityMVVM
 {
     namespace View
     {
         [RequireComponent(typeof(CollectionViewSource))]
-        public class CollectionViewBase : MonoBehaviour
+        public class CollectionViewBase : ViewBase
         {
             [SerializeField]
             protected GameObject _listItemPrefab;
@@ -17,6 +21,8 @@ namespace UnityMVVM
 
             [SerializeField]
             protected CollectionViewSource _src;
+
+            public UnityEvent<IModel> OnSelectionChanged { get; set; }
 
             // Use this for initialization
             protected void Awake()
@@ -28,6 +34,16 @@ namespace UnityMVVM
                     _src.OnCollectionReset += ResetView;
                     _src.OnElementUpdated += UpdateElement;
                 }
+
+                _src.OnSelectedItemUpdated += UpdateSelectedItem;
+            }
+
+            private void UpdateSelectedItem(IModel obj)
+            {
+                var items = InstantiatedItems.Select(e => e.GetComponent<ICollectionViewItem>()).ToList();
+
+                foreach (var item in items)
+                    item?.SetSelected(item.Model == obj);
             }
 
             protected virtual void UpdateElement(int index, IList newItems)
@@ -40,6 +56,44 @@ namespace UnityMVVM
 
                 //AddElement(index, newValue);
             }
+
+            public override void SetVisibility(Visibility visibility)
+            {
+                switch (visibility)
+                {
+                    case Visibility.Visible:
+                        UpdateChildVisibilities(visibility);
+                        gameObject.SetActive(true);
+                        this.CancelAnimation();
+                        this.FadeIn(fadeTime: _fadeTime);
+                        break;
+                    case Visibility.Hidden:
+                        UpdateChildVisibilities(visibility);
+                        gameObject.SetActive(true);
+                        this.CancelAnimation();
+                        this.FadeOut(fadeTime: _fadeTime);
+                        break;
+                    case Visibility.Collapsed:
+                        this.FadeOut(() =>
+                        {
+                            UpdateChildVisibilities(visibility);
+                            gameObject.SetActive(false);
+                        }, fadeTime: _fadeTime);
+                        break;
+                    default:
+                        break;
+                }
+
+            }
+
+            void UpdateChildVisibilities(Visibility v)
+            {
+                foreach (var item in InstantiatedItems)
+                {
+                    item.SetActive(v.Equals(Visibility.Collapsed) ? false : true);
+                }
+            }
+
 
             protected void OnDestroy()
             {
@@ -54,7 +108,16 @@ namespace UnityMVVM
 
             protected virtual void InitItem(GameObject go, object item, int index)
             {
-
+                var model = (item as IModel);
+                if (model != null)
+                {
+                    var it = go.GetComponent<ICollectionViewItem>() as ICollectionViewItem;
+                    if (it != null)
+                    {
+                        it.Model = model;
+                        it.Init(model);
+                    }
+                }
             }
 
 
@@ -106,8 +169,11 @@ namespace UnityMVVM
             {
                 for (int i = oldStartingIndex; i < oldStartingIndex + oldItems.Count; i++)
                 {
-                    GameObject.Destroy(InstantiatedItems[i]);
-                    InstantiatedItems[i] = null;
+                    if (i < InstantiatedItems.Count)
+                    {
+                        GameObject.Destroy(InstantiatedItems[i]);
+                        InstantiatedItems[i] = null;
+                    }
                 }
 
                 InstantiatedItems.RemoveRange(oldStartingIndex, oldItems.Count);

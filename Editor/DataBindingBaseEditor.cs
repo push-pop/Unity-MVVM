@@ -18,6 +18,7 @@ namespace UnityMVVM.Editor
         private void OnEnable()
         {
             CollectSerializedProperties();
+            (target as DataBindingBase).UpdateBindings();
         }
 
         protected virtual void CollectSerializedProperties()
@@ -44,6 +45,8 @@ namespace UnityMVVM.Editor
 
         public override void OnInspectorGUI()
         {
+            CollectSerializedProperties();
+
             _viewModels = ViewModelProvider.Viewmodels;
 
             serializedObject.Update();
@@ -72,7 +75,7 @@ namespace UnityMVVM.Editor
 
                 serializedObject.ApplyModifiedProperties();
 
-                //myClass.UpdateBindings();
+                myClass.UpdateBindings();
             }
         }
     }

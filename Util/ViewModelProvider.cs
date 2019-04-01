@@ -14,13 +14,14 @@ namespace UnityMVVM.Util
         {
             get
             {
-                _viewModels = GetViewModels();
+                if (_viewModels == null)
+                    _viewModels = GetViewModels();
 
                 return _viewModels;
 
             }
         }
-        static List<string> _viewModels;
+        static List<string> _viewModels = null;
 
         public static List<string> GetViewModels()
         {
@@ -44,7 +45,10 @@ namespace UnityMVVM.Util
 
         internal ViewModelBase GetViewModelBehaviour(string viewModelName)
         {
-            var vm = FindObjectOfType(ViewModelProvider.GetViewModelType(viewModelName)) as ViewModelBase;
+
+            var vm = GetComponent(ViewModelProvider.GetViewModelType(viewModelName));
+            if(vm == null)
+                vm = FindObjectOfType(ViewModelProvider.GetViewModelType(viewModelName)) as ViewModelBase;
 
             if (vm == null)
                 return gameObject.AddComponent(ViewModelProvider.GetViewModelType(viewModelName)) as ViewModelBase;

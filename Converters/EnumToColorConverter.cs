@@ -1,22 +1,21 @@
 ﻿using System;
 using UnityEngine;
-using UnityMVVM.View;
 
 namespace UnityMVVM.Binding.Converters
 {
-    public class BoolToVisibilityConverter : ValueConverterBase
+    public class EnumToColorConverter : ValueConverterBase
     {
         [SerializeField]
-        bool _collapse;
+        protected string _expectedValue;
 
-        [SerializeField]
-        bool _invert;
+        [SerializeField] Color _trueColor = Color.green;
+        [SerializeField] Color _falseColor = Color.red;
 
         public override object Convert(object value, Type targetType, object parameter)
         {
-            value = _invert ? !(bool)value : (bool)value;
+            var equals = value.ToString().Equals(_expectedValue);
 
-            return (bool)value ? Visibility.Visible : _collapse ? Visibility.Collapsed : Visibility.Hidden;
+            return equals ? _trueColor : _falseColor;
         }
 
         public override object ConvertBack(object value, Type targetType, object parameter)
