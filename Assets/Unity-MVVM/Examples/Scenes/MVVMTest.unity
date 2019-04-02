@@ -1597,6 +1597,8 @@ MonoBehaviour:
   - IntProp
   - BoolProp
   - TestCollection
+  - SelectedModel
+  - Collection2
   - useGUILayout
   - runInEditMode
   - enabled
@@ -1918,6 +1920,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _visibility: 0
+  _alpha: 0
   _fadeTime: 1
 --- !u!1 &1632300674
 GameObject:
@@ -2043,6 +2046,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _intField: 0
   _boolField: 0
+  _selectedModel:
+    message: 
+    color: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &1679655142
 GameObject:
   m_ObjectHideFlags: 0
@@ -2089,6 +2095,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _intField: 0
   _boolField: 0
+  _selectedModel:
+    message: 
+    color: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &1679655145
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2183,6 +2192,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ae0762e55afbc840a63eb1cbaf87e69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _visibility: 0
+  _alpha: 0
+  _fadeTime: 1
   _listItemPrefab: {fileID: 1576776248439620, guid: 12084e8be413c694a97a0483d88fe9ac,
     type: 3}
   InstantiatedItems: []
@@ -2203,7 +2215,9 @@ MonoBehaviour:
   ViewModelName: UnityMVVM.Examples.OtherViewModel
   SrcCollections:
   - TestCollection
+  - Collection2
   SrcCollectionName: TestCollection
+  SelectedItemPropName: 
 --- !u!114 &1755598735
 MonoBehaviour:
   m_ObjectHideFlags: 0
