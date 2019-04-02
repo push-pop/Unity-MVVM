@@ -63,10 +63,38 @@ namespace UnityMVVM
             public ObservableCollection<DataModel> _testCollection = new ObservableCollection<DataModel>();
 
 
+            public DataModel SelectedModel
+            {
+                get { return _selectedModel; }
+                set
+                {
+                    if (value != _selectedModel)
+                    {
+                        _selectedModel = value;
+                        NotifyPropertyChanged(nameof(SelectedModel));
+                    }
+                }
+            }
+
+            [SerializeField]
+            private DataModel _selectedModel;
+
+
+            public ObservableRangeCollection<DataModel> Collection2 { get; set; } = new ObservableRangeCollection<DataModel>();
+
             // Use this for initialization
             void Start()
             {
                 StartCoroutine(AddToCollection());
+
+                for (int i = 0; i < 10; i++)
+                {
+                    Collection2.Add(new DataModel()
+                    {
+                        color = Color.gray,
+                        message = string.Format("SelectableItem {0}", i)
+                    });
+                }
             }
 
             // Update is called once per frame

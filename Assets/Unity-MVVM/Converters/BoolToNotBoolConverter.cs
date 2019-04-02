@@ -1,22 +1,19 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityMVVM.View;
 
 namespace UnityMVVM.Binding.Converters
 {
-    public class BoolToVisibilityConverter : ValueConverterBase
+    public class BoolToNotBoolConverter : ValueConverterBase
     {
-        [SerializeField]
-        bool _collapse;
-
-        [SerializeField]
-        bool _invert;
 
         public override object Convert(object value, Type targetType, object parameter)
         {
-            value = _invert ? !(bool)value : (bool)value;
+            var b = (bool)value;
 
-            return (bool)value ? Visibility.Visible : _collapse ? Visibility.Collapsed : Visibility.Hidden;
+            return !b;
+
         }
 
         public override object ConvertBack(object value, Type targetType, object parameter)

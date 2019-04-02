@@ -61,7 +61,7 @@ namespace UnityMVVM.Binding
             UpdateBindings();
         }
 
-        protected override void UpdateBindings()
+        public override void UpdateBindings()
         {
             base.UpdateBindings();
             if (_dstView != null)

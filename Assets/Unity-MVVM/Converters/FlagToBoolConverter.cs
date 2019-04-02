@@ -14,6 +14,14 @@ namespace UnityMVVM.Binding.Converters
             XOR
         }
 
+        public string ExpectedValue
+        {
+            set
+            {
+                _expectedValue = value;
+            }
+        }
+
         [SerializeField]
         protected string _expectedValue;
 
@@ -25,6 +33,8 @@ namespace UnityMVVM.Binding.Converters
 
         public override object Convert(object value, Type targetType, object parameter)
         {
+            if (string.IsNullOrEmpty(value.ToString())) return false;
+
             var flagVal = (Enum)Enum.Parse(value.GetType(), _expectedValue.ToString());
             var result = false;
             switch (_operation)

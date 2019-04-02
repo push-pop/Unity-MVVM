@@ -24,6 +24,9 @@ IDataBinding
         [HideInInspector]
         public string ViewModelName = null;
 
+        public virtual bool KeepConnectionAliveOnDisable { get { return _keepConnectionAliveOnDisable; } }
+        protected bool _keepConnectionAliveOnDisable = false;
+
         public virtual void RegisterDataBinding()
         {
 
@@ -34,7 +37,7 @@ IDataBinding
             UpdateBindings();
         }
 
-        protected virtual void UpdateBindings()
+        public virtual void UpdateBindings()
         {
 
         }
@@ -50,8 +53,22 @@ IDataBinding
                 Debug.LogErrorFormat("ViewModel Null: {0}", gameObject.name);
         }
 
+
+
         public virtual void UnregisterDataBinding()
         {
+        }
+
+        protected virtual void OnEnable()
+        {
+            if (!_keepConnectionAliveOnDisable)
+                RegisterDataBinding();
+        }
+
+        protected virtual void OnDisable()
+        {
+            if (!KeepConnectionAliveOnDisable)
+                UnregisterDataBinding();
         }
 
         protected virtual void Awake()

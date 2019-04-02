@@ -3,7 +3,7 @@ using UnityMVVM.Binding;
 
 namespace UnityMVVM.Editor
 {
-
+    [CanEditMultipleObjects]
     [CustomEditor(typeof(EventBinding), true)]
     public class EventBindingEditor : UnityEditor.Editor
     {
