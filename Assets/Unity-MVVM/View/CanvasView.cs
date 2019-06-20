@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace UnityMVVM.View
 {
+    [RequireComponent(typeof(CanvasGroup))]
     public class CanvasView : ViewBase
     {
         public override float Alpha
