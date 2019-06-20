@@ -73,7 +73,6 @@ namespace UnityMVVM.Binding
             {
                 var props = _dstView.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public);
                 DstProps = props.Where(prop => prop.GetSetMethod(false) != null
-                       && prop.GetSetMethod(false) != null
                        && !prop.GetCustomAttributes(typeof(ObsoleteAttribute), true).Any()
                     ).Select(e => e.Name).ToList(); ;
             }
