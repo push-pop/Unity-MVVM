@@ -85,7 +85,7 @@ namespace UnityMVVM.Binding
             OnChange?.Invoke();
         }
 
-        public void BoolHandler(bool val)
+        public void BooleanHandler(bool val)
         {
             OnChange?.Invoke();
         }
