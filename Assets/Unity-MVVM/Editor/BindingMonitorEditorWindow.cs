@@ -71,11 +71,9 @@ public class BindingMonitorEditorWindow : EditorWindow
         _orderBy = (OrderType)EditorGUILayout.EnumPopup("Oder By:", _orderBy);
         EditorGUILayout.EndHorizontal();
 
-
-
         var bindings = FindObjectsOfType<DataBindingBase>().OrderBy(e => _orderBy == OrderType.GameObject ? e.gameObject.name : e.ViewModelName);
 
-        var oneWays = bindings.Where(e => e is OneWayDataBinding && !(e is TwoWayDataBinding)).Select(e => e as OneWayDataBinding).Where(
+        var oneWays = bindings.Where(e => e is OneWayDataBinding /*&& !(e is TwoWayDataBinding)*/).Select(e => e as OneWayDataBinding).Where(
             e =>
             {
                 if (_filterBy == FilterType.None) return true;
@@ -88,46 +86,95 @@ public class BindingMonitorEditorWindow : EditorWindow
         var eventPropBindings = FindObjectsOfType<EventPropertyBinding>();
         var eventBindings = FindObjectsOfType<EventBinding>();
 
-        GUILayout.Label(string.Format("OneWayBindings: {0}", oneWays.Count()), EditorStyles.boldLabel);
+        GUILayout.Label(string.Format("Data Bindings: {0}", oneWays.Count()), EditorStyles.boldLabel);
 
         onewWayScrollPos = EditorGUILayout.BeginScrollView(onewWayScrollPos, GUILayout.MaxHeight(600));
-        var style = new GUIStyle(GUI.skin.label);
-        style.richText = true;
+
+        var buttonStyle = new GUIStyle(GUI.skin.button);
+        buttonStyle.richText = true;
+        buttonStyle.active.background = buttonStyle.normal.background;
+        buttonStyle.margin = new RectOffset(0, 0, 0, 0);
+        buttonStyle.stretchWidth = true;
+
+        var bindingLabelStyle = new GUIStyle(GUI.skin.label)
+        {
+            richText = true,
+            alignment = TextAnchor.MiddleRight
+        };
+
+        var goLabelStyle = new GUIStyle(bindingLabelStyle)
+        { alignment = TextAnchor.MiddleLeft };
+
 
         foreach (var item in oneWays)
         {
-            var str = string.Format("<b>{0}</b> Src: <b>{1}:{2}</b> Dst: <b>{3}:{4}</b> Bound: <b>{5}</b>", item.gameObject.name, item.ViewModelName, item.SrcPropertyName, item._dstView.GetType().Name, item.DstPropertyName, item.Connection == null ? false : item.Connection.IsBound);
+            var fmt = "";
+            fmt += "{0}.{1}{5}{3}.{4}{6}  ";
 
-            bool contains = ignoreCase ? str.ToLower().Contains(filter.ToLower()) : str.Contains(filter);
+            var bindingStr = string.Format(fmt, item.ViewModelName, item.SrcPropertyName, item.gameObject.name, item._dstView.GetType().Name, item.DstPropertyName, (item is TwoWayDataBinding) ? "<->" : "->", (item is TwoWayDataBinding) ? " -- " + (item as TwoWayDataBinding)._dstChangedEventName : "");
+
+            var goStr = string.Format("<color=blue><b>{0}</b></color>", item.gameObject.name);
+
+            bool contains = ignoreCase ? bindingStr.ToLower().Contains(filter.ToLower()) : bindingStr.Contains(filter);
 
             if (string.IsNullOrEmpty(filter) || contains)
-                EditorGUILayout.LabelField(str, style);
+            {
+                if (GUILayout.Button("", buttonStyle))
+                    Selection.activeGameObject = item.gameObject;
+
+
+                var btnRect = GUILayoutUtility.GetLastRect();
+
+                GUI.Box(btnRect, goStr, goLabelStyle);
+                GUI.Box(btnRect, bindingStr, bindingLabelStyle);
+            }
+
+
         }
 
         EditorGUILayout.EndScrollView();
 
-        GUILayout.Label(string.Format("TwoWay Bindings: {0}", twoWays.Count()), EditorStyles.boldLabel);
-
-        twoWayScrollPos = EditorGUILayout.BeginScrollView(twoWayScrollPos, GUILayout.MaxHeight(400));
-        foreach (var item in twoWays)
-        {
-            var str = string.Format("<b>{0}</b> Src: <b>{1}/{2}</b> Dst: <b>{3}/{4}</b> Event: <b>{4}</b> Bound: <b>{5}</b>", item.gameObject.name, item.ViewModelName, item.SrcPropertyName, item._dstView.GetType().Name, item.DstPropertyName, item._dstChangedEventName, item.Connection == null ? false : item.Connection.IsBound);
-
-            if (string.IsNullOrEmpty(filter) || str.Contains(filter))
-                EditorGUILayout.LabelField(str, style);
-        }
-        EditorGUILayout.EndScrollView();
-
-
-        GUILayout.Label(string.Format("Event Bindings: {0}", eventPropBindings.Count()), EditorStyles.boldLabel);
+        GUILayout.Label(string.Format("Event Bindings: {0}", eventPropBindings.Count() + eventBindings.Count()), EditorStyles.boldLabel);
 
         eventPropScrollPos = EditorGUILayout.BeginScrollView(eventPropScrollPos, GUILayout.MaxHeight(400));
         foreach (var item in eventPropBindings)
         {
-            var str = string.Format("<b>{0}</b> SrcEvent: <b>{1}/{2}</b> DstProp: <b>{3}/{4}</b>", item.gameObject.name, item._srcView.GetType().Name, item.SrcEventName, item.ViewModelName, item.DstPropName);
+            var goStr = string.Format("<color=blue><b>{0}</b></color>", item.gameObject.name);
 
-            if (string.IsNullOrEmpty(filter) || str.Contains(filter))
-                EditorGUILayout.LabelField(str, style);
+            var fmt = "";
+            fmt += "{0}.{1}->{2}{3}()  ";
+            var bindingStr = string.Format(fmt, item._srcView.GetType().Name, item.SrcEventName, item.ViewModelName, item.DstPropName, item.gameObject.name);
+
+            if (string.IsNullOrEmpty(filter) || bindingStr.Contains(filter))
+            {
+                if (GUILayout.Button("", buttonStyle))
+                    Selection.activeGameObject = item.gameObject;
+
+                var btnRect = GUILayoutUtility.GetLastRect();
+
+                GUI.Box(btnRect, goStr, goLabelStyle);
+                GUI.Box(btnRect, bindingStr, bindingLabelStyle);
+            }
+        }
+
+        foreach (var item in eventBindings)
+        {
+            var fmt = "";
+            fmt += "{0}.{1}->{2}{3}()  ";
+
+            var bindingStr = string.Format(fmt, item._srcView.GetType().Name, item.SrcEventName, item.ViewModelName, item.DstMethodName, item.gameObject.name);
+            var goStr = string.Format("<color=blue><b>{0}</b></color>", item.gameObject.name);
+
+            if (string.IsNullOrEmpty(filter) || bindingStr.Contains(filter))
+            {
+                if (GUILayout.Button("", buttonStyle))
+                    Selection.activeGameObject = item.gameObject;
+
+                var btnRect = GUILayoutUtility.GetLastRect();
+
+                GUI.Box(btnRect, goStr, goLabelStyle);
+                GUI.Box(btnRect, bindingStr, bindingLabelStyle);
+            }
         }
         EditorGUILayout.EndScrollView();
 
@@ -135,9 +182,6 @@ public class BindingMonitorEditorWindow : EditorWindow
         var conns = BindingMonitor.Connections;
 
         GUILayout.Label(string.Format("Active Connections: {0}", conns.Count()), EditorStyles.boldLabel);
-
-        if (GUILayout.Button("Reset"))
-            BindingMonitor.Reset();
 
         connectionScrollPos = EditorGUILayout.BeginScrollView(connectionScrollPos, GUILayout.MaxHeight(600));
 
@@ -148,10 +192,14 @@ public class BindingMonitorEditorWindow : EditorWindow
             bool contains = ignoreCase ? str.ToLower().Contains(filter.ToLower()) : str.Contains(filter);
 
             if (string.IsNullOrEmpty(filter) || contains)
-                EditorGUILayout.LabelField(str, style);
+                if (GUILayout.Button(str, buttonStyle))
+                    Selection.activeGameObject = (item.DstTarget.propertyOwner as MonoBehaviour).gameObject;
         }
 
 
         EditorGUILayout.EndScrollView();
+
+        if (GUILayout.Button("Reset"))
+            BindingMonitor.Reset();
     }
 }
