@@ -31,9 +31,6 @@ public class BindingMonitorEditorWindow : EditorWindow
         All
     }
 
-    [SerializeField]
-    BindTarget src = new BindTarget(new object(), "testProp");
-
     public Vector2 onewWayScrollPos = Vector2.zero;
     public Vector2 twoWayScrollPos = Vector2.zero;
     public Vector2 eventScrollPos = Vector2.zero;

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityMVVM.Extensions;
 
 namespace UnityMVVM.Binding
 {
@@ -47,7 +48,6 @@ namespace UnityMVVM.Binding
             var propInfo = _dstView.GetType().GetProperty(_dstChangedEventName);
             var removeListenerMethod = UnityEventBinder.GetRemoveListener(propInfo.GetValue(_dstView));
 
-
             var p = new object[] { changeDelegate };
 
             _binder.OnChange -= _connection.DstUpdated;
@@ -65,12 +65,7 @@ namespace UnityMVVM.Binding
         {
             base.UpdateBindings();
             if (_dstView != null)
-            {
-                var props = _dstView.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public);
-                DstChangedEvents = props.Where(p => p.PropertyType.IsSubclassOf(typeof(UnityEventBase))
-                                               && !p.GetCustomAttributes(typeof(ObsoleteAttribute), true).Any())
-                                        .Select(p => p.Name).ToList();
-            }
+                DstProps = _dstView.GetBindableEventsList();
         }
     }
 }

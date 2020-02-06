@@ -9,11 +9,43 @@ namespace UnityMVVM
 {
     namespace Examples
     {
+     
+        [System.Serializable]
+        public class NestedPropSrc
+        {
+            public float floatField;
+            public int intField;
+
+            public override bool Equals(object obj)
+            {
+                var other = obj as NestedPropSrc;
+
+                return floatField == other.floatField && intField == other.intField;
+            }
+        }
+
         [System.Serializable]
         public class ObservableListFloat : ObservableCollection<float> { }
 
         public class OtherViewModel : ViewModelBase
         {
+            public NestedPropSrc NestedProp
+            {
+                get { return _nestedProp; }
+                set
+                {
+                    if (value != _nestedProp)
+                    {
+                        _nestedProp = value;
+                        NotifyPropertyChanged(nameof(NestedProp));
+                    }
+                }
+            }
+
+            [SerializeField]
+            private NestedPropSrc _nestedProp = new NestedPropSrc();
+
+
             public int IntProp
             {
                 get
@@ -51,6 +83,22 @@ namespace UnityMVVM
 
             [SerializeField]
             bool _boolField;
+
+            public float SinTime
+            {
+                get { return _sinTime; }
+                set
+                {
+                    if (value != _sinTime)
+                    {
+                        _sinTime = value;
+                        NotifyPropertyChanged(nameof(SinTime));
+                    }
+                }
+            }
+
+            [SerializeField]
+            private float _sinTime;
 
 
             public ObservableCollection<DataModel> TestCollection
@@ -102,6 +150,9 @@ namespace UnityMVVM
             {
                 IntProp = Mathf.FloorToInt(Time.timeSinceLevelLoad);
                 BoolProp = (System.DateTime.Now.Second % 2 == 0);
+                SinTime = Mathf.Sin(Time.time);
+                NestedProp.floatField = Mathf.Sin(Time.time * 2);
+                NotifyPropertyChanged(nameof(NestedProp));
 
             }
 
