@@ -2,6 +2,8 @@
 using System.Reflection;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityMVVM.Binding.Converters;
+using UnityMVVM.Extensions;
 
 namespace UnityMVVM.Binding
 {
@@ -16,6 +18,8 @@ namespace UnityMVVM.Binding
 
         public PropertyInfo property;
 
+        public FieldInfo field;
+
         public BindTarget(object propOwner, string propName, string path = null, UnityEvent dstChangedEvent = null)
         {
             propertyOwner = propOwner;
@@ -27,58 +31,82 @@ namespace UnityMVVM.Binding
                 Debug.LogErrorFormat("Could not find ViewModel for Property {0}", propName);
             }
 
-            property = propertyOwner.GetType().GetProperty(propertyName);//.ResolvePath(path);
+            property = propertyOwner.GetType().GetProperty(propertyName);
 
-            if (dstChangedEvent != null)
-                dstChangedEvent.AddListener(new UnityAction(() =>
-                {
+            PropertyInfo prop2;
+            FieldInfo Field2;
 
-                }));
+            if (!string.IsNullOrEmpty(path))
+            {
+                property.PropertyType.GetPropertyOrField(path, out prop2, out Field2);
+                field = property.PropertyType.GetField(path);
+            }
+
+
+            // Did I have a good reason for this?
+            //if (dstChangedEvent != null)
+            //    dstChangedEvent.AddListener(new UnityAction(() =>
+            //    {
+
+            //    }));
         }
 
         public object GetValue()
         {
             if (string.IsNullOrEmpty(propertyPath))
-                return property != null ? property.GetValue(propertyOwner, null) : null;
-
+                return property?.GetValue(propertyOwner, null);
             else
             {
                 var parentProp = property.GetValue(propertyOwner, null);
                 var parts = propertyPath.Split('.');
 
-                object owner = parentProp;
+                FieldInfo field = null;
                 PropertyInfo prop = null;
 
                 foreach (var part in parts)
                 {
-                    prop = owner.GetType().GetProperty(propertyPath);
-                    owner = prop.GetValue(owner, null);
+                    parentProp.GetType().GetPropertyOrField(propertyPath, out prop, out field);
+                    if (prop != null)
+                        return prop.GetValue(parentProp);
+                    else if (field != null)
+                    {
+                        var val = field.GetValue(parentProp);
+                        return val;
+                    }
                 }
 
-                return owner;
+                return null;
             }
         }
 
-        public void SetValue(object src)
+        public void SetValue(object value, IValueConverter converter = null)
         {
+
             if (property == null) return;
 
-            if (string.IsNullOrEmpty(propertyPath))
-                property.SetValue(propertyOwner, src, null) ;
-            else
+            if (field != null)
             {
                 var parentProp = property.GetValue(propertyOwner, null);
-                var parts = propertyPath.Split('.');
 
-                object owner = parentProp;
-                PropertyInfo prop = null;
+                if (converter != null)
+                    field.SetValue(parentProp, converter.Convert(value, field.GetType(), null));
+                else if (value is IConvertible)
+                    field.SetValue(parentProp, Convert.ChangeType(value, field.FieldType));
+                else
+                    field.SetValue(parentProp, value);
 
-                foreach (var part in parts)
-                {
-                    prop = owner.GetType().GetProperty(propertyPath);
-                }
+                property.SetValue(propertyOwner, parentProp);
+            }
 
-                prop.SetValue(owner, src, null);
+            else
+            {
+                if (converter != null)
+                    property.SetValue(propertyOwner, converter.Convert(value, property.PropertyType, null));
+                else if (value is IConvertible)
+                    property.SetValue(propertyOwner, Convert.ChangeType(value, property.PropertyType));
+                else
+                    property.SetValue(propertyOwner, value, null);
+
             }
         }
     }

@@ -31,9 +31,6 @@ public class BindingMonitorEditorWindow : EditorWindow
         All
     }
 
-    [SerializeField]
-    BindTarget src = new BindTarget(new object(), "testProp");
-
     public Vector2 onewWayScrollPos = Vector2.zero;
     public Vector2 twoWayScrollPos = Vector2.zero;
     public Vector2 eventScrollPos = Vector2.zero;
@@ -102,7 +99,7 @@ public class BindingMonitorEditorWindow : EditorWindow
             alignment = TextAnchor.MiddleRight
         };
 
-        var goLabelStyle = new GUIStyle(bindingLabelStyle)
+        var labelStyle = new GUIStyle(bindingLabelStyle)
         { alignment = TextAnchor.MiddleLeft };
 
 
@@ -124,9 +121,15 @@ public class BindingMonitorEditorWindow : EditorWindow
 
 
                 var btnRect = GUILayoutUtility.GetLastRect();
+                var goLabelRect = new Rect(btnRect);
 
-                GUI.Box(btnRect, goStr, goLabelStyle);
-                GUI.Box(btnRect, bindingStr, bindingLabelStyle);
+                goLabelRect.width /= 4;
+
+                GUI.Box(goLabelRect, goStr, labelStyle);
+
+                btnRect.x = goLabelRect.width;
+                btnRect.width -= goLabelRect.width;
+                GUI.Box(btnRect, bindingStr, labelStyle);
             }
 
 
@@ -151,9 +154,15 @@ public class BindingMonitorEditorWindow : EditorWindow
                     Selection.activeGameObject = item.gameObject;
 
                 var btnRect = GUILayoutUtility.GetLastRect();
+                var goLabelRect = new Rect(btnRect);
 
-                GUI.Box(btnRect, goStr, goLabelStyle);
-                GUI.Box(btnRect, bindingStr, bindingLabelStyle);
+                goLabelRect.width /= 4;
+
+                GUI.Box(goLabelRect, goStr, labelStyle);
+
+                btnRect.x = goLabelRect.width;
+                btnRect.width -= goLabelRect.width;
+                GUI.Box(btnRect, bindingStr, labelStyle);
             }
         }
 
@@ -171,9 +180,15 @@ public class BindingMonitorEditorWindow : EditorWindow
                     Selection.activeGameObject = item.gameObject;
 
                 var btnRect = GUILayoutUtility.GetLastRect();
+                var goLabelRect = new Rect(btnRect);
 
-                GUI.Box(btnRect, goStr, goLabelStyle);
-                GUI.Box(btnRect, bindingStr, bindingLabelStyle);
+                goLabelRect.width /= 4;
+
+                GUI.Box(goLabelRect, goStr, labelStyle);
+
+                btnRect.x = goLabelRect.width;
+                btnRect.width -= goLabelRect.width;
+                GUI.Box(btnRect, bindingStr, labelStyle);
             }
         }
         EditorGUILayout.EndScrollView();

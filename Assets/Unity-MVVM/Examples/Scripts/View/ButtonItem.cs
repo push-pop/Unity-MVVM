@@ -14,6 +14,8 @@ namespace UnityMVVM.Examples
             set
             {
                 Debug.Log(value);
+                SetSelected(value);
+                UpdateItem(Model);
             }
         }
 
@@ -66,6 +68,10 @@ namespace UnityMVVM.Examples
 
         public override void UpdateItem(IModel model)
         {
+            var data = model as DataModel;
+
+            GetComponent<Image>().color = data.color;
+            GetComponentInChildren<Text>().text = data.message;
         }
 
     }

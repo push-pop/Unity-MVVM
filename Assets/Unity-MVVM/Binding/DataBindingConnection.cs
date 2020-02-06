@@ -87,12 +87,7 @@ namespace UnityMVVM.Binding
         {
             try
             {
-                if (_converter != null)
-                    _dst.SetValue(_converter.Convert(_src.GetValue(), _dst.property.PropertyType, null));
-                else if (_src.GetValue() is IConvertible)
-                    _dst.SetValue(Convert.ChangeType(_src.GetValue(), _dst.property.PropertyType));
-                else
-                    _dst.SetValue(_src.GetValue());
+                _dst.SetValue(_src.GetValue(), _converter);
             }
             catch (Exception e)
             {
