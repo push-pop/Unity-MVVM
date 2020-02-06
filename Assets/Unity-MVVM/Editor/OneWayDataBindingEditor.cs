@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityMVVM.Binding;
+using UnityMVVM.Extensions;
 
 namespace UnityMVVM.Editor
 {
@@ -11,41 +13,77 @@ namespace UnityMVVM.Editor
     {
         public int _srcIndex = 0;
         public int _dstIndex = 0;
+        public int _dstPathIndex = 0;
+        public int _srcPathIndex = 0;
 
         SerializedProperty _srcNameProp;
         SerializedProperty _dstNameProp;
+        SerializedProperty _srcPathProp;
+        SerializedProperty _dstPathProp;
 
         SerializedProperty _srcProps;
         SerializedProperty _dstProps;
+        SerializedProperty _srcPaths;
+        SerializedProperty _dstPaths;
 
-        List<string> _srcPropNames;
-        List<string> _dstPropNames;
+        string[] _srcPropNames;
+        string[] _srcPathNames;
+        string[] _dstPropNames;
+        string[] _dstPathNames;
 
         protected override void CollectSerializedProperties()
         {
             base.CollectSerializedProperties();
+
             _srcNameProp = serializedObject.FindProperty("SrcPropertyName");
             _dstNameProp = serializedObject.FindProperty("DstPropertyName");
+            _srcPathProp = serializedObject.FindProperty("SrcPropertyPath");
+            _dstPathProp = serializedObject.FindProperty("DstPropertyPath");
 
             _srcProps = serializedObject.FindProperty("SrcProps");
             _dstProps = serializedObject.FindProperty("DstProps");
+            _srcPaths = serializedObject.FindProperty("SrcPaths");
+            _dstPaths = serializedObject.FindProperty("DstPaths");
 
             _srcPropNames = _srcProps.GetStringArray();
             _dstPropNames = _dstProps.GetStringArray();
-
+            _srcPathNames = _srcPaths.GetStringArray();
+            _dstPathNames = _dstPaths.GetStringArray();
         }
 
         protected override void DrawChangeableElements()
         {
             base.DrawChangeableElements();
 
-            var myClass = target as OneWayDataBinding;
+
+            bool srcHasPaths = _srcPathNames.Length > 0;
 
             EditorGUILayout.LabelField("Source Property");
-            _srcIndex = EditorGUILayout.Popup(_srcIndex, _srcPropNames.ToArray());
+            if (srcHasPaths)
+                EditorGUILayout.BeginHorizontal();
+
+            _srcIndex = EditorGUILayout.Popup(_srcIndex, _srcPropNames);
+            if (srcHasPaths)
+            {
+                _srcPathIndex = EditorGUILayout.Popup(_srcPathIndex, _srcPathNames);
+                EditorGUILayout.EndHorizontal();
+            }
+
+
+
 
             EditorGUILayout.LabelField("Destination Property");
-            _dstIndex = EditorGUILayout.Popup(_dstIndex, _dstPropNames.ToArray());
+
+            bool dstHasPaths = _dstPathNames.Length > 0;
+            if (dstHasPaths)
+                EditorGUILayout.BeginHorizontal();
+
+            _dstIndex = EditorGUILayout.Popup(_dstIndex, _dstPropNames);
+            if (dstHasPaths)
+            {
+                _dstPathIndex = EditorGUILayout.Popup(_dstPathIndex, _dstPathNames);
+                EditorGUILayout.EndHorizontal();
+            }
         }
 
         protected override void UpdateSerializedProperties()
@@ -58,6 +96,12 @@ namespace UnityMVVM.Editor
 
             myClass.DstPropertyName = _dstIndex > -1 ?
                  _dstPropNames[_dstIndex] : null;
+
+            myClass.DstPropertyPath = _dstPathIndex > -1 ?
+                _dstPathNames[_dstPathIndex] : null;
+
+            myClass.SrcPropertyPath = _srcPathIndex > -1 ?
+                _srcPathNames[_srcPathIndex] : null;
         }
 
         public override void OnInspectorGUI()
@@ -65,35 +109,33 @@ namespace UnityMVVM.Editor
             base.OnInspectorGUI();
             var myClass = target as OneWayDataBinding;
 
-            _srcIndex = _srcPropNames.IndexOf(_srcNameProp.stringValue);
-            if (_srcIndex < 0 && _srcPropNames.Count > 0)
+            _srcIndex = Array.IndexOf(_srcPropNames, _srcNameProp.stringValue);
+            if (_srcIndex < 0 && _srcPropNames.Length > 0)
             {
                 _srcIndex = 0;
                 myClass.SrcPropertyName = _srcPropNames.FirstOrDefault();
             }
 
-            _dstIndex = _dstPropNames.IndexOf(_dstNameProp.stringValue);
-            if (_dstIndex < 0 && _dstPropNames.Count > 0)
+            _dstIndex = Array.IndexOf(_dstPropNames, _dstNameProp.stringValue);
+            if (_dstIndex < 0 && _dstPropNames.Length > 0)
             {
                 _dstIndex = 0;
                 myClass.DstPropertyName = _dstPropNames.FirstOrDefault();
             }
+
+            _dstPathIndex = Array.IndexOf(_dstPathNames, _dstPathProp.stringValue);
+            if (_dstPathIndex < 0 && _dstPathNames.Length > 0)
+            {
+                _dstPathIndex = 0;
+                myClass.DstPropertyPath = _dstPathNames.FirstOrDefault();
+            }
+
+            _srcPathIndex = Array.IndexOf(_srcPathNames, _srcPathProp.stringValue);
+            if(_srcPathIndex < 0 && _srcPathNames.Length > 0)
+            {
+                _srcPathIndex = 0;
+                myClass.SrcPropertyPath = _srcPathNames.FirstOrDefault();
+            }
         }
-    }
-}
-
-public static class SerializedPropertyExt
-{
-
-    public static List<string> GetStringArray(this SerializedProperty prop)
-    {
-        List<string> list = new List<string>(prop.arraySize);
-
-        for (int i = 0; i < prop.arraySize; i++)
-        {
-            list.Add(prop.GetArrayElementAtIndex(i).stringValue);
-        }
-
-        return list;
     }
 }

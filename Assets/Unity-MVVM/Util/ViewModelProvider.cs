@@ -47,7 +47,7 @@ namespace UnityMVVM.Util
         {
 
             var vm = GetComponent(ViewModelProvider.GetViewModelType(viewModelName));
-            if(vm == null)
+            if (vm == null)
                 vm = FindObjectOfType(ViewModelProvider.GetViewModelType(viewModelName)) as ViewModelBase;
 
             if (vm == null)
@@ -55,6 +55,15 @@ namespace UnityMVVM.Util
 
             return vm as ViewModelBase;
 
+        }
+
+        public static List<string> GetViewModelPropertyList(string viewModelTypeString)
+        {
+            return GetViewModelProperties(viewModelTypeString)
+                .Where(prop => 
+                        prop.GetGetMethod(false) != null
+                        && !prop.GetCustomAttributes(typeof(ObsoleteAttribute), true).Any()
+                    ).Select(e => e.Name).ToList();
         }
 
         public static PropertyInfo[] GetViewModelProperties(string viewModelTypeString, BindingFlags bindingAttr = BindingFlags.Default)

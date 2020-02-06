@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using UnityEngine;
 using UnityMVVM.Binding.Converters;
+using UnityMVVM.Extensions;
 using UnityMVVM.Util;
 
 namespace UnityMVVM.Binding
@@ -15,11 +16,18 @@ namespace UnityMVVM.Binding
 
         protected DataBindingConnection _connection;
 
+        #region Binding Properties
         [HideInInspector]
         public List<string> SrcProps = new List<string>();
+
         [HideInInspector]
         public List<string> DstProps = new List<string>();
 
+        [HideInInspector]
+        public List<string> SrcPaths = new List<string>();
+
+        [HideInInspector]
+        public List<string> DstPaths = new List<string>();
 
         [HideInInspector]
         public string SrcPropertyName = null;
@@ -27,15 +35,19 @@ namespace UnityMVVM.Binding
         [HideInInspector]
         public string DstPropertyName = null;
 
+        [HideInInspector]
+        public string SrcPropertyPath = null;
+
+        [HideInInspector]
+        public string DstPropertyPath = null;
+
+        #endregion
+
         [SerializeField]
-        public UnityEngine.Component _dstView;
+        public Component _dstView;
 
         [SerializeField]
         protected ValueConverterBase _converter;
-
-        [HideInInspector]
-        protected string PropertyPath = null;
-
 
         bool _isStartup = true;
 
@@ -51,10 +63,11 @@ namespace UnityMVVM.Binding
             }
             if (_connection == null)
             {
-                _connection = new DataBindingConnection(gameObject, new BindTarget(_viewModel, SrcPropertyName, path: PropertyPath), new BindTarget(_dstView, DstPropertyName), _converter);
+                _connection = new DataBindingConnection(gameObject, new BindTarget(_viewModel, SrcPropertyName, SrcPropertyPath), new BindTarget(_dstView, DstPropertyName, DstPropertyPath), _converter);
             }
 
-            _connection.Bind();
+            if (KeepConnectionAliveOnDisable || isActiveAndEnabled)
+                _connection.Bind();
         }
 
         public override void UnregisterDataBinding()
@@ -69,21 +82,22 @@ namespace UnityMVVM.Binding
         {
             base.UpdateBindings();
 
-            if (_dstView != null)
-            {
-                var props = _dstView.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public);
-                DstProps = props.Where(prop => prop.GetSetMethod(false) != null
-                       && !prop.GetCustomAttributes(typeof(ObsoleteAttribute), true).Any()
-                    ).Select(e => e.Name).ToList(); ;
-            }
+            DstProps = _dstView?.GetBindablePropertyList(false, true);
 
+            DstPaths.Clear();
+            _dstView?.GetPropertiesAndFieldsList(DstPropertyName, ref DstPaths);
+
+            SrcPaths.Clear();
             if (!string.IsNullOrEmpty(ViewModelName))
             {
-                var props = ViewModelProvider.GetViewModelProperties(ViewModelName);
-                SrcProps = props.Where(prop => prop.GetGetMethod(false) != null
-                       && !prop.GetCustomAttributes(typeof(ObsoleteAttribute), true).Any()
-                    ).Select(e => e.Name).ToList();
+                var vmType = ViewModelProvider.GetViewModelType(ViewModelName);
+                var propType = vmType.GetProperty(SrcPropertyName).PropertyType;
+
+                SrcProps = ViewModelProvider.GetViewModelPropertyList(ViewModelName);
+                propType.GetNestedFields(ref SrcPaths);
+
             }
+
         }
 
         private void Start()
