@@ -16,9 +16,10 @@ namespace UnityMVVM.Extensions
 
        public static List<string> GetBindableEventsList(this Component component)
         {
-            return component.GetType().GetBindableProperties(false, false).Where(p => p.PropertyType.IsSubclassOf(typeof(UnityEngine.Events.UnityEventBase))
-                                               && !p.GetCustomAttributes(typeof(ObsoleteAttribute), true).Any())
-                                        .Select(p => p.Name).ToList();
+            return component.GetType().GetBindableProperties(false, false)
+                .Where(p => p.PropertyType.IsSubclassOf(typeof(UnityEngine.Events.UnityEventBase))
+                        && !p.GetCustomAttributes(typeof(ObsoleteAttribute), true).Any())
+                .Select(p => p.Name).ToList();
         }
 
 
@@ -32,9 +33,9 @@ namespace UnityMVVM.Extensions
             if (string.IsNullOrEmpty(parentPropName))
                 return;
 
-            var parentPropType = component.GetType().GetProperty(parentPropName).PropertyType;
+            var parentPropType = component?.GetType().GetProperty(parentPropName)?.PropertyType;
 
-            parentPropType.GetNestedFields(ref list);
+            parentPropType?.GetNestedFields(ref list);
 
         }
     }
