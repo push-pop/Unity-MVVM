@@ -55,12 +55,6 @@ namespace UnityMVVM.Binding
             removeListenerMethod.Invoke(propInfo.GetValue(_dstView), p);
         }
 
-
-        protected override void OnValidate()
-        {
-            UpdateBindings();
-        }
-
         public override void UpdateBindings()
         {
             base.UpdateBindings();

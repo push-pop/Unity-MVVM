@@ -16,7 +16,7 @@ namespace UnityMVVM.Binding
 
         protected DataBindingConnection _connection;
 
-        #region Binding Properties
+        #region Serialized Properties
         [HideInInspector]
         public List<string> SrcProps = new List<string>();
 
@@ -29,25 +29,25 @@ namespace UnityMVVM.Binding
         [HideInInspector]
         public List<string> DstPaths = new List<string>();
 
-        [HideInInspector]
+        //[HideInInspector]
         public string SrcPropertyName = null;
 
-        [HideInInspector]
+        //[HideInInspector]
         public string DstPropertyName = null;
 
-        [HideInInspector]
+        //[HideInInspector]
         public string SrcPropertyPath = null;
 
-        [HideInInspector]
+        //[HideInInspector]
         public string DstPropertyPath = null;
 
-        #endregion
-
-        [SerializeField]
+        [HideInInspector]
         public Component _dstView;
 
-        [SerializeField]
-        protected ValueConverterBase _converter;
+        [HideInInspector]
+        public ValueConverterBase _converter;
+
+        #endregion
 
         bool _isStartup = true;
 
@@ -82,22 +82,29 @@ namespace UnityMVVM.Binding
         {
             base.UpdateBindings();
 
-            DstProps = _dstView?.GetBindablePropertyList(false, true);
-
+            DstProps.Clear();
             DstPaths.Clear();
-            _dstView?.GetPropertiesAndFieldsList(DstPropertyName, ref DstPaths);
-
             SrcPaths.Clear();
-            if (!string.IsNullOrEmpty(ViewModelName))
+            SrcProps.Clear();
+
+            if (_dstView)
             {
-                var vmType = ViewModelProvider.GetViewModelType(ViewModelName);
-                var propType = vmType.GetProperty(SrcPropertyName).PropertyType;
-
-                SrcProps = ViewModelProvider.GetViewModelPropertyList(ViewModelName);
-                propType.GetNestedFields(ref SrcPaths);
-
+                DstProps = _dstView?.GetBindablePropertyList(needsSetter: true);
+                _dstView?.GetPropertiesAndFieldsList(DstPropertyName, ref DstPaths);
             }
 
+            //if (string.IsNullOrEmpty(ViewModelName))
+            //    ViewModelName = ViewModelProvider.GetViewModels().FirstOrDefault();
+
+            var vmType = ViewModelProvider.GetViewModelType(ViewModelName);
+
+            SrcProps = ViewModelProvider.GetViewModelPropertyList(ViewModelName);
+
+            if (string.IsNullOrEmpty(SrcPropertyName))
+                SrcPropertyName = SrcProps.FirstOrDefault();
+
+            var propType = vmType.GetProperty(SrcPropertyName)?.PropertyType;
+            propType?.GetNestedFields(ref SrcPaths);
         }
 
         private void Start()

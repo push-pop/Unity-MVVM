@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityMVVM.Binding;
+using UnityMVVM.Binding.Converters;
 using UnityMVVM.Extensions;
+using UnityMVVM.Util;
 
 namespace UnityMVVM.Editor
 {
@@ -11,10 +13,10 @@ namespace UnityMVVM.Editor
     [CustomEditor(typeof(OneWayDataBinding), true)]
     public class OneWayDataBindingEditor : DataBindingBaseEditor
     {
-        public int _srcIndex = 0;
-        public int _dstIndex = 0;
-        public int _dstPathIndex = 0;
-        public int _srcPathIndex = 0;
+        public int _srcIndex = -1;
+        public int _dstIndex = -1;
+        public int _dstPathIndex = -1;
+        public int _srcPathIndex = -1;
 
         SerializedProperty _srcNameProp;
         SerializedProperty _dstNameProp;
@@ -25,6 +27,9 @@ namespace UnityMVVM.Editor
         SerializedProperty _dstProps;
         SerializedProperty _srcPaths;
         SerializedProperty _dstPaths;
+
+        SerializedProperty _dstViewProp;
+        SerializedProperty _converterProp;
 
         string[] _srcPropNames;
         string[] _srcPathNames;
@@ -45,6 +50,9 @@ namespace UnityMVVM.Editor
             _srcPaths = serializedObject.FindProperty("SrcPaths");
             _dstPaths = serializedObject.FindProperty("DstPaths");
 
+            _dstViewProp = serializedObject.FindProperty("_dstView");
+            _converterProp = serializedObject.FindProperty("_converter");
+
             _srcPropNames = _srcProps.GetStringArray();
             _dstPropNames = _dstProps.GetStringArray();
             _srcPathNames = _srcPaths.GetStringArray();
@@ -53,11 +61,14 @@ namespace UnityMVVM.Editor
 
         protected override void DrawChangeableElements()
         {
+
+            EditorGUILayout.ObjectField(_dstViewProp);
+            EditorGUILayout.ObjectField(_converterProp, typeof(ValueConverterBase));
+
             base.DrawChangeableElements();
 
-
             bool srcHasPaths = _srcPathNames.Length > 0;
-
+           
             EditorGUILayout.LabelField("Source Property");
             if (srcHasPaths)
                 EditorGUILayout.BeginHorizontal();
@@ -68,8 +79,6 @@ namespace UnityMVVM.Editor
                 _srcPathIndex = EditorGUILayout.Popup(_srcPathIndex, _srcPathNames);
                 EditorGUILayout.EndHorizontal();
             }
-
-
 
 
             EditorGUILayout.LabelField("Destination Property");
@@ -136,6 +145,52 @@ namespace UnityMVVM.Editor
                 _srcPathIndex = 0;
                 myClass.SrcPropertyPath = _srcPathNames.FirstOrDefault();
             }
+        }
+
+        protected override void CollectPropertyLists()
+        {
+            UnityEngine.Debug.Log("Collect Property List");
+
+            var binding = target as OneWayDataBinding;
+            if (_viewModelChanged)
+            {
+                binding.SrcPropertyName = null;
+                binding.SrcPropertyPath = null;
+            }
+
+            if (binding._dstView == null)
+            {
+                binding.DstPropertyName = null;
+                binding.DstPropertyPath = null;
+            }
+
+            binding.DstProps.Clear();
+            binding.DstPaths.Clear();
+            binding.SrcPaths.Clear();
+            binding.SrcProps.Clear();
+
+            if (binding._dstView)
+            {
+                binding.DstProps = binding._dstView?.GetBindablePropertyList(needsSetter: true);
+
+                if (string.IsNullOrEmpty(binding.DstPropertyName))
+                    binding.DstPropertyName = binding.DstProps.FirstOrDefault();
+                binding._dstView?.GetPropertiesAndFieldsList(binding.DstPropertyName, ref binding.DstPaths);
+            }
+
+            if (string.IsNullOrEmpty(binding.ViewModelName))
+                binding.ViewModelName = ViewModelProvider.GetViewModels().FirstOrDefault();
+
+            var vmType = ViewModelProvider.GetViewModelType(binding.ViewModelName);
+
+            binding.SrcProps = ViewModelProvider.GetViewModelPropertyList(binding.ViewModelName);
+
+            if (string.IsNullOrEmpty(binding.SrcPropertyName))
+                binding.SrcPropertyName = binding.SrcProps.FirstOrDefault();
+
+            var propType = vmType.GetProperty(binding.SrcPropertyName)?.PropertyType;
+            propType?.GetNestedFields(ref binding.SrcPaths);
+
         }
     }
 }

@@ -9,30 +9,37 @@ namespace UnityMVVM.Editor
     [CustomEditor(typeof(DataBindingBase), true)]
     public class DataBindingBaseEditor : UnityEditor.Editor
     {
-
         public int _viewModelIdx = 0;
         List<string> _viewModels = new List<string>();
 
         SerializedProperty _viewmodelNameProp;
+        protected bool _viewModelChanged = true;
+
 
         private void OnEnable()
         {
+            _viewModels = ViewModelProvider.Viewmodels;
+
             CollectSerializedProperties();
-            (target as DataBindingBase).UpdateBindings();
+            //(target as DataBindingBase).UpdateBindings(); 
+            CollectPropertyLists();
+            UpdateSerializedProperties();
         }
 
         protected virtual void CollectSerializedProperties()
         {
+            UnityEngine.Debug.Log("CollectSerializedProperties");
             _viewmodelNameProp = serializedObject.FindProperty("ViewModelName");
         }
 
         protected virtual void DrawChangeableElements()
         {
-            var myClass = target as DataBindingBase;
+            EditorGUI.BeginChangeCheck();
 
             EditorGUILayout.LabelField("Source ViewModel");
             _viewModelIdx = EditorGUILayout.Popup(_viewModelIdx, _viewModels.ToArray());
 
+            _viewModelChanged = EditorGUI.EndChangeCheck();
         }
 
         protected virtual void UpdateSerializedProperties()
@@ -45,38 +52,48 @@ namespace UnityMVVM.Editor
 
         public override void OnInspectorGUI()
         {
-            CollectSerializedProperties();
-
-            _viewModels = ViewModelProvider.Viewmodels;
-
-            serializedObject.Update();
-
+            //CollectSerializedProperties();
             DrawDefaultInspector();
+
+            //_viewModels = ViewModelProvider.Viewmodels;
+
 
             var myClass = target as DataBindingBase;
 
-            _viewModelIdx = _viewModels.ToList().IndexOf(_viewmodelNameProp.stringValue);
+            serializedObject.Update();
 
-            if (_viewModelIdx < 0 && _viewModels.Count > 0)
-            {
-                _viewModelIdx = 0;
-                myClass.ViewModelName = _viewModels.FirstOrDefault();
-            }
+
+            _viewModelIdx = _viewModels.ToList().IndexOf(myClass.ViewModelName);
+
+            UnityEngine.Debug.Log("VM Index: " + _viewModelIdx);
+
+            //if (_viewModelIdx < 0 && _viewModels.Count > 0)
+            //{
+            //    _viewModelIdx = 0;
+            //    myClass.ViewModelName = _viewModels.FirstOrDefault();
+            //}
 
             EditorGUI.BeginChangeCheck();
 
             DrawChangeableElements();
 
-            if (EditorGUI.EndChangeCheck())
+            if (EditorGUI.EndChangeCheck() || UnityEngine.GUILayout.Button("Test Change"))
             {
+                UnityEngine.Debug.Log("Change");
+
                 UpdateSerializedProperties();
 
-                EditorUtility.SetDirty(target);
-
+                //myClass.UpdateBindings();
+                CollectPropertyLists();
                 serializedObject.ApplyModifiedProperties();
 
-                myClass.UpdateBindings();
+                EditorUtility.SetDirty(target);
             }
+        }
+
+        protected virtual void CollectPropertyLists()
+        {
+
         }
     }
 }

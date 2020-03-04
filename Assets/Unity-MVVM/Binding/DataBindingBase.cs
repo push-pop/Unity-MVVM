@@ -21,7 +21,7 @@ IDataBinding
         public ViewModelBase _viewModel;
 
 
-        [HideInInspector]
+        //[HideInInspector]
         public string ViewModelName = null;
 
         public virtual bool KeepConnectionAliveOnDisable { get { return _keepConnectionAliveOnDisable; } }
@@ -34,7 +34,7 @@ IDataBinding
 
         protected virtual void OnValidate()
         {
-            UpdateBindings();
+            //UpdateBindings();
         }
 
         public virtual void UpdateBindings()
