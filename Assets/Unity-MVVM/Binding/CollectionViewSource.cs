@@ -14,11 +14,8 @@ namespace UnityMVVM.Binding
     {
         INotifyCollectionChanged srcCollection;
 
-        [HideInInspector]
-        public List<string> SrcCollections = new List<string>();
-
-        [HideInInspector]
         public string SrcCollectionName;
+        public string SelectedItemName;
 
         public Action<int, IList> OnElementsAdded;
         public Action<int, IList> OnElementsRemoved;
@@ -36,6 +33,7 @@ namespace UnityMVVM.Binding
                 if (value != _selectedItem)
                 {
                     _selectedItem = value;
+                    Debug.Log("Selected Item Changed" + value);
 
                     OnSelectedItemUpdated?.Invoke(value);
                 }
@@ -43,6 +41,7 @@ namespace UnityMVVM.Binding
         }
 
         IModel _selectedItem;
+
 
         BindTarget src;
 
@@ -60,7 +59,6 @@ namespace UnityMVVM.Binding
             }
         }
 
-        public string SelectedItemPropName;
 
         public object this[int key]
         {
@@ -90,9 +88,9 @@ namespace UnityMVVM.Binding
             if (srcCollection != null && !isBound)
                 srcCollection.CollectionChanged += CollectionChanged;
 
-            if (!string.IsNullOrEmpty(SelectedItemPropName) && _conn == null)
+            if (!string.IsNullOrEmpty(SelectedItemName) && _conn == null)
             {
-                _conn = new DataBindingConnection(gameObject, new BindTarget(_viewModel, SelectedItemPropName), new BindTarget(this, nameof(SelectedItem)));
+                _conn = new DataBindingConnection(gameObject, new BindTarget(_viewModel, SelectedItemName), new BindTarget(this, nameof(SelectedItem)));
                 _conn.OnSrcUpdated();
                 _conn.Bind();
             }
@@ -131,22 +129,6 @@ namespace UnityMVVM.Binding
             OnSelectedItemUpdated?.Invoke(SelectedItem);
         }
 
-        public override void UpdateBindings()
-        {
-            base.UpdateBindings();
-
-            if (!string.IsNullOrEmpty(ViewModelName))
-            {
-                var props = ViewModelProvider.GetViewModelProperties(ViewModelName, BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public);
-
-                SrcCollections = props.Where(prop =>
-                        typeof(INotifyCollectionChanged).IsAssignableFrom(prop.PropertyType)
-                        && !prop.GetCustomAttributes(typeof(ObsoleteAttribute), true).Any()
-                    ).Select(e => e.Name).ToList();
-
-
-            }
-        }
         protected override void OnDestroy()
         {
             if (_conn != null && !_conn.isDisposed)

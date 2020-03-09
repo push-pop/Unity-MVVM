@@ -9,15 +9,6 @@ namespace UnityMVVM.Examples
 {
     public class ButtonItem : CollectionViewItemBase<DataModel>
     {
-        public bool IsSelected
-        {
-            set
-            {
-                Debug.Log(value);
-                SetSelected(value);
-                UpdateItem(Model);
-            }
-        }
 
         public override IModel Model
         {
@@ -33,6 +24,7 @@ namespace UnityMVVM.Examples
         IModel _model;
 
         public List<GameObject> _selectedItems;
+        public List<GameObject> _unselectedItems;
 
         public UnityEvent OnClick { get; set; } = new UnityEvent();
 
@@ -64,6 +56,15 @@ namespace UnityMVVM.Examples
             {
                 item.SetActive(v);
             }
+            foreach (var item in _unselectedItems)
+            {
+                item.SetActive(!v);
+            }
+        }
+
+        public override void ToggleSelected()
+        {
+            IsSelected = !IsSelected;
         }
 
         public override void UpdateItem(IModel model)
@@ -73,6 +74,7 @@ namespace UnityMVVM.Examples
             GetComponent<Image>().color = data.color;
             GetComponentInChildren<Text>().text = data.message;
         }
+
 
     }
 }

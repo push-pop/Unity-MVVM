@@ -1,54 +1,87 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Linq;
 using UnityEditor;
 using UnityMVVM.Binding;
+using UnityMVVM.Model;
+using UnityMVVM.Util;
 
 namespace UnityMVVM.Editor
 {
     [CustomEditor(typeof(CollectionViewSource), true)]
     public class CollectionViewSourceEditor : DataBindingBaseEditor
     {
-        public int _srcIndex = 0;
+        public int _srcIndex = -1;
+        public int _selectedItemIdx = -1;
 
-        SerializedProperty _srcNameProp;
+        SerializedList _srcCollectionNames = new SerializedList("SrcCollectionName");
+        SerializedList _selectedItemNames = new SerializedList("SelectedItemName");
 
         protected override void CollectSerializedProperties()
         {
             base.CollectSerializedProperties();
-            _srcNameProp = serializedObject.FindProperty("SrcCollectionName");
+
+            _srcCollectionNames.Init(serializedObject);
+            _selectedItemNames.Init(serializedObject);
         }
 
         protected override void DrawChangeableElements()
         {
             base.DrawChangeableElements();
-
-            var myClass = target as CollectionViewSource;
-            EditorGUILayout.LabelField("Source Collection");
-
-            _srcIndex = EditorGUILayout.Popup(_srcIndex, myClass.SrcCollections.ToArray());
-
+            GUIUtils.BindingField("Source Collection", _srcCollectionNames);
+            GUIUtils.BindingField("Selected Item", _selectedItemNames);
         }
 
         protected override void UpdateSerializedProperties()
         {
             base.UpdateSerializedProperties();
-            var myClass = target as CollectionViewSource;
-            myClass.SrcCollectionName = _srcIndex > -1 ?
-                myClass.SrcCollections[_srcIndex] : null;
+
+            _srcCollectionNames.UpdateProperty();
+            _selectedItemNames.UpdateProperty();
         }
 
-        public override void OnInspectorGUI()
+        protected override void SetupDropdownIndices()
         {
+            base.SetupDropdownIndices();
 
-            var myClass = target as CollectionViewSource;
+            _srcCollectionNames.SetupIndex();
+            _selectedItemNames.SetupIndex();
+        }
 
-            _srcIndex = myClass.SrcCollections.IndexOf(_srcNameProp.stringValue);
+        protected override void CollectPropertyLists()
+        {
+            base.CollectPropertyLists();
 
-            if (_srcIndex < 0 && myClass.SrcCollections.Count > 0)
+            if (_viewModelChanged)
             {
-                _srcIndex = 0;
-                myClass.SrcCollectionName = myClass.SrcCollections.FirstOrDefault();
+                _srcCollectionNames.Value = null;
+                _selectedItemNames.Value = null;
             }
-            base.OnInspectorGUI();
+
+            _srcCollectionNames.Clear();
+            _selectedItemNames.Clear();
+
+
+
+            _srcCollectionNames.Values
+                = ViewModelProvider.GetViewModelPropertyList<INotifyCollectionChanged>(_viewModelProp.Value);
+
+            var collectionName = _srcCollectionNames.Value;
+            if (!string.IsNullOrEmpty(collectionName))
+            {
+                var list = new List<string>();
+
+
+                var listType = ViewModelProvider
+              .GetViewModelType(_viewModelProp.Value)
+              .GetProperty(collectionName)
+              .PropertyType.GenericTypeArguments.FirstOrDefault();
+
+                list.Add("--");
+                list.AddRange(ViewModelProvider.GetViewModelPropertyList(_viewModelProp.Value, listType));
+
+                _selectedItemNames.Values = list;
+            }
 
         }
 

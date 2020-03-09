@@ -12,14 +12,15 @@ namespace UnityMVVM.Extensions
             return t.GetBindableProperties(needsGetter, needsSetter).Select(e => e.Name).ToList();
         }
 
-        public static PropertyInfo[] GetBindableProperties(this Type t, bool needsSetter = true, bool needsGetter = true)
+        public static PropertyInfo[] GetBindableProperties(this Type t, bool needsGetter = true, bool needsSetter = true)
         {
             var query =
-                 t.GetProperties(BindingFlags.Instance | BindingFlags.Public).Where(prop =>
-                 !prop.GetCustomAttributes(typeof(ObsoleteAttribute), true).Any());
+                 t.GetProperties( BindingFlags.Instance | BindingFlags.Public).Where(prop =>
+                  !prop.GetCustomAttributes(typeof(ObsoleteAttribute), true).Any());
 
             if (needsSetter)
                 query = query.Where(prop => prop.GetSetMethod(false) != null);
+
             if (needsGetter)
                 query = query.Where(prop => prop.GetGetMethod(false) != null);
 
@@ -33,7 +34,7 @@ namespace UnityMVVM.Extensions
 
         public static FieldInfo[] GetBindableFields(this Type t)
         {
-            return t.GetFields(BindingFlags.Instance | BindingFlags.Public).Where(field =>
+            return t.GetFields(BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public).Where(field =>
                   !field.GetCustomAttributes(typeof(ObsoleteAttribute), true)
                   .Any()).ToArray();
         }
@@ -50,21 +51,28 @@ namespace UnityMVVM.Extensions
 
         }
 
+        public static List<string> GetNestedFields(this Type parentPropType)
+        {
+            var list = new List<string>();
+
+            parentPropType.GetNestedFields(ref list);
+
+            return list;
+        }
+
         public static void GetNestedFields(this Type parentPropType, ref List<string> list)
         {
             var props = parentPropType.GetBindableProperties();
             var fields = parentPropType.GetBindableFieldNames();
+
+            // Special case don't want to get value field from Enum
+            if (parentPropType.IsEnum)
+                return;
+
+            if (fields.Count > 0)
+                list.Add("--");
             list.AddRange(fields);
-
-            foreach (var prop in props)
-            {
-                var nestedFields = prop.PropertyType.GetBindableFieldNames();
-
-                if (props.Length == 0) return;
-
-                list.Add(prop.Name);
-                //list.AddRange(nestedFields.Select(e => prop.Name + "/" + e));
-            }
         }
+
     }
 }

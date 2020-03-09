@@ -15,15 +15,6 @@ namespace UnityMVVM.Binding
         [SerializeField]
         string PropertyName;
 
-        private void Start()
-        {
-            //foreach (var item in src[index].GetType().GetProperties())
-            //{
-            //    Debug.Log(item.PropertyType);
-            //} 
-
-        }
-
         private void Update()
         {
             if (src.Count > 0)

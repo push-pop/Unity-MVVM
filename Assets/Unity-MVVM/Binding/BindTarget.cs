@@ -22,6 +22,9 @@ namespace UnityMVVM.Binding
 
         public BindTarget(object propOwner, string propName, string path = null, UnityEvent dstChangedEvent = null)
         {
+            // Default value for setting just prop with no path
+            path = path?.Replace("--", "");
+
             propertyOwner = propOwner;
             propertyName = propName;
             propertyPath = path;
@@ -41,14 +44,6 @@ namespace UnityMVVM.Binding
                 property.PropertyType.GetPropertyOrField(path, out prop2, out Field2);
                 field = property.PropertyType.GetField(path);
             }
-
-
-            // Did I have a good reason for this?
-            //if (dstChangedEvent != null)
-            //    dstChangedEvent.AddListener(new UnityAction(() =>
-            //    {
-
-            //    }));
         }
 
         public object GetValue()
