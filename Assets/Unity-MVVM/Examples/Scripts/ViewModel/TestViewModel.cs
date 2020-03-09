@@ -171,6 +171,23 @@ namespace UnityMVVM
                 }
             }
 
+            public bool TwoWayBool
+            {
+                get { return _twoWayBool; }
+                set
+                {
+                    if (value != _twoWayBool)
+                    {
+                        _twoWayBool = value;
+                        NotifyPropertyChanged(nameof(TwoWayBool));
+                    }
+                }
+            }
+
+            [SerializeField]
+            private bool _twoWayBool;
+
+
 
             // Use this for initialization
             void Start()
@@ -178,6 +195,7 @@ namespace UnityMVVM
                 Text = System.DateTime.Now.ToShortTimeString();
 
                 StartCoroutine(StateChangeRoutine());
+                StartCoroutine(BoolChangeRoutine());
             }
 
             IEnumerator StateChangeRoutine()
@@ -189,6 +207,16 @@ namespace UnityMVVM
                 }
             }
 
+            IEnumerator BoolChangeRoutine()
+            {
+                while (true)
+                {
+                    TwoWayBool = !TwoWayBool;
+                    yield return new WaitForSeconds(5f);
+                }
+
+            }
+
             // Update is called once per frame
             void Update()
             {
@@ -196,7 +224,6 @@ namespace UnityMVVM
                 {
                     Text = System.DateTime.Now.ToShortTimeString();
                 }
-
             }
 
             public void ChangeColor()
