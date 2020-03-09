@@ -37,12 +37,6 @@ namespace UnityMVVM.Util
             return asm.GetType(typeString);
         }
 
-        public static PropertyInfo[] GetViewModelProperties(string viewModelTypeString)
-        {
-            Assembly asm = Assembly.GetExecutingAssembly();
-            return asm.GetType(viewModelTypeString).GetProperties();
-        }
-
         internal ViewModelBase GetViewModelBehaviour(string viewModelName)
         {
 
@@ -57,22 +51,40 @@ namespace UnityMVVM.Util
 
         }
 
-        public static List<string> GetViewModelPropertyList(string viewModelTypeString)
+        public static List<string> GetViewModelPropertyList<T>(string viewModelTypeString)
         {
-            return GetViewModelProperties(viewModelTypeString)
-                .Where(prop => 
+            return GetViewModelPropertyList(viewModelTypeString, typeof(T));
+        }
+
+        public static List<string> GetViewModelPropertyList(string viewModelTypeString, Type t = null)
+        {
+            var query = GetViewModelProperties(viewModelTypeString)
+                .Where(prop =>
                         prop.GetGetMethod(false) != null
                         && !prop.GetCustomAttributes(typeof(ObsoleteAttribute), true).Any()
-                    ).Select(e => e.Name).ToList();
+                    );
+            if (t != null)
+                query = query.Where(prop => t.IsAssignableFrom(prop.PropertyType));
+
+            return query.Select(e => e.Name).ToList();
         }
 
-        public static PropertyInfo[] GetViewModelProperties(string viewModelTypeString, BindingFlags bindingAttr = BindingFlags.Default)
+        public static List<string> GetViewModelMethodNames(string viewModelTypeString)
+        {
+            return GetViewModelMethods(viewModelTypeString)
+                .Where(m =>
+                        !m.IsSpecialName &&
+                        !m.GetCustomAttributes(typeof(ObsoleteAttribute), true).Any())
+                .Select(e => e.Name).ToList();
+        }
+
+        public static PropertyInfo[] GetViewModelProperties(string viewModelTypeString, BindingFlags bindingFlags = BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public)
         {
             Assembly asm = Assembly.GetExecutingAssembly();
-            return asm.GetType(viewModelTypeString).GetProperties(bindingAttr);
+            return asm.GetType(viewModelTypeString).GetProperties(bindingFlags);
         }
 
-        internal static MethodInfo[] GetViewModelMethods(string viewModelName, BindingFlags bindingFlags = 0)
+        internal static MethodInfo[] GetViewModelMethods(string viewModelName, BindingFlags bindingFlags = BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public)
         {
             Assembly asm = Assembly.GetExecutingAssembly();
             return asm.GetType(viewModelName).GetMethods(bindingFlags);

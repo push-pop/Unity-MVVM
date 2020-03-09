@@ -18,27 +18,15 @@ namespace UnityMVVM.Binding
 
         #region Serialized Properties
         [HideInInspector]
-        public List<string> SrcProps = new List<string>();
-
-        [HideInInspector]
-        public List<string> DstProps = new List<string>();
-
-        [HideInInspector]
-        public List<string> SrcPaths = new List<string>();
-
-        [HideInInspector]
-        public List<string> DstPaths = new List<string>();
-
-        //[HideInInspector]
         public string SrcPropertyName = null;
 
-        //[HideInInspector]
+        [HideInInspector]
         public string DstPropertyName = null;
 
-        //[HideInInspector]
+        [HideInInspector]
         public string SrcPropertyPath = null;
 
-        //[HideInInspector]
+        [HideInInspector]
         public string DstPropertyPath = null;
 
         [HideInInspector]
@@ -76,35 +64,6 @@ namespace UnityMVVM.Binding
 
             if (_connection != null)
                 _connection.Unbind();
-        }
-
-        public override void UpdateBindings()
-        {
-            base.UpdateBindings();
-
-            DstProps.Clear();
-            DstPaths.Clear();
-            SrcPaths.Clear();
-            SrcProps.Clear();
-
-            if (_dstView)
-            {
-                DstProps = _dstView?.GetBindablePropertyList(needsSetter: true);
-                _dstView?.GetPropertiesAndFieldsList(DstPropertyName, ref DstPaths);
-            }
-
-            //if (string.IsNullOrEmpty(ViewModelName))
-            //    ViewModelName = ViewModelProvider.GetViewModels().FirstOrDefault();
-
-            var vmType = ViewModelProvider.GetViewModelType(ViewModelName);
-
-            SrcProps = ViewModelProvider.GetViewModelPropertyList(ViewModelName);
-
-            if (string.IsNullOrEmpty(SrcPropertyName))
-                SrcPropertyName = SrcProps.FirstOrDefault();
-
-            var propType = vmType.GetProperty(SrcPropertyName)?.PropertyType;
-            propType?.GetNestedFields(ref SrcPaths);
         }
 
         private void Start()

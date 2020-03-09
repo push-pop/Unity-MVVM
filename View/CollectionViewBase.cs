@@ -17,13 +17,25 @@ namespace UnityMVVM
             [SerializeField]
             protected GameObject _listItemPrefab;
 
-            public List<GameObject> InstantiatedItems = new List<GameObject>();
+
+
+            protected List<GameObject> InstantiatedItems = new List<GameObject>();
+
+            [SerializeField]
+            bool _canSelectMultiple = false;
 
             [SerializeField]
             protected CollectionViewSource _src;
 
             public UnityEvent<IModel> OnSelectionChanged { get; set; }
 
+            public List<ICollectionViewItem> SelectedItems
+            {
+                get =>
+                    InstantiatedItems
+                        .Select(e => e.GetComponent<ICollectionViewItem>())
+                        .Where(e => e.IsSelected).ToList();
+            }
             // Use this for initialization
             protected void Awake()
             {
@@ -42,19 +54,19 @@ namespace UnityMVVM
             {
                 var items = InstantiatedItems.Select(e => e.GetComponent<ICollectionViewItem>()).ToList();
 
-                foreach (var item in items)
-                    item?.SetSelected(item.Model == obj);
+                if (_canSelectMultiple)
+                    items.Where(e => e.Model == obj).FirstOrDefault()?.ToggleSelected();
+                else
+                {
+                    foreach (var item in items)
+                        if (item != null)
+                            item.IsSelected = (item.Model == obj);
+                }
             }
 
             protected virtual void UpdateElement(int index, IList newItems)
             {
-                // Do Nothing
-                //var toUpdate = InstantiatedItems[index];
-                //InstantiatedItems.RemoveAt(index);
 
-                //GameObject.Destroy(toUpdate);
-
-                //AddElement(index, newValue);
             }
 
             public override void SetVisibility(Visibility visibility)

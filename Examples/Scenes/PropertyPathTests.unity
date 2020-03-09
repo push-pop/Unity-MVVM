@@ -265,86 +265,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7708fc3a686358d4da40d71b8a782bfb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _viewModel: {fileID: 0}
-  ViewModelName: UnityMVVM.Examples.TestViewModel
-  SrcProps:
-  - State
-  - Text
-  - Color
-  - Color2
-  - Color3
-  - Color4
-  - Color5
-  - useGUILayout
-  - runInEditMode
-  - enabled
-  - isActiveAndEnabled
-  - transform
-  - gameObject
-  - tag
-  - name
-  - hideFlags
-  DstProps:
-  - sprite
-  - overrideSprite
-  - type
-  - preserveAspect
-  - fillCenter
-  - fillMethod
-  - fillAmount
-  - fillClockwise
-  - fillOrigin
-  - alphaHitTestMinimumThreshold
-  - useSpriteMesh
-  - mainTexture
-  - hasBorder
-  - pixelsPerUnitMultiplier
-  - pixelsPerUnit
-  - material
-  - minWidth
-  - preferredWidth
-  - flexibleWidth
-  - minHeight
-  - preferredHeight
-  - flexibleHeight
-  - layoutPriority
-  - onCullStateChanged
-  - maskable
-  - color
-  - raycastTarget
-  - depth
-  - rectTransform
-  - canvas
-  - canvasRenderer
-  - defaultMaterial
-  - materialForRendering
-  - useGUILayout
-  - runInEditMode
-  - enabled
-  - isActiveAndEnabled
-  - transform
-  - gameObject
-  - tag
-  - name
-  - hideFlags
-  SrcPaths:
-  - r
-  - g
-  - b
-  - a
-  - Item
-  DstPaths:
-  - r
-  - g
-  - b
-  - a
-  - Item
-  SrcPropertyName: Color
-  DstPropertyName: color
-  SrcPropertyPath: 
-  DstPropertyPath: 
-  _dstView: {fileID: 174998486}
-  _converter: {fileID: 0}
 --- !u!114 &174998485
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -768,40 +688,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4799f2f41e61cc4fb4685c710626741, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _viewModel: {fileID: 0}
-  ViewModelName: UnityMVVM.Examples.TestViewModel
-  SrcProps:
-  - State
-  - Text
-  - Color
-  - Color2
-  - Color3
-  - Color4
-  - Color5
-  - useGUILayout
-  - runInEditMode
-  - enabled
-  - isActiveAndEnabled
-  - transform
-  - gameObject
-  - tag
-  - name
-  - hideFlags
-  DstProps:
-  - onEndEdit
-  - onValueChanged
-  SrcPaths: []
-  DstPaths: []
-  SrcPropertyName: Text
-  DstPropertyName: onEndEdit
-  SrcPropertyPath: 
-  DstPropertyPath: 
-  _dstView: {fileID: 458916786}
-  _converter: {fileID: 0}
-  _dstChangedEventName: onValueChanged
-  DstChangedEvents:
-  - onEndEdit
-  - onValueChanged
 --- !u!1 &489623733
 GameObject:
   m_ObjectHideFlags: 0
@@ -1169,86 +1055,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7708fc3a686358d4da40d71b8a782bfb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _viewModel: {fileID: 0}
-  ViewModelName: UnityMVVM.Examples.TestViewModel
-  SrcProps:
-  - State
-  - Text
-  - Color
-  - Color2
-  - Color3
-  - Color4
-  - Color5
-  - useGUILayout
-  - runInEditMode
-  - enabled
-  - isActiveAndEnabled
-  - transform
-  - gameObject
-  - tag
-  - name
-  - hideFlags
-  DstProps:
-  - sprite
-  - overrideSprite
-  - type
-  - preserveAspect
-  - fillCenter
-  - fillMethod
-  - fillAmount
-  - fillClockwise
-  - fillOrigin
-  - alphaHitTestMinimumThreshold
-  - useSpriteMesh
-  - mainTexture
-  - hasBorder
-  - pixelsPerUnitMultiplier
-  - pixelsPerUnit
-  - material
-  - minWidth
-  - preferredWidth
-  - flexibleWidth
-  - minHeight
-  - preferredHeight
-  - flexibleHeight
-  - layoutPriority
-  - onCullStateChanged
-  - maskable
-  - color
-  - raycastTarget
-  - depth
-  - rectTransform
-  - canvas
-  - canvasRenderer
-  - defaultMaterial
-  - materialForRendering
-  - useGUILayout
-  - runInEditMode
-  - enabled
-  - isActiveAndEnabled
-  - transform
-  - gameObject
-  - tag
-  - name
-  - hideFlags
-  SrcPaths:
-  - r
-  - g
-  - b
-  - a
-  - Item
-  DstPaths:
-  - r
-  - g
-  - b
-  - a
-  - Item
-  SrcPropertyName: Color
-  DstPropertyName: color
-  SrcPropertyPath: 
-  DstPropertyPath: 
-  _dstView: {fileID: 691889571}
-  _converter: {fileID: 0}
 --- !u!114 &691889569
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1261,19 +1067,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5cc25e5c20d86bb409dcc096e7ebc5a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SrcEventName: onClick
-  ViewModelName: UnityMVVM.Examples.TestViewModel
-  DstMethodName: ChangeColor
-  SrcEvents:
-  - onClick
-  DstMethods:
-  - ChangeColor
-  - SetText
-  ViewModels:
-  - UnityMVVM.Examples.OtherViewModel
-  - UnityMVVM.Examples.TestViewModel
-  _srcView: {fileID: 691889570}
-  _dstViewModel: {fileID: 1679655145}
 --- !u!114 &691889570
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1366,7 +1159,6 @@ GameObject:
   - component: {fileID: 897592227}
   - component: {fileID: 897592226}
   - component: {fileID: 897592230}
-  - component: {fileID: 897592231}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
@@ -1457,133 +1249,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 897592225}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7708fc3a686358d4da40d71b8a782bfb, type: 3}
+  m_Script: {fileID: 11500000, guid: 7fd1823d6abceb84d80263c9039299ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _viewModel: {fileID: 0}
   ViewModelName: UnityMVVM.Examples.OtherViewModel
-  SrcProps:
-  - NestedProp
-  - IntProp
-  - BoolProp
-  - SinTime
-  - TestCollection
-  - SelectedModel
-  - Collection2
-  - useGUILayout
-  - runInEditMode
-  - enabled
-  - isActiveAndEnabled
-  - transform
-  - gameObject
-  - tag
-  - name
-  - hideFlags
-  DstProps:
-  - position
-  - localPosition
-  - eulerAngles
-  - localEulerAngles
-  - right
-  - up
-  - forward
-  - rotation
-  - localRotation
-  - localScale
-  - parent
-  - worldToLocalMatrix
-  - localToWorldMatrix
-  - root
-  - childCount
-  - lossyScale
-  - hasChanged
-  - hierarchyCapacity
-  - hierarchyCount
-  - transform
-  - gameObject
-  - tag
-  - name
-  - hideFlags
-  SrcPaths: []
-  DstPaths:
-  - x
-  - y
-  - z
-  - Item
-  SrcPropertyName: SinTime
-  DstPropertyName: position
-  SrcPropertyPath: 
-  DstPropertyPath: y
-  _dstView: {fileID: 897592229}
-  _converter: {fileID: 0}
---- !u!114 &897592231
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 897592225}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7708fc3a686358d4da40d71b8a782bfb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _viewModel: {fileID: 0}
-  ViewModelName: UnityMVVM.Examples.OtherViewModel
-  SrcProps:
-  - NestedProp
-  - IntProp
-  - BoolProp
-  - SinTime
-  - TestCollection
-  - SelectedModel
-  - Collection2
-  - useGUILayout
-  - runInEditMode
-  - enabled
-  - isActiveAndEnabled
-  - transform
-  - gameObject
-  - tag
-  - name
-  - hideFlags
-  DstProps:
-  - position
-  - localPosition
-  - eulerAngles
-  - localEulerAngles
-  - right
-  - up
-  - forward
-  - rotation
-  - localRotation
-  - localScale
-  - parent
-  - worldToLocalMatrix
-  - localToWorldMatrix
-  - root
-  - childCount
-  - lossyScale
-  - hasChanged
-  - hierarchyCapacity
-  - hierarchyCount
-  - transform
-  - gameObject
-  - tag
-  - name
-  - hideFlags
-  SrcPaths:
-  - floatField
-  - intField
-  DstPaths:
-  - x
-  - y
-  - z
-  - Item
   SrcPropertyName: NestedProp
-  DstPropertyName: position
+  DstPropertyName: localPosition
   SrcPropertyPath: floatField
-  DstPropertyPath: x
+  DstPropertyPath: y
   _dstView: {fileID: 897592229}
   _converter: {fileID: 0}
 --- !u!1 &933637573
@@ -1728,83 +1402,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7708fc3a686358d4da40d71b8a782bfb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _viewModel: {fileID: 0}
-  ViewModelName: UnityMVVM.Examples.TestViewModel
-  SrcProps:
-  - State
-  - Text
-  - Color
-  - Color2
-  - Color3
-  - Color4
-  - Color5
-  - useGUILayout
-  - runInEditMode
-  - enabled
-  - isActiveAndEnabled
-  - transform
-  - gameObject
-  - tag
-  - name
-  - hideFlags
-  DstProps:
-  - cachedTextGenerator
-  - cachedTextGeneratorForLayout
-  - mainTexture
-  - font
-  - text
-  - supportRichText
-  - resizeTextForBestFit
-  - resizeTextMinSize
-  - resizeTextMaxSize
-  - alignment
-  - alignByGeometry
-  - fontSize
-  - horizontalOverflow
-  - verticalOverflow
-  - lineSpacing
-  - fontStyle
-  - pixelsPerUnit
-  - minWidth
-  - preferredWidth
-  - flexibleWidth
-  - minHeight
-  - preferredHeight
-  - flexibleHeight
-  - layoutPriority
-  - onCullStateChanged
-  - maskable
-  - color
-  - raycastTarget
-  - depth
-  - rectTransform
-  - canvas
-  - canvasRenderer
-  - defaultMaterial
-  - material
-  - materialForRendering
-  - useGUILayout
-  - runInEditMode
-  - enabled
-  - isActiveAndEnabled
-  - transform
-  - gameObject
-  - tag
-  - name
-  - hideFlags
-  SrcPaths:
-  - r
-  - g
-  - b
-  - a
-  - Item
-  DstPaths: []
-  SrcPropertyName: Color
-  DstPropertyName: text
-  SrcPropertyPath: 
-  DstPropertyPath: 
-  _dstView: {fileID: 1270270532}
-  _converter: {fileID: 1270270530}
 --- !u!114 &1270270532
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1898,8 +1495,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a090e86b425a7d243bfd689bddc43abe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _trueColor: {r: 0, g: 1, b: 0, a: 1}
-  _falseColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &1383601610
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1912,81 +1507,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7708fc3a686358d4da40d71b8a782bfb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _viewModel: {fileID: 1669541576}
-  ViewModelName: UnityMVVM.Examples.OtherViewModel
-  SrcProps:
-  - NestedProp
-  - IntProp
-  - BoolProp
-  - SinTime
-  - TestCollection
-  - SelectedModel
-  - Collection2
-  - useGUILayout
-  - runInEditMode
-  - enabled
-  - isActiveAndEnabled
-  - transform
-  - gameObject
-  - tag
-  - name
-  - hideFlags
-  DstProps:
-  - sprite
-  - overrideSprite
-  - type
-  - preserveAspect
-  - fillCenter
-  - fillMethod
-  - fillAmount
-  - fillClockwise
-  - fillOrigin
-  - alphaHitTestMinimumThreshold
-  - useSpriteMesh
-  - mainTexture
-  - hasBorder
-  - pixelsPerUnitMultiplier
-  - pixelsPerUnit
-  - material
-  - minWidth
-  - preferredWidth
-  - flexibleWidth
-  - minHeight
-  - preferredHeight
-  - flexibleHeight
-  - layoutPriority
-  - onCullStateChanged
-  - maskable
-  - color
-  - raycastTarget
-  - depth
-  - rectTransform
-  - canvas
-  - canvasRenderer
-  - defaultMaterial
-  - materialForRendering
-  - useGUILayout
-  - runInEditMode
-  - enabled
-  - isActiveAndEnabled
-  - transform
-  - gameObject
-  - tag
-  - name
-  - hideFlags
-  SrcPaths: []
-  DstPaths:
-  - r
-  - g
-  - b
-  - a
-  - Item
-  SrcPropertyName: BoolProp
-  DstPropertyName: color
-  SrcPropertyPath: 
-  DstPropertyPath: r
-  _dstView: {fileID: 1383601613}
-  _converter: {fileID: 1383601609}
 --- !u!114 &1383601612
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2133,9 +1653,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9a2d4d2fac3f374892068158984983c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  VisibleState: 0
-  HiddenState: 2
-  CollapsedState: 1
 --- !u!114 &1630440234
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2227,48 +1744,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e31f2e59e31301c4bba62b78cf483dd6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _viewModel: {fileID: 0}
-  ViewModelName: UnityMVVM.Examples.TestViewModel
-  SrcProps:
-  - State
-  - Text
-  - Color
-  - Color2
-  - Color3
-  - Color4
-  - Color5
-  - useGUILayout
-  - runInEditMode
-  - enabled
-  - isActiveAndEnabled
-  - transform
-  - gameObject
-  - tag
-  - name
-  - hideFlags
-  DstProps:
-  - ElementVisibility
-  - rectTransform
-  - Alpha
-  - useGUILayout
-  - runInEditMode
-  - enabled
-  - isActiveAndEnabled
-  - transform
-  - gameObject
-  - tag
-  - name
-  - hideFlags
-  SrcPaths:
-  - value__
-  DstPaths:
-  - value__
-  SrcPropertyName: State
-  DstPropertyName: ElementVisibility
-  SrcPropertyPath: 
-  DstPropertyPath: 
-  _dstView: {fileID: 1630440238}
-  _converter: {fileID: 1630440233}
 --- !u!114 &1630440238
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2281,9 +1756,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36e16e99659927e499b53960ffda2d3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _visibility: 0
-  _alpha: 0
-  _fadeTime: 1
 --- !u!1 &1632300674
 GameObject:
   m_ObjectHideFlags: 0
@@ -2404,15 +1876,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f8f85ae85ea4474b9b7262bfacba2da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _nestedProp:
-    floatField: 0
-    intField: 0
-  _intField: 0
-  _boolField: 0
-  _sinTime: 0
-  _selectedModel:
-    message: 
-    color: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &1679655142
 GameObject:
   m_ObjectHideFlags: 0
@@ -2454,7 +1917,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1679655142}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f8f85ae85ea4474b9b7262bfacba2da, type: 3}
+  m_Script: {fileID: 11500000, guid: 7618dd53df0f4fb44bf7d27b323682b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _nestedProp:
@@ -2475,7 +1938,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1679655142}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0775fdfd20d8ce54482d4a243f6a7598, type: 3}
+  m_Script: {fileID: 11500000, guid: 9049d834eb3dd594183991ea6c3554df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _state: 0
@@ -2562,13 +2025,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ae0762e55afbc840a63eb1cbaf87e69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _visibility: 0
-  _alpha: 0
-  _fadeTime: 1
-  _listItemPrefab: {fileID: 1576776248439620, guid: 12084e8be413c694a97a0483d88fe9ac,
-    type: 3}
-  InstantiatedItems: []
-  _src: {fileID: 1755598734}
 --- !u!114 &1755598734
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2581,13 +2037,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ec743bf570c3d445957b68621fcf2b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _viewModel: {fileID: 1669541576}
-  ViewModelName: UnityMVVM.Examples.OtherViewModel
-  SrcCollections:
-  - TestCollection
-  - Collection2
-  SrcCollectionName: TestCollection
-  SelectedItemPropName: 
 --- !u!114 &1755598735
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
@@ -7,6 +8,14 @@ using UnityMVVM.Binding;
 
 public class BindingMonitorEditorWindow : EditorWindow
 {
+    Color ViewModelColor = Color.green;
+    Color PropertyColor = Color.yellow;
+    Color ViewColor = Color.cyan;
+    Color GameObjectColor = Color.white;
+    Color FieldColor = Color.red;
+    Color EventColor = Color.magenta;
+    Color MethodColor = Color.blue;
+
     public enum OrderType
     {
         GameObject,
@@ -43,16 +52,12 @@ public class BindingMonitorEditorWindow : EditorWindow
     public OrderType _orderBy = OrderType.ViewModel;
     public FilterType _filterBy = FilterType.None;
 
-    [MenuItem("Unity-MVVM/Binding Monitor")]
+    [MenuItem("Window/Unity-MVVM/Binding Monitor")]
     static void Init()
     {
         var window = (BindingMonitorEditorWindow)EditorWindow.GetWindow(typeof(BindingMonitorEditorWindow));
 
         window.Show();
-    }
-
-    private void Awake()
-    {
     }
 
     private void OnGUI()
@@ -70,7 +75,9 @@ public class BindingMonitorEditorWindow : EditorWindow
 
         var bindings = FindObjectsOfType<DataBindingBase>().OrderBy(e => _orderBy == OrderType.GameObject ? e.gameObject.name : e.ViewModelName);
 
-        var oneWays = bindings.Where(e => e is OneWayDataBinding /*&& !(e is TwoWayDataBinding)*/).Select(e => e as OneWayDataBinding).Where(
+        var oneWays = bindings.Where(e => e is OneWayDataBinding /*&& !(e is TwoWayDataBinding)*/)
+            .Select(e => e as OneWayDataBinding)
+            .Where(
             e =>
             {
                 if (_filterBy == FilterType.None) return true;
@@ -85,7 +92,8 @@ public class BindingMonitorEditorWindow : EditorWindow
 
         GUILayout.Label(string.Format("Data Bindings: {0}", oneWays.Count()), EditorStyles.boldLabel);
 
-        onewWayScrollPos = EditorGUILayout.BeginScrollView(onewWayScrollPos, GUILayout.MaxHeight(600));
+
+
 
         var buttonStyle = new GUIStyle(GUI.skin.button);
         buttonStyle.richText = true;
@@ -102,15 +110,48 @@ public class BindingMonitorEditorWindow : EditorWindow
         var labelStyle = new GUIStyle(bindingLabelStyle)
         { alignment = TextAnchor.MiddleLeft };
 
+        EditorGUILayout.BeginHorizontal();
+        GUILayout.Label("GameObject".Color(GameObjectColor).Bold(), labelStyle);
+        GUILayout.Label(
+             string.Format(
+            "{1}.{2}.{3}<->{4}.{5}.{6} -- {7}",
+            "GameObject".Color(GameObjectColor).Bold(),
+            "ViewModel".Color(ViewModelColor),
+            "SrcProperty".Color(PropertyColor),
+            "SrcField".Color(FieldColor),
+            "TargetView".Color(ViewColor),
+            "TargetProperty".Color(PropertyColor),
+            "TargetField".Color(FieldColor),
+            "DestChangeEvent".Color(EventColor)
+
+            ), labelStyle);
+        EditorGUILayout.EndHorizontal();
+        onewWayScrollPos = EditorGUILayout.BeginScrollView(onewWayScrollPos, GUILayout.MaxHeight(600));
+
 
         foreach (var item in oneWays)
         {
             var fmt = "";
-            fmt += "{0}.{1}{5}{3}.{4}{6}  ";
+            fmt += "{0}.{1}{7}{5}{3}.{4}{8}{9}{6}  ";
 
-            var bindingStr = string.Format(fmt, item.ViewModelName, item.SrcPropertyName, item.gameObject.name, item._dstView.GetType().Name, item.DstPropertyName, (item is TwoWayDataBinding) ? "<->" : "->", (item is TwoWayDataBinding) ? " -- " + (item as TwoWayDataBinding)._dstChangedEventName : "");
+            item.SrcPropertyPath = item.SrcPropertyPath.Replace("--", "");
+            item.DstPropertyPath = item.DstPropertyPath.Replace("--", "");
 
-            var goStr = string.Format("<color=blue><b>{0}</b></color>", item.gameObject.name);
+            var bindingStr = string.Format(
+                fmt,                                                                                            // Format
+                item.ViewModelName.Color(ViewModelColor),                                                                             // {0}
+                item.SrcPropertyName.Color(PropertyColor),                                                                           // {1}
+                item.gameObject.name.Color(GameObjectColor),                                                                           // {2}
+                item._dstView.GetType().Name.Color(ViewColor),                                                                   // {3} 
+                item.DstPropertyName.Color(PropertyColor),                                                                           // {4}
+                (item is TwoWayDataBinding) ? "<->" : "->",                                                     // {5}
+                (item is TwoWayDataBinding) ? "." + (item as TwoWayDataBinding)._dstChangedEventName.Color(EventColor) : "",            // {6}
+                item.SrcPropertyPath.Length > 0 ? "." + item.SrcPropertyPath.Color(FieldColor) : "",                              // {7}
+                item.DstPropertyPath.Length > 0 ? "." + item.DstPropertyPath.Color(FieldColor) : "",                              // {8}
+               (item is TwoWayDataBinding) ? " -- " + item._dstView.GetType().Name.Color(ViewColor) : ""                         // {9}
+                );
+
+            var goStr = string.Format("<color=white><b>{0}</b></color>", item.gameObject.name);
 
             bool contains = ignoreCase ? bindingStr.ToLower().Contains(filter.ToLower()) : bindingStr.Contains(filter);
 
@@ -142,11 +183,45 @@ public class BindingMonitorEditorWindow : EditorWindow
         eventPropScrollPos = EditorGUILayout.BeginScrollView(eventPropScrollPos, GUILayout.MaxHeight(400));
         foreach (var item in eventPropBindings)
         {
-            var goStr = string.Format("<color=blue><b>{0}</b></color>", item.gameObject.name);
+            var goStr = string.Format("{0}", item.gameObject.name.Color(GameObjectColor).Bold());
+
+            item.DstPath.Replace("--", "");
+
+            var argFmt = "";
+            switch (item.ArgType)
+            {
+                case UnityMVVM.Types.EventArgType.None:
+                    break;
+                case UnityMVVM.Types.EventArgType.Property:
+                    argFmt += string.Format("[Property] {0}.{1}", item.SrcView.GetType().Name.Color(ViewColor), item.SrcPropName.Color(PropertyColor));
+                    break;
+                case UnityMVVM.Types.EventArgType.String:
+                    argFmt += string.Format("[String] \"{0}\"", item.StringArg);
+                    break;
+                case UnityMVVM.Types.EventArgType.Int:
+                    argFmt += "[int] " + item.IntArg;
+                    break;
+                case UnityMVVM.Types.EventArgType.Float:
+                    argFmt += "[float] " + item.FloatArg;
+                    break;
+                case UnityMVVM.Types.EventArgType.Bool:
+                    argFmt += "[bool] " + item.BoolArg;
+                    break;
+                default:
+                    break;
+            }
 
             var fmt = "";
-            fmt += "{0}.{1}->{2}{3}()  ";
-            var bindingStr = string.Format(fmt, item._srcView.GetType().Name, item.SrcEventName, item.ViewModelName, item.DstPropName, item.gameObject.name);
+            fmt += "{0}.{1}->{2}.{3}{4} -- {5}";
+            var bindingStr = string.Format(
+                fmt,
+                item.SrcView.GetType().Name.Color(ViewColor),
+                item.SrcEventName.Color(EventColor),
+                item.ViewModelName.Color(ViewModelColor),
+                item.DstPropName.Color(PropertyColor),
+                item.DstPath.Length > 0 ? "." + item.DstPath : "",
+                argFmt
+                );
 
             if (string.IsNullOrEmpty(filter) || bindingStr.Contains(filter))
             {
@@ -169,10 +244,16 @@ public class BindingMonitorEditorWindow : EditorWindow
         foreach (var item in eventBindings)
         {
             var fmt = "";
-            fmt += "{0}.{1}->{2}{3}()  ";
+            fmt += "{0}.{1}->{2}.{3} ";
 
-            var bindingStr = string.Format(fmt, item._srcView.GetType().Name, item.SrcEventName, item.ViewModelName, item.DstMethodName, item.gameObject.name);
-            var goStr = string.Format("<color=blue><b>{0}</b></color>", item.gameObject.name);
+            var bindingStr = string.Format(
+                fmt,
+                item.SrcView.GetType().Name.Color(ViewColor),
+                item.SrcEventName.Color(EventColor),
+                item.ViewModelName.Color(ViewModelColor),
+               (item.DstMethodName + "()").Color(MethodColor),
+                item.gameObject.name.Color(GameObjectColor));
+            var goStr = string.Format("{0}", item.gameObject.name.Color(GameObjectColor).Bold());
 
             if (string.IsNullOrEmpty(filter) || bindingStr.Contains(filter))
             {
@@ -216,5 +297,18 @@ public class BindingMonitorEditorWindow : EditorWindow
 
         if (GUILayout.Button("Reset"))
             BindingMonitor.Reset();
+    }
+}
+
+public static class StringExt
+{
+    public static string Color(this string str, Color c)
+    {
+        return string.Format("<color=#{0}>{1}</color>", ColorUtility.ToHtmlStringRGB(c), str);
+    }
+
+    public static string Bold(this string str)
+    {
+        return string.Format("<b>{0}</b>", str);
     }
 }

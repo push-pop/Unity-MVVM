@@ -6,8 +6,8 @@ namespace UnityMVVM.Binding
 {
 
     public class DataBindingBase :
-MonoBehaviour,
-IDataBinding
+        MonoBehaviour,
+        IDataBinding
     {
         public ViewModelBase ViewModelSrc
         {
@@ -17,27 +17,14 @@ IDataBinding
             }
         }
 
-        [HideInInspector]
         public ViewModelBase _viewModel;
 
-
-        //[HideInInspector]
         public string ViewModelName = null;
 
         public virtual bool KeepConnectionAliveOnDisable { get { return _keepConnectionAliveOnDisable; } }
         protected bool _keepConnectionAliveOnDisable = false;
 
         public virtual void RegisterDataBinding()
-        {
-
-        }
-
-        protected virtual void OnValidate()
-        {
-            //UpdateBindings();
-        }
-
-        public virtual void UpdateBindings()
         {
 
         }
@@ -55,9 +42,7 @@ IDataBinding
 
 
 
-        public virtual void UnregisterDataBinding()
-        {
-        }
+        public virtual void UnregisterDataBinding() { }
 
         protected virtual void OnEnable()
         {

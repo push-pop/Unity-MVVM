@@ -14,11 +14,9 @@ namespace UnityMVVM.Binding
         [HideInInspector]
         public string _dstChangedEventName = null;
 
-        [HideInInspector]
-        public List<string> DstChangedEvents = new List<string>();
-
         UnityEventBinder _binder = new UnityEventBinder();
         Delegate changeDelegate;
+
         public override void RegisterDataBinding()
         {
             base.RegisterDataBinding();
@@ -53,13 +51,6 @@ namespace UnityMVVM.Binding
             _binder.OnChange -= _connection.DstUpdated;
 
             removeListenerMethod.Invoke(propInfo.GetValue(_dstView), p);
-        }
-
-        public override void UpdateBindings()
-        {
-            base.UpdateBindings();
-            if (_dstView != null)
-                DstProps = _dstView.GetBindableEventsList();
         }
     }
 }

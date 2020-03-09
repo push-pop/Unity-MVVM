@@ -18,6 +18,23 @@ namespace UnityMVVM
         public class TestViewModel : ViewModelBase
         {
 
+            public float NewFloatProp
+            {
+                get { return _newFloatField; }
+                set
+                {
+                    if (value != _newFloatField)
+                    {
+                        _newFloatField = value;
+                        NotifyPropertyChanged(nameof(NewFloatProp));
+                    }
+                }
+            }
+
+            [SerializeField]
+            private float _newFloatField;
+
+
             public ApplicationState State
             {
                 get { return _state; }
@@ -184,6 +201,7 @@ namespace UnityMVVM
 
             public void ChangeColor()
             {
+                Debug.Log("Change Color Button Handler");
                 Color = Random.ColorHSV();
             }
 

@@ -225,7 +225,6 @@ GameObject:
   - component: {fileID: 174998487}
   - component: {fileID: 174998486}
   - component: {fileID: 174998485}
-  - component: {fileID: 174998484}
   m_Layer: 5
   m_Name: One Way DataBinding Test
   m_TagString: Untagged
@@ -246,71 +245,13 @@ RectTransform:
   m_Children:
   - {fileID: 663722361}
   m_Father: {fileID: 297211016}
-  m_RootOrder: 3
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1080, y: 192}
+  m_SizeDelta: {x: 1080, y: 105.40001}
   m_Pivot: {x: 0.5, y: 1}
---- !u!114 &174998484
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 174998481}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7708fc3a686358d4da40d71b8a782bfb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _viewModel: {fileID: 0}
-  ViewModelName: UnityMVVM.Examples.TestViewModel
-  SrcProps:
-  - State
-  - Text
-  - Color
-  - Color2
-  - Color3
-  - Color4
-  - Color5
-  - useGUILayout
-  - runInEditMode
-  - enabled
-  - isActiveAndEnabled
-  - transform
-  - gameObject
-  - tag
-  - name
-  - hideFlags
-  DstProps:
-  - sprite
-  - overrideSprite
-  - type
-  - preserveAspect
-  - fillCenter
-  - fillMethod
-  - fillAmount
-  - fillClockwise
-  - fillOrigin
-  - alphaHitTestMinimumThreshold
-  - useSpriteMesh
-  - material
-  - onCullStateChanged
-  - maskable
-  - color
-  - raycastTarget
-  - useGUILayout
-  - runInEditMode
-  - enabled
-  - tag
-  - name
-  - hideFlags
-  SrcPropertyName: Color
-  DstPropertyName: color
-  _dstView: {fileID: 174998486}
-  _converter: {fileID: 0}
 --- !u!114 &174998485
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -390,6 +331,146 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 174998481}
   m_CullTransparentMesh: 0
+--- !u!1 &219923287
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 219923288}
+  - component: {fileID: 219923295}
+  - component: {fileID: 219923294}
+  - component: {fileID: 219923293}
+  - component: {fileID: 219923289}
+  m_Layer: 5
+  m_Name: Databound Activator Test
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &219923288
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 219923287}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.99998945, y: 0.99998945, z: 0.99998945}
+  m_Children:
+  - {fileID: 1164937720}
+  m_Father: {fileID: 297211016}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 1080, y: 105.40001}
+  m_Pivot: {x: 0.5, y: 1}
+--- !u!114 &219923289
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 219923287}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef896196e4e3c8f4e8c9c715ea7ffd65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _viewModel: {fileID: 0}
+  ViewModelName: UnityMVVM.Examples.OtherViewModel
+  SrcPropertyName: BoolProp
+  DstPropertyName: IsActive
+  SrcPropertyPath: 
+  DstPropertyPath: 
+  _dstView: {fileID: 219923289}
+  _converter: {fileID: 0}
+  Invert: 1
+--- !u!114 &219923293
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 219923287}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Highlighted
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 219923294}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &219923294
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 219923287}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.2509804}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &219923295
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 219923287}
+  m_CullTransparentMesh: 0
 --- !u!1 &297211015
 GameObject:
   m_ObjectHideFlags: 0
@@ -420,18 +501,20 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 219923288}
+  - {fileID: 1630440231}
   - {fileID: 458916785}
   - {fileID: 1383601608}
   - {fileID: 691889567}
+  - {fileID: 2073544133}
   - {fileID: 174998482}
-  - {fileID: 1630440231}
   m_Father: {fileID: 1824612007}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -480}
-  m_SizeDelta: {x: 0, y: -960}
+  m_AnchoredPosition: {x: 0, y: -555.1}
+  m_SizeDelta: {x: 0, y: -1110.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &297211017
 MonoBehaviour:
@@ -605,12 +688,12 @@ RectTransform:
   - {fileID: 629672729}
   - {fileID: 1877966826}
   m_Father: {fileID: 297211016}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1080, y: 192}
+  m_SizeDelta: {x: 1080, y: 177.40001}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &458916786
 MonoBehaviour:
@@ -731,74 +814,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 458916784}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e4799f2f41e61cc4fb4685c710626741, type: 3}
+  m_Script: {fileID: 11500000, guid: 3d2197614377b1a4b89c05fd563b3d82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _viewModel: {fileID: 0}
   ViewModelName: UnityMVVM.Examples.TestViewModel
-  SrcProps:
-  - State
-  - Text
-  - Color
-  - Color2
-  - Color3
-  - Color4
-  - Color5
-  - useGUILayout
-  - runInEditMode
-  - enabled
-  - isActiveAndEnabled
-  - transform
-  - gameObject
-  - tag
-  - name
-  - hideFlags
-  DstProps:
-  - shouldHideMobileInput
-  - text
-  - caretBlinkRate
-  - caretWidth
-  - textComponent
-  - placeholder
-  - caretColor
-  - customCaretColor
-  - selectionColor
-  - onEndEdit
-  - onValueChanged
-  - onValidateInput
-  - characterLimit
-  - contentType
-  - lineType
-  - inputType
-  - keyboardType
-  - characterValidation
-  - readOnly
-  - asteriskChar
-  - caretPosition
-  - selectionAnchorPosition
-  - selectionFocusPosition
-  - navigation
-  - transition
-  - colors
-  - spriteState
-  - animationTriggers
-  - targetGraphic
-  - interactable
-  - image
-  - useGUILayout
-  - runInEditMode
-  - enabled
-  - tag
-  - name
-  - hideFlags
   SrcPropertyName: Text
   DstPropertyName: text
+  SrcPropertyPath: 
+  DstPropertyPath: 
   _dstView: {fileID: 458916786}
   _converter: {fileID: 0}
-  _dstChangedEventName: onValueChanged
-  DstChangedEvents:
-  - onEndEdit
-  - onValueChanged
+  _dstChangedEventName: onEndEdit
 --- !u!1 &489623733
 GameObject:
   m_ObjectHideFlags: 0
@@ -1127,34 +1154,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _viewModel: {fileID: 0}
-  ViewModelName: UnityMVVM.Examples.OtherViewModel
-  SrcProps:
-  - NestedProp
-  - IntProp
-  - BoolProp
-  - SinTime
-  - TestCollection
-  - SelectedModel
-  - Collection2
-  - useGUILayout
-  - runInEditMode
-  - enabled
-  - isActiveAndEnabled
-  - transform
-  - gameObject
-  - tag
-  - name
-  - hideFlags
-  DstProps: []
-  SrcPaths:
-  - floatField
-  - intField
-  DstPaths: []
-  SrcPropertyName: NestedProp
-  DstPropertyName: 
-  SrcPropertyPath: floatField
+  ViewModelName: UnityMVVM.Examples.TestViewModel
+  SrcPropertyName: Text
+  DstPropertyName: text
+  SrcPropertyPath: 
   DstPropertyPath: 
-  _dstView: {fileID: 0}
+  _dstView: {fileID: 663722362}
   _converter: {fileID: 0}
 --- !u!1 &691889566
 GameObject:
@@ -1190,12 +1195,12 @@ RectTransform:
   m_Children:
   - {fileID: 1270270529}
   m_Father: {fileID: 297211016}
-  m_RootOrder: 2
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1080, y: 192}
+  m_SizeDelta: {x: 1080, y: 105.40001}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &691889568
 MonoBehaviour:
@@ -1206,55 +1211,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 691889566}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7708fc3a686358d4da40d71b8a782bfb, type: 3}
+  m_Script: {fileID: 11500000, guid: 76d5df4fecdf87f43b32ea732a21872a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _viewModel: {fileID: 0}
   ViewModelName: UnityMVVM.Examples.TestViewModel
-  SrcProps:
-  - State
-  - Text
-  - Color
-  - Color2
-  - Color3
-  - Color4
-  - Color5
-  - useGUILayout
-  - runInEditMode
-  - enabled
-  - isActiveAndEnabled
-  - transform
-  - gameObject
-  - tag
-  - name
-  - hideFlags
-  DstProps:
-  - sprite
-  - overrideSprite
-  - type
-  - preserveAspect
-  - fillCenter
-  - fillMethod
-  - fillAmount
-  - fillClockwise
-  - fillOrigin
-  - alphaHitTestMinimumThreshold
-  - useSpriteMesh
-  - material
-  - onCullStateChanged
-  - maskable
-  - color
-  - raycastTarget
-  - useGUILayout
-  - runInEditMode
-  - enabled
-  - tag
-  - name
-  - hideFlags
-  SrcPropertyName: Color
-  DstPropertyName: color
-  _dstView: {fileID: 691889571}
-  _converter: {fileID: 0}
+  SrcEventName: onClick
+  DstMethodName: ChangeColor
+  SrcView: {fileID: 691889570}
 --- !u!114 &691889569
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1264,22 +1228,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 691889566}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5cc25e5c20d86bb409dcc096e7ebc5a5, type: 3}
+  m_Script: {fileID: 11500000, guid: 7fd1823d6abceb84d80263c9039299ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SrcEventName: onClick
+  _viewModel: {fileID: 0}
   ViewModelName: UnityMVVM.Examples.TestViewModel
-  DstMethodName: ChangeColor
-  SrcEvents:
-  - onClick
-  DstMethods:
-  - ChangeColor
-  - SetText
-  ViewModels:
-  - UnityMVVM.Examples.OtherViewModel
-  - UnityMVVM.Examples.TestViewModel
-  _srcView: {fileID: 691889570}
-  _dstViewModel: {fileID: 1679655145}
+  SrcPropertyName: Color
+  DstPropertyName: color
+  SrcPropertyPath: 
+  DstPropertyPath: 
+  _dstView: {fileID: 691889571}
+  _converter: {fileID: 0}
 --- !u!114 &691889570
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1424,7 +1383,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &933637577
 MonoBehaviour:
@@ -1438,6 +1397,83 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1511ccae7919cfc46b603b9b337fdc94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1164937719
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1164937720}
+  - component: {fileID: 1164937722}
+  - component: {fileID: 1164937721}
+  m_Layer: 5
+  m_Name: Text
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1164937720
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1164937719}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 219923288}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 12.5, y: 0}
+  m_SizeDelta: {x: -25, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1164937721
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1164937719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.24313727, g: 0.24313727, b: 0.24313727, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 64
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 10
+    m_MaxSize: 109
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: Databound Activator
+--- !u!222 &1164937722
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1164937719}
+  m_CullTransparentMesh: 0
 --- !u!1 &1270270528
 GameObject:
   m_ObjectHideFlags: 0
@@ -1449,8 +1485,8 @@ GameObject:
   - component: {fileID: 1270270529}
   - component: {fileID: 1270270533}
   - component: {fileID: 1270270532}
-  - component: {fileID: 1270270531}
   - component: {fileID: 1270270530}
+  - component: {fileID: 1270270531}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -1486,9 +1522,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 1270270528}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35d53fbd57145c94f824a6523664be8f, type: 3}
+  m_Script: {fileID: 11500000, guid: 7fd1823d6abceb84d80263c9039299ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _viewModel: {fileID: 0}
+  ViewModelName: UnityMVVM.Examples.TestViewModel
+  SrcPropertyName: Color
+  DstPropertyName: text
+  SrcPropertyPath: 
+  DstPropertyPath: 
+  _dstView: {fileID: 1270270532}
+  _converter: {fileID: 1270270531}
 --- !u!114 &1270270531
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1498,57 +1542,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1270270528}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7708fc3a686358d4da40d71b8a782bfb, type: 3}
+  m_Script: {fileID: 11500000, guid: 7b9972c40b2423a4085917c7ddabf4b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _viewModel: {fileID: 0}
-  ViewModelName: UnityMVVM.Examples.TestViewModel
-  SrcProps:
-  - State
-  - Text
-  - Color
-  - Color2
-  - Color3
-  - Color4
-  - Color5
-  - useGUILayout
-  - runInEditMode
-  - enabled
-  - isActiveAndEnabled
-  - transform
-  - gameObject
-  - tag
-  - name
-  - hideFlags
-  DstProps:
-  - font
-  - text
-  - supportRichText
-  - resizeTextForBestFit
-  - resizeTextMinSize
-  - resizeTextMaxSize
-  - alignment
-  - alignByGeometry
-  - fontSize
-  - horizontalOverflow
-  - verticalOverflow
-  - lineSpacing
-  - fontStyle
-  - onCullStateChanged
-  - maskable
-  - color
-  - raycastTarget
-  - material
-  - useGUILayout
-  - runInEditMode
-  - enabled
-  - tag
-  - name
-  - hideFlags
-  SrcPropertyName: Color
-  DstPropertyName: text
-  _dstView: {fileID: 1270270532}
-  _converter: {fileID: 1270270530}
 --- !u!114 &1270270532
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1601,8 +1597,8 @@ GameObject:
   - component: {fileID: 1383601614}
   - component: {fileID: 1383601613}
   - component: {fileID: 1383601612}
-  - component: {fileID: 1383601610}
   - component: {fileID: 1383601609}
+  - component: {fileID: 1383601610}
   m_Layer: 5
   m_Name: Bool To Color Converter
   m_TagString: Untagged
@@ -1623,12 +1619,12 @@ RectTransform:
   m_Children:
   - {fileID: 538402075}
   m_Father: {fileID: 297211016}
-  m_RootOrder: 1
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1080, y: 192}
+  m_SizeDelta: {x: 1080, y: 105.40001}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1383601609
 MonoBehaviour:
@@ -1639,11 +1635,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 1383601607}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a090e86b425a7d243bfd689bddc43abe, type: 3}
+  m_Script: {fileID: 11500000, guid: 7fd1823d6abceb84d80263c9039299ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _trueColor: {r: 0, g: 1, b: 0, a: 1}
-  _falseColor: {r: 1, g: 0, b: 0, a: 1}
+  _viewModel: {fileID: 0}
+  ViewModelName: UnityMVVM.Examples.OtherViewModel
+  SrcPropertyName: BoolProp
+  DstPropertyName: color
+  SrcPropertyPath: 
+  DstPropertyPath: 
+  _dstView: {fileID: 1383601613}
+  _converter: {fileID: 1383601610}
 --- !u!114 &1383601610
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1653,53 +1655,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1383601607}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7708fc3a686358d4da40d71b8a782bfb, type: 3}
+  m_Script: {fileID: 11500000, guid: 746b0523f3c050841bef99e79ffb6b49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _viewModel: {fileID: 1669541576}
-  ViewModelName: UnityMVVM.Examples.OtherViewModel
-  SrcProps:
-  - IntProp
-  - BoolProp
-  - TestCollection
-  - SelectedModel
-  - Collection2
-  - useGUILayout
-  - runInEditMode
-  - enabled
-  - isActiveAndEnabled
-  - transform
-  - gameObject
-  - tag
-  - name
-  - hideFlags
-  DstProps:
-  - sprite
-  - overrideSprite
-  - type
-  - preserveAspect
-  - fillCenter
-  - fillMethod
-  - fillAmount
-  - fillClockwise
-  - fillOrigin
-  - alphaHitTestMinimumThreshold
-  - useSpriteMesh
-  - material
-  - onCullStateChanged
-  - maskable
-  - color
-  - raycastTarget
-  - useGUILayout
-  - runInEditMode
-  - enabled
-  - tag
-  - name
-  - hideFlags
-  SrcPropertyName: BoolProp
-  DstPropertyName: color
-  _dstView: {fileID: 1383601613}
-  _converter: {fileID: 1383601609}
+  _trueColor: {r: 0, g: 1, b: 0, a: 1}
+  _falseColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &1383601612
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1779,6 +1739,83 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1383601607}
   m_CullTransparentMesh: 0
+--- !u!1 &1419743627
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1419743628}
+  - component: {fileID: 1419743632}
+  - component: {fileID: 1419743631}
+  m_Layer: 5
+  m_Name: Text
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1419743628
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1419743627}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2073544133}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 12.5, y: 0}
+  m_SizeDelta: {x: -25, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1419743631
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1419743627}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 64
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 10
+    m_MaxSize: 109
+    m_Alignment: 4
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: EventPropertyBinding
+--- !u!222 &1419743632
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1419743627}
+  m_CullTransparentMesh: 0
 --- !u!1 &1630440230
 GameObject:
   m_ObjectHideFlags: 0
@@ -1791,10 +1828,10 @@ GameObject:
   - component: {fileID: 1630440236}
   - component: {fileID: 1630440235}
   - component: {fileID: 1630440234}
-  - component: {fileID: 1630440237}
   - component: {fileID: 1630440232}
-  - component: {fileID: 1630440233}
   - component: {fileID: 1630440238}
+  - component: {fileID: 1630440237}
+  - component: {fileID: 1630440233}
   m_Layer: 5
   m_Name: State To Visibiity Test
   m_TagString: Untagged
@@ -1815,12 +1852,12 @@ RectTransform:
   m_Children:
   - {fileID: 1632300675}
   m_Father: {fileID: 297211016}
-  m_RootOrder: 4
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1080, y: 192}
+  m_SizeDelta: {x: 1080, y: 105.40001}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!225 &1630440232
 CanvasGroup:
@@ -1843,12 +1880,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 1630440230}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b9a2d4d2fac3f374892068158984983c, type: 3}
+  m_Script: {fileID: 11500000, guid: 7d4a2a4e980aca64fa47198e564b8ffc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  VisibleState: 0
-  HiddenState: 2
-  CollapsedState: 1
+  _viewModel: {fileID: 0}
+  ViewModelName: UnityMVVM.Examples.TestViewModel
+  SrcPropertyName: State
+  DstPropertyName: ElementVisibility
+  SrcPropertyPath: 
+  DstPropertyPath: 
+  _dstView: {fileID: 1630440237}
+  _converter: {fileID: 1630440238}
 --- !u!114 &1630440234
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1937,41 +1979,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1630440230}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e31f2e59e31301c4bba62b78cf483dd6, type: 3}
+  m_Script: {fileID: 11500000, guid: 7ddbae7ae64290943aa78d1fff1eaf30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _viewModel: {fileID: 0}
-  ViewModelName: UnityMVVM.Examples.TestViewModel
-  SrcProps:
-  - State
-  - Text
-  - Color
-  - Color2
-  - Color3
-  - Color4
-  - Color5
-  - useGUILayout
-  - runInEditMode
-  - enabled
-  - isActiveAndEnabled
-  - transform
-  - gameObject
-  - tag
-  - name
-  - hideFlags
-  DstProps:
-  - ElementVisibility
-  - Alpha
-  - useGUILayout
-  - runInEditMode
-  - enabled
-  - tag
-  - name
-  - hideFlags
-  SrcPropertyName: State
-  DstPropertyName: ElementVisibility
-  _dstView: {fileID: 0}
-  _converter: {fileID: 1630440233}
+  _visibility: 0
+  _alpha: 0
+  _fadeTime: 1
 --- !u!114 &1630440238
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1981,39 +1994,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1630440230}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7fd1823d6abceb84d80263c9039299ac, type: 3}
+  m_Script: {fileID: 11500000, guid: 6b66c4dceeb81c84b81543801f1ce902, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _viewModel: {fileID: 0}
-  ViewModelName: UnityMVVM.Examples.OtherViewModel
-  SrcProps:
-  - NestedProp
-  - IntProp
-  - BoolProp
-  - SinTime
-  - TestCollection
-  - SelectedModel
-  - Collection2
-  - useGUILayout
-  - runInEditMode
-  - enabled
-  - isActiveAndEnabled
-  - transform
-  - gameObject
-  - tag
-  - name
-  - hideFlags
-  DstProps: []
-  SrcPaths:
-  - floatField
-  - intField
-  DstPaths: []
-  SrcPropertyName: NestedProp
-  DstPropertyName: 
-  SrcPropertyPath: floatField
-  DstPropertyPath: 
-  _dstView: {fileID: 0}
-  _converter: {fileID: 0}
+  VisibleState: 0
+  HiddenState: 1
+  CollapsedState: 2
 --- !u!1 &1632300674
 GameObject:
   m_ObjectHideFlags: 0
@@ -2025,7 +2011,6 @@ GameObject:
   - component: {fileID: 1632300675}
   - component: {fileID: 1632300677}
   - component: {fileID: 1632300676}
-  - component: {fileID: 1632300678}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -2092,188 +2077,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1632300674}
   m_CullTransparentMesh: 0
---- !u!114 &1632300678
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1632300674}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7fd1823d6abceb84d80263c9039299ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _viewModel: {fileID: 0}
-  ViewModelName: UnityMVVM.Examples.OtherViewModel
-  SrcProps:
-  - NestedProp
-  - IntProp
-  - BoolProp
-  - SinTime
-  - TestCollection
-  - SelectedModel
-  - Collection2
-  - useGUILayout
-  - runInEditMode
-  - enabled
-  - isActiveAndEnabled
-  - transform
-  - gameObject
-  - tag
-  - name
-  - hideFlags
-  DstProps:
-  - font
-  - text
-  - supportRichText
-  - resizeTextForBestFit
-  - resizeTextMinSize
-  - resizeTextMaxSize
-  - alignment
-  - alignByGeometry
-  - fontSize
-  - horizontalOverflow
-  - verticalOverflow
-  - lineSpacing
-  - fontStyle
-  - onCullStateChanged
-  - maskable
-  - color
-  - raycastTarget
-  - material
-  - useGUILayout
-  - runInEditMode
-  - enabled
-  - tag
-  - name
-  - hideFlags
-  SrcPaths:
-  - floatField
-  - intField
-  DstPaths: []
-  SrcPropertyName: NestedProp
-  DstPropertyName: font
-  SrcPropertyPath: floatField
-  DstPropertyPath: 
-  _dstView: {fileID: 1632300676}
-  _converter: {fileID: 0}
---- !u!1 &1669541574
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1669541575}
-  - component: {fileID: 1669541576}
-  m_Layer: 0
-  m_Name: OtherViewModel
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1669541575
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1669541574}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 2000942508}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1669541576
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1669541574}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f8f85ae85ea4474b9b7262bfacba2da, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _intField: 0
-  _boolField: 0
-  _selectedModel:
-    message: 
-    color: {r: 0, g: 0, b: 0, a: 0}
---- !u!1 &1679655142
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1679655143}
-  - component: {fileID: 1679655145}
-  - component: {fileID: 1679655144}
-  m_Layer: 0
-  m_Name: MainViewModel
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1679655143
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1679655142}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 2000942508}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1679655144
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1679655142}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f8f85ae85ea4474b9b7262bfacba2da, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _intField: 0
-  _boolField: 0
-  _selectedModel:
-    message: 
-    color: {r: 0, g: 0, b: 0, a: 0}
---- !u!114 &1679655145
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1679655142}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0775fdfd20d8ce54482d4a243f6a7598, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _state: 0
-  _text: 
-  _color: {r: 0, g: 0, b: 0, a: 0}
-  _color2: {r: 0, g: 0, b: 0, a: 0}
-  _color3: {r: 0, g: 0, b: 0, a: 0}
-  _color4: {r: 0, g: 0, b: 0, a: 0}
-  _color5: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &1755598730
 GameObject:
   m_ObjectHideFlags: 0
@@ -2348,15 +2151,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1755598730}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ae0762e55afbc840a63eb1cbaf87e69, type: 3}
+  m_Script: {fileID: 11500000, guid: 8eaae2a4607e9f44fa65feb9a5edd309, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _visibility: 0
   _alpha: 0
   _fadeTime: 1
-  _listItemPrefab: {fileID: 1576776248439620, guid: 12084e8be413c694a97a0483d88fe9ac,
+  _listItemPrefab: {fileID: 1576776248439620, guid: 06dac52260a02814dbfacec458252957,
     type: 3}
-  InstantiatedItems: []
+  _canSelectMultiple: 0
   _src: {fileID: 1755598734}
 --- !u!114 &1755598734
 MonoBehaviour:
@@ -2367,16 +2170,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1755598730}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2ec743bf570c3d445957b68621fcf2b4, type: 3}
+  m_Script: {fileID: 11500000, guid: 0015f50a5c0ea754aa262481efb7736b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _viewModel: {fileID: 1669541576}
+  _viewModel: {fileID: 0}
   ViewModelName: UnityMVVM.Examples.OtherViewModel
-  SrcCollections:
-  - TestCollection
-  - Collection2
   SrcCollectionName: TestCollection
-  SelectedItemPropName: 
+  SelectedItemName: --
 --- !u!114 &1755598735
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2629,7 +2429,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1877966825}
   m_CullTransparentMesh: 0
---- !u!1 &2000942505
+--- !u!1 &2073544132
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2637,30 +2437,144 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 2000942508}
-  m_Layer: 0
-  m_Name: '[ViewModels]'
+  - component: {fileID: 2073544133}
+  - component: {fileID: 2073544138}
+  - component: {fileID: 2073544137}
+  - component: {fileID: 2073544136}
+  - component: {fileID: 2073544134}
+  m_Layer: 5
+  m_Name: Event Property Binding
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &2000942508
-Transform:
+--- !u!224 &2073544133
+RectTransform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2000942505}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_GameObject: {fileID: 2073544132}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.99999, y: 0.99999, z: 0.99999}
   m_Children:
-  - {fileID: 1679655143}
-  - {fileID: 1669541575}
-  m_Father: {fileID: 0}
-  m_RootOrder: 3
+  - {fileID: 1419743628}
+  m_Father: {fileID: 297211016}
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 1080, y: 105.40001}
+  m_Pivot: {x: 0.5, y: 1}
+--- !u!114 &2073544134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2073544132}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6f248b5151f42845bdafc611cf5193b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _viewModel: {fileID: 0}
+  ViewModelName: UnityMVVM.Examples.TestViewModel
+  SrcEventName: onClick
+  SrcPropName: image
+  SrcPropPath: 
+  DstPropName: Text
+  DstPath: 
+  ArgType: 2
+  FloatArg: 2145.4
+  IntArg: 15
+  StringArg: Helllo Event!
+  BoolArg: 1
+  SrcView: {fileID: 2073544136}
+  _dstViewModel: {fileID: 0}
+  converter: {fileID: 0}
+--- !u!114 &2073544136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2073544132}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Highlighted
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 2073544137}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &2073544137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2073544132}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.2509804}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &2073544138
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2073544132}
+  m_CullTransparentMesh: 0
 --- !u!1 &2097557916
 GameObject:
   m_ObjectHideFlags: 0

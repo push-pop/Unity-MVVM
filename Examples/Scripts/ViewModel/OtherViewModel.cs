@@ -127,7 +127,6 @@ namespace UnityMVVM
             [SerializeField]
             private DataModel _selectedModel;
 
-
             public ObservableRangeCollection<DataModel> Collection2 { get; set; } = new ObservableRangeCollection<DataModel>();
 
             // Use this for initialization

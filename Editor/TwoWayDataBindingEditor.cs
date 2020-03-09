@@ -1,52 +1,60 @@
-﻿using UnityEditor;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEditor;
 using UnityMVVM.Binding;
+using UnityMVVM.Extensions;
 
 namespace UnityMVVM.Editor
 {
     [CustomEditor(typeof(TwoWayDataBinding), true)]
     public class TwoWayDataBindingEditor : OneWayDataBindingEditor
     {
-        private void OnEnable()
+        int _eventIdx = -1;
+
+        SerializedList _eventNames = new SerializedList("_dstChangedEventName");
+
+        protected override void SetupDropdownIndices()
         {
-            CollectSerializedProperties();
+            base.SetupDropdownIndices();
+
+            _eventNames.SetupIndex();
         }
 
         protected override void CollectSerializedProperties()
         {
             base.CollectSerializedProperties();
-            _eventNameProp = serializedObject.FindProperty("_dstChangedEventName");
-        }
 
-        int _eventIdx = 0;
-        SerializedProperty _eventNameProp;
+            _eventNames.Init(serializedObject);
+        }
 
         protected override void DrawChangeableElements()
         {
             base.DrawChangeableElements();
-            var myClass = target as TwoWayDataBinding;
 
-            EditorGUILayout.LabelField("Destination Changed Event");
-            _eventIdx = EditorGUILayout.Popup(_eventIdx, myClass.DstChangedEvents.ToArray());
+            GUIUtils.BindingField("Dest Changed Event", _eventNames);
         }
 
         protected override void UpdateSerializedProperties()
         {
             base.UpdateSerializedProperties();
 
-            var myClass = target as TwoWayDataBinding;
-
-            myClass._dstChangedEventName = _eventIdx > -1 ?
-                myClass.DstChangedEvents[_eventIdx] : null;
+            _eventNames.UpdateProperty();
         }
 
-        public override void OnInspectorGUI()
+        protected override void CollectPropertyLists()
         {
+            base.CollectPropertyLists();
 
-            var myClass = target as TwoWayDataBinding;
+            var view = _dstViewProp.objectReferenceValue as UnityEngine.Component;
 
-            _eventIdx = myClass.DstChangedEvents.IndexOf(_eventNameProp.stringValue);
+            _eventNames.Clear();
 
-            base.OnInspectorGUI();
+            if (view)
+                _eventNames.Values = view.GetBindableEventsList();
+            else
+                _eventNames.Value = null;
+
         }
     }
 }
