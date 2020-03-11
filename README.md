@@ -100,7 +100,6 @@ This allows you to bind a UnityEvent from a view to a method on your ViewModel. 
 This allows you to bind a UnityEvent from a view to a property on your ViewModel. In the Value field, you can specify a value to set the property to **OR** the name of a property on your view to set from. In the latter case, check the box marked IsProperty.
 
 ### Limitations // Upcoming features
-- Currently there is no way to bind to nested properties
 - No way to filter with CollectionViewSource
 - No Code Snippet template for OSX
 - No way to access indexed properties on CollectionViewSource
