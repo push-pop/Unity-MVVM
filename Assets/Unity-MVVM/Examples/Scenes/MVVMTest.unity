@@ -225,6 +225,7 @@ GameObject:
   - component: {fileID: 174998487}
   - component: {fileID: 174998486}
   - component: {fileID: 174998485}
+  - component: {fileID: 174998483}
   m_Layer: 5
   m_Name: One Way DataBinding Test
   m_TagString: Untagged
@@ -245,13 +246,32 @@ RectTransform:
   m_Children:
   - {fileID: 663722361}
   m_Father: {fileID: 297211016}
-  m_RootOrder: 7
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1080, y: 105.40001}
   m_Pivot: {x: 0.5, y: 1}
+--- !u!114 &174998483
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 174998481}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7fd1823d6abceb84d80263c9039299ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ViewModelName: UnityMVVM.Examples.TestViewModel
+  SrcPropertyName: Color
+  DstPropertyName: color
+  SrcPropertyPath: --
+  DstPropertyPath: --
+  _dstView: {fileID: 174998486}
+  _converter: {fileID: 0}
 --- !u!114 &174998485
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -363,12 +383,12 @@ RectTransform:
   m_LocalScale: {x: 0.99998945, y: 0.99998945, z: 0.99998945}
   m_Children:
   - {fileID: 1164937720}
-  m_Father: {fileID: 297211016}
-  m_RootOrder: 0
+  m_Father: {fileID: 1824612007}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 540, y: -900.06006}
   m_SizeDelta: {x: 1080, y: 105.40001}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &219923289
@@ -447,7 +467,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.2509804}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -504,7 +524,7 @@ RectTransform:
   m_Children:
   - {fileID: 633690253}
   m_Father: {fileID: 297211016}
-  m_RootOrder: 3
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -657,8 +677,6 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 219923288}
-  - {fileID: 1630440231}
   - {fileID: 458916785}
   - {fileID: 224709566}
   - {fileID: 1383601608}
@@ -666,12 +684,12 @@ RectTransform:
   - {fileID: 2073544133}
   - {fileID: 174998482}
   m_Father: {fileID: 1824612007}
-  m_RootOrder: 2
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -555.1}
-  m_SizeDelta: {x: 0, y: -1110.2}
+  m_AnchoredPosition: {x: 0, y: -558.455}
+  m_SizeDelta: {x: 0, y: -1116.91}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &297211017
 MonoBehaviour:
@@ -845,7 +863,7 @@ RectTransform:
   - {fileID: 629672729}
   - {fileID: 1877966826}
   m_Father: {fileID: 297211016}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1308,6 +1326,7 @@ GameObject:
   - component: {fileID: 663722363}
   - component: {fileID: 663722362}
   - component: {fileID: 663722364}
+  - component: {fileID: 663722365}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -1387,12 +1406,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ViewModelName: UnityMVVM.Examples.TestViewModel
-  SrcPropertyName: Text
+  SrcPropertyName: Color
   DstPropertyName: text
-  SrcPropertyPath: 
+  SrcPropertyPath: --
   DstPropertyPath: 
   _dstView: {fileID: 663722362}
-  _converter: {fileID: 0}
+  _converter: {fileID: 663722365}
+--- !u!114 &663722365
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 663722360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b9972c40b2423a4085917c7ddabf4b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &691889566
 GameObject:
   m_ObjectHideFlags: 0
@@ -1427,7 +1458,7 @@ RectTransform:
   m_Children:
   - {fileID: 1270270529}
   m_Father: {fileID: 297211016}
-  m_RootOrder: 5
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1677,7 +1708,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.24313727, g: 0.24313727, b: 0.24313727, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -1715,8 +1746,6 @@ GameObject:
   - component: {fileID: 1270270529}
   - component: {fileID: 1270270533}
   - component: {fileID: 1270270532}
-  - component: {fileID: 1270270530}
-  - component: {fileID: 1270270531}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -1743,37 +1772,6 @@ RectTransform:
   m_AnchoredPosition: {x: 12.5, y: 0}
   m_SizeDelta: {x: -25, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1270270530
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1270270528}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7fd1823d6abceb84d80263c9039299ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ViewModelName: UnityMVVM.Examples.TestViewModel
-  SrcPropertyName: Color
-  DstPropertyName: text
-  SrcPropertyPath: 
-  DstPropertyPath: 
-  _dstView: {fileID: 1270270532}
-  _converter: {fileID: 1270270531}
---- !u!114 &1270270531
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1270270528}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b9972c40b2423a4085917c7ddabf4b4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1270270532
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1848,7 +1846,7 @@ RectTransform:
   m_Children:
   - {fileID: 538402075}
   m_Father: {fileID: 297211016}
-  m_RootOrder: 4
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -2079,12 +2077,12 @@ RectTransform:
   m_LocalScale: {x: 0.99998945, y: 0.99998945, z: 0.99998945}
   m_Children:
   - {fileID: 1632300675}
-  m_Father: {fileID: 297211016}
-  m_RootOrder: 1
+  m_Father: {fileID: 1824612007}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 540, y: -1009.55255}
   m_SizeDelta: {x: 1080, y: 105.40001}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!225 &1630440232
@@ -2174,7 +2172,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 0.2509804}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -2277,7 +2275,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.24313727, g: 0.24313727, b: 0.24313727, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -2534,6 +2532,8 @@ RectTransform:
   m_Children:
   - {fileID: 2097557917}
   - {fileID: 1755598731}
+  - {fileID: 219923288}
+  - {fileID: 1630440231}
   - {fileID: 297211016}
   m_Father: {fileID: 0}
   m_RootOrder: 2
@@ -2689,7 +2689,7 @@ RectTransform:
   m_Children:
   - {fileID: 1419743628}
   m_Father: {fileID: 297211016}
-  m_RootOrder: 6
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
