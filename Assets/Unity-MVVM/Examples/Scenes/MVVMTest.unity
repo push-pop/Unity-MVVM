@@ -1869,7 +1869,7 @@ MonoBehaviour:
   SrcPropertyName: BoolProp
   DstPropertyName: color
   SrcPropertyPath: 
-  DstPropertyPath: 
+  DstPropertyPath: --
   _dstView: {fileID: 1383601613}
   _converter: {fileID: 1383601610}
 --- !u!114 &1383601610
