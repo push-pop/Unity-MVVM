@@ -36,9 +36,16 @@ namespace UnityMVVM.Binding
         public static Type GetDelegateType(Type[] argTypes)
         {
             var argCount = argTypes.Length;
+            Type constructed;
 
-            Type generic = typeof(UnityAction<>);
-            Type constructed = generic.MakeGenericType(argTypes);
+            if (argTypes.Length > 0)
+            {
+
+                Type generic = typeof(UnityAction<>);
+                constructed = generic.MakeGenericType(argTypes);
+            }
+            else
+                constructed = typeof(UnityAction);
 
             return constructed;
         }

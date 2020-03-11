@@ -118,7 +118,7 @@ namespace UnityMVVM.Editor
     #endregion
 
     [CustomEditor(typeof(DataBindingBase), true)]
-    public class DataBindingBaseEditor : UnityEditor.Editor
+    public class DataBindingBaseEditor : MVVMBaseEditor
     {
         public string ViewModelName { get => _viewModelProp.Value; }
 
@@ -129,7 +129,7 @@ namespace UnityMVVM.Editor
 
         protected bool _viewModelChanged { get; set; }
 
-        protected virtual void OnEnable()
+        protected override void OnEnable()
         {
             _viewModels = ViewModelProvider.Viewmodels;
 
@@ -142,7 +142,7 @@ namespace UnityMVVM.Editor
             UpdateSerializedProperties();
         }
 
-        protected virtual void CollectSerializedProperties()
+        protected override void CollectSerializedProperties()
         {
             _viewModelProp.Init(serializedObject);
         }
@@ -156,67 +156,31 @@ namespace UnityMVVM.Editor
             _viewModelChanged = EditorGUI.EndChangeCheck();
         }
 
-        protected virtual void DrawChangeableElements()
+        protected override void DrawChangeableElements()
         {
             DrawViewModelDrawer();
         }
 
-        protected virtual void UpdateSerializedProperties()
+        protected override void UpdateSerializedProperties()
         {
             _viewModelProp.UpdateProperty();
         }
 
-        protected virtual void SetupDropdownIndices()
+        protected override void SetupDropdownIndices()
         {
             _viewModelProp.SetupIndex();
         }
 
         public override void OnInspectorGUI()
         {
-            serializedObject.Update();
-
-            SetupDropdownIndices();
-
-            EditorGUI.BeginChangeCheck();
-
-            DrawChangeableElements();
-
-            if (EditorGUI.EndChangeCheck())
-            {
-                UpdateSerializedProperties();
-
-                serializedObject.ApplyModifiedProperties();
-
-
-                EditorUtility.SetDirty(target);
-
-                CollectPropertyLists();
-
-                _viewModelChanged = false;
-            }
+            base.OnInspectorGUI();
+            _viewModelChanged = false;
 
         }
 
-        protected virtual void CollectPropertyLists()
+        protected override void CollectPropertyLists()
         {
             _viewModelProp.Values = ViewModelProvider.GetViewModels();
         }
-
-        protected void SetupIndex(ref int idx, SerializedProperty prop, List<string> values)
-        {
-            idx = values.IndexOf(prop.stringValue);
-            if (idx < 0 && values.Count > 0)
-            {
-                idx = 0;
-                prop.stringValue = values.FirstOrDefault();
-            }
-        }
-
-        protected void UpdateListProperty(SerializedProperty prop, int idx, List<string> values)
-        {
-            prop.stringValue = idx > -1 ? values[idx] : null;
-        }
-
-
     }
 }

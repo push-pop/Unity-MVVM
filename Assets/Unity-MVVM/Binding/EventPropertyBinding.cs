@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityMVVM.Binding.Converters;
 using UnityMVVM.Types;
 using UnityMVVM.Util;
@@ -44,12 +41,11 @@ namespace UnityMVVM.Binding
 
         Delegate d;
 
-        bool _isBound = false;
+        public override bool IsBound { get => _isBound; protected set => _isBound = value; }
+        bool _isBound;
 
         public override void RegisterDataBinding()
         {
-            base.RegisterDataBinding();
-
             _dstViewModel = ViewModelProvider.Instance.GetViewModelBehaviour(ViewModelName);
 
             dst = new BindTarget(_dstViewModel, DstPropName);
@@ -60,8 +56,23 @@ namespace UnityMVVM.Binding
             BindEvent();
         }
 
+        public override void UnregisterDataBinding()
+        {
+            if (!_isBound) return;
+
+            var method = UnityEventBinder.GetRemoveListener(_srcEventProp.GetValue(SrcView));
+
+            if (d == null || method == null) return;
+
+            var p = new object[] { d };
+
+            method.Invoke(_srcEventProp.GetValue(SrcView), p);
+        }
+
         protected virtual void BindEvent()
         {
+            if (_isBound) return;
+
             //TODO: Wrap PropertyInfo & MethodInfo in Serializable classes so we don't need reflection here
             try
             {
@@ -79,6 +90,8 @@ namespace UnityMVVM.Binding
                 var p = new object[] { d };
 
                 method.Invoke(_srcEventProp.GetValue(SrcView), p);
+
+                _isBound = true;
             }
             catch (Exception e)
             {
@@ -129,18 +142,6 @@ namespace UnityMVVM.Binding
                     Debug.LogErrorFormat("Inner Exception: {0}", exc.InnerException.Message);
             }
         }
-
-        protected override void OnDestroy()
-        {
-            var method = UnityEventBinder.GetRemoveListener(_srcEventProp.GetValue(SrcView));
-
-            if (d == null || method == null) return;
-
-            var p = new object[] { d };
-
-            method.Invoke(_srcEventProp.GetValue(SrcView), p);
-        }
-
     }
 
 }

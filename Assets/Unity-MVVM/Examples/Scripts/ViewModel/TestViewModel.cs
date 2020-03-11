@@ -3,11 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityMVVM.ViewModel;
 
-namespace UnityMVVM
+namespace UnityMVVM.Examples
 {
-    namespace Examples
-    {
-
         public enum ApplicationState
         {
             State1,
@@ -237,6 +234,4 @@ namespace UnityMVVM
                 Text = text;
             }
         }
-
     }
-}

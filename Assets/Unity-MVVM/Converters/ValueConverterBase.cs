@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+
 namespace UnityMVVM.Binding.Converters
 {
     public abstract class ValueConverterBase : MonoBehaviour, IValueConverter

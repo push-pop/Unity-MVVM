@@ -383,7 +383,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef896196e4e3c8f4e8c9c715ea7ffd65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _viewModel: {fileID: 0}
   ViewModelName: UnityMVVM.Examples.OtherViewModel
   SrcPropertyName: BoolProp
   DstPropertyName: IsActive
@@ -524,7 +523,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d2197614377b1a4b89c05fd563b3d82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _viewModel: {fileID: 0}
   ViewModelName: UnityMVVM.Examples.TestViewModel
   SrcPropertyName: TwoWayBool
   DstPropertyName: BoolProp
@@ -976,7 +974,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d2197614377b1a4b89c05fd563b3d82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _viewModel: {fileID: 0}
   ViewModelName: UnityMVVM.Examples.TestViewModel
   SrcPropertyName: Text
   DstPropertyName: text
@@ -1389,7 +1386,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fd1823d6abceb84d80263c9039299ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _viewModel: {fileID: 0}
   ViewModelName: UnityMVVM.Examples.TestViewModel
   SrcPropertyName: Text
   DstPropertyName: text
@@ -1450,7 +1446,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76d5df4fecdf87f43b32ea732a21872a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _viewModel: {fileID: 0}
   ViewModelName: UnityMVVM.Examples.TestViewModel
   SrcEventName: onClick
   DstMethodName: ChangeColor
@@ -1467,7 +1462,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fd1823d6abceb84d80263c9039299ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _viewModel: {fileID: 0}
   ViewModelName: UnityMVVM.Examples.TestViewModel
   SrcPropertyName: Color
   DstPropertyName: color
@@ -1761,11 +1755,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fd1823d6abceb84d80263c9039299ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _viewModel: {fileID: 0}
   ViewModelName: UnityMVVM.Examples.TestViewModel
   SrcPropertyName: Color
   DstPropertyName: text
-  SrcPropertyPath: --
+  SrcPropertyPath: 
   DstPropertyPath: 
   _dstView: {fileID: 1270270532}
   _converter: {fileID: 1270270531}
@@ -1874,7 +1867,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fd1823d6abceb84d80263c9039299ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _viewModel: {fileID: 0}
   ViewModelName: UnityMVVM.Examples.OtherViewModel
   SrcPropertyName: BoolProp
   DstPropertyName: color
@@ -2119,7 +2111,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d4a2a4e980aca64fa47198e564b8ffc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _viewModel: {fileID: 0}
   ViewModelName: UnityMVVM.Examples.TestViewModel
   SrcPropertyName: State
   DstPropertyName: ElementVisibility
@@ -2393,10 +2384,12 @@ MonoBehaviour:
   _visibility: 0
   _alpha: 0
   _fadeTime: 1
-  _listItemPrefab: {fileID: 1576776248439620, guid: 06dac52260a02814dbfacec458252957,
+  SelectedItemName: SelectedModel
+  SelectedItemsName: 
+  _listItemPrefab: {fileID: 2719066888251376324, guid: 459b342aff4774c47856a51aefacde43,
     type: 3}
-  _canSelectMultiple: 0
   _src: {fileID: 1755598734}
+  CanSelectMultiple: 0
 --- !u!114 &1755598734
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2409,10 +2402,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0015f50a5c0ea754aa262481efb7736b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _viewModel: {fileID: 0}
   ViewModelName: UnityMVVM.Examples.OtherViewModel
   SrcCollectionName: TestCollection
-  SelectedItemName: --
 --- !u!114 &1755598735
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2717,7 +2708,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6f248b5151f42845bdafc611cf5193b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _viewModel: {fileID: 0}
   ViewModelName: UnityMVVM.Examples.TestViewModel
   SrcEventName: onClick
   SrcPropName: image

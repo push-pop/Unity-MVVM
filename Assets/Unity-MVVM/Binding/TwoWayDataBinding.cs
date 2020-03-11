@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 using UnityEngine;
-using UnityEngine.Events;
-using UnityMVVM.Extensions;
 
 namespace UnityMVVM.Binding
 {
@@ -37,6 +32,8 @@ namespace UnityMVVM.Binding
             _binder.OnChange += _connection.DstUpdated;
 
             addListenerMethod.Invoke(propInfo.GetValue(_dstView), p);
+
+            IsBound = true;
         }
 
         public override void UnregisterDataBinding()
@@ -51,6 +48,8 @@ namespace UnityMVVM.Binding
             _binder.OnChange -= _connection.DstUpdated;
 
             removeListenerMethod.Invoke(propInfo.GetValue(_dstView), p);
+
+            IsBound = false;
         }
     }
 }

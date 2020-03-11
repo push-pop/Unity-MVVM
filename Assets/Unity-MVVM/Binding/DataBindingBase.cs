@@ -4,8 +4,7 @@ using UnityMVVM.ViewModel;
 
 namespace UnityMVVM.Binding
 {
-
-    public class DataBindingBase :
+    public abstract class DataBindingBase :
         MonoBehaviour,
         IDataBinding
     {
@@ -13,21 +12,20 @@ namespace UnityMVVM.Binding
         {
             get
             {
+                if (_viewModel == null && !string.IsNullOrEmpty(ViewModelName))
+                    _viewModel = ViewModelProvider.Instance.GetViewModelBehaviour(ViewModelName);
+
                 return _viewModel;
             }
         }
 
-        public ViewModelBase _viewModel;
+        protected ViewModelBase _viewModel;
 
         public string ViewModelName = null;
 
         public virtual bool KeepConnectionAliveOnDisable { get { return _keepConnectionAliveOnDisable; } }
+
         protected bool _keepConnectionAliveOnDisable = false;
-
-        public virtual void RegisterDataBinding()
-        {
-
-        }
 
         protected void FindViewModel()
         {
@@ -40,9 +38,6 @@ namespace UnityMVVM.Binding
                 Debug.LogErrorFormat("ViewModel Null: {0}", gameObject.name);
         }
 
-
-
-        public virtual void UnregisterDataBinding() { }
 
         protected virtual void OnEnable()
         {
@@ -66,5 +61,11 @@ namespace UnityMVVM.Binding
         {
             UnregisterDataBinding();
         }
+
+        #region IDataBinding Abstract Implementation
+        public abstract bool IsBound { get; protected set; }
+        public abstract void RegisterDataBinding();
+        public abstract void UnregisterDataBinding();
+        #endregion
     }
 }

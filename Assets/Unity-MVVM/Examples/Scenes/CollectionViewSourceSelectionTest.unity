@@ -428,10 +428,12 @@ MonoBehaviour:
   _visibility: 0
   _alpha: 0
   _fadeTime: 1
+  SelectedItemName: --
+  SelectedItemsName: 
   _listItemPrefab: {fileID: 2719066888251376324, guid: 459b342aff4774c47856a51aefacde43,
     type: 3}
-  _canSelectMultiple: 0
   _src: {fileID: 519935617}
+  CanSelectMultiple: 0
 --- !u!114 &519935617
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -444,10 +446,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0015f50a5c0ea754aa262481efb7736b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _viewModel: {fileID: 0}
   ViewModelName: UnityMVVM.Examples.OtherViewModel
   SrcCollectionName: Collection2
-  SelectedItemName: SelectedModel
+  CanSelectMultiple: 0
 --- !u!114 &519935618
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -731,8 +732,8 @@ GameObject:
   - component: {fileID: 1755598732}
   - component: {fileID: 1755598736}
   - component: {fileID: 1755598735}
-  - component: {fileID: 1755598738}
-  - component: {fileID: 1755598737}
+  - component: {fileID: 1755598734}
+  - component: {fileID: 1755598733}
   m_Layer: 5
   m_Name: ObservableCollectionTest
   m_TagString: Untagged
@@ -784,6 +785,42 @@ MonoBehaviour:
   m_ChildControlHeight: 0
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
+--- !u!114 &1755598733
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1755598730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8eaae2a4607e9f44fa65feb9a5edd309, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _visibility: 0
+  _alpha: 0
+  _fadeTime: 1
+  SelectedItemName: SelectedModel
+  SelectedItemsName: 
+  _listItemPrefab: {fileID: 2719066888251376324, guid: 459b342aff4774c47856a51aefacde43,
+    type: 3}
+  _src: {fileID: 1755598734}
+  CanSelectMultiple: 0
+--- !u!114 &1755598734
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1755598730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0015f50a5c0ea754aa262481efb7736b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ViewModelName: UnityMVVM.Examples.OtherViewModel
+  SrcCollectionName: Collection2
+  CanSelectMultiple: 0
 --- !u!114 &1755598735
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -820,41 +857,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1755598730}
   m_CullTransparentMesh: 0
---- !u!114 &1755598737
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1755598730}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8eaae2a4607e9f44fa65feb9a5edd309, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _visibility: 0
-  _alpha: 0
-  _fadeTime: 1
-  _listItemPrefab: {fileID: 2719066888251376324, guid: 459b342aff4774c47856a51aefacde43,
-    type: 3}
-  _canSelectMultiple: 0
-  _src: {fileID: 1755598738}
---- !u!114 &1755598738
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1755598730}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0015f50a5c0ea754aa262481efb7736b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _viewModel: {fileID: 0}
-  ViewModelName: UnityMVVM.Examples.OtherViewModel
-  SrcCollectionName: Collection2
-  SelectedItemName: SelectedModel
 --- !u!1 &1824612003
 GameObject:
   m_ObjectHideFlags: 0
@@ -1047,6 +1049,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9049d834eb3dd594183991ea6c3554df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _newFloatField: 0
   _state: 0
   _text: 
   _color: {r: 0, g: 0, b: 0, a: 0}
@@ -1054,6 +1057,7 @@ MonoBehaviour:
   _color3: {r: 0, g: 0, b: 0, a: 0}
   _color4: {r: 0, g: 0, b: 0, a: 0}
   _color5: {r: 0, g: 0, b: 0, a: 0}
+  _twoWayBool: 0
 --- !u!4 &2000942508
 Transform:
   m_ObjectHideFlags: 0

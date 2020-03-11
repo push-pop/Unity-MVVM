@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace UnityMVVM.Binding
 {
-    public class CollectionBinding : MonoBehaviour
+    public class CollectionBindingConnection : MonoBehaviour
     {
         [SerializeField]
         CollectionViewSource src;

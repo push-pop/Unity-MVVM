@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -9,7 +8,6 @@ namespace UnityMVVM.Examples
 {
     public class ButtonItem : CollectionViewItemBase<DataModel>
     {
-
         public override IModel Model
         {
             get
@@ -33,6 +31,10 @@ namespace UnityMVVM.Examples
             GetComponent<Button>().onClick.AddListener(new UnityAction(() =>
             {
                 OnClick?.Invoke();
+                if (!IsSelected)
+                    OnSelected?.Invoke(_model);
+                else
+                    OnDeselected?.Invoke(_model);
             }));
         }
 
@@ -62,10 +64,6 @@ namespace UnityMVVM.Examples
             }
         }
 
-        public override void ToggleSelected()
-        {
-            IsSelected = !IsSelected;
-        }
 
         public override void UpdateItem(IModel model)
         {

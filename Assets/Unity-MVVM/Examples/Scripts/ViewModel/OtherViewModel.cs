@@ -9,7 +9,7 @@ namespace UnityMVVM
 {
     namespace Examples
     {
-     
+
         [System.Serializable]
         public class NestedPropSrc
         {
@@ -119,6 +119,11 @@ namespace UnityMVVM
                     if (value != _selectedModel)
                     {
                         _selectedModel = value;
+                        if (!MultipleSelectedModels.Contains(value))
+                            MultipleSelectedModels.Add(value);
+                        else
+                            MultipleSelectedModels.Remove(value);
+
                         NotifyPropertyChanged(nameof(SelectedModel));
                     }
                 }
@@ -126,10 +131,25 @@ namespace UnityMVVM
 
             [SerializeField]
             private DataModel _selectedModel;
+            public ObservableCollection<DataModel> MultipleSelectedModels
+            {
+                get { return _multipleSelectedModels; }
+                set
+                {
+                    if (value != _multipleSelectedModels)
+                    {
+                        _multipleSelectedModels = value;
+                        NotifyPropertyChanged(nameof(MultipleSelectedModels));
+                    }
+                }
+            }
+
+            [SerializeField]
+            private ObservableCollection<DataModel> _multipleSelectedModels = new ObservableCollection<DataModel>();
+
 
             public ObservableRangeCollection<DataModel> Collection2 { get; set; } = new ObservableRangeCollection<DataModel>();
 
-            // Use this for initialization
             void Start()
             {
                 StartCoroutine(AddToCollection());
@@ -144,7 +164,6 @@ namespace UnityMVVM
                 }
             }
 
-            // Update is called once per frame
             void Update()
             {
                 IntProp = Mathf.FloorToInt(Time.timeSinceLevelLoad);
