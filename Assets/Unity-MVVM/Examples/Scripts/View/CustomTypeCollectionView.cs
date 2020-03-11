@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityMVVM.View;
 
-namespace UnityMVVM
+namespace UnityMVVM.Examples
 {
-    namespace Examples
-    {
         public class CustomTypeCollectionView : CollectionViewBase
         {
             protected override void UpdateElement(int index, IList newItems)
@@ -34,9 +31,6 @@ namespace UnityMVVM
 
                 return go;
             }
-
-        }
-
     }
 }
 

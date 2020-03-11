@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityMVVM.Binding.Converters;
-using UnityMVVM.Extensions;
-using UnityMVVM.Util;
 
 namespace UnityMVVM.Binding
 {
@@ -14,21 +8,12 @@ namespace UnityMVVM.Binding
     {
         public DataBindingConnection Connection { get { return _connection; } }
 
+        public override bool IsBound { get => _isBound; protected set => _isBound = value; }
+
+
         protected DataBindingConnection _connection;
 
-        #region Binding Properties
-        [HideInInspector]
-        public List<string> SrcProps = new List<string>();
-
-        [HideInInspector]
-        public List<string> DstProps = new List<string>();
-
-        [HideInInspector]
-        public List<string> SrcPaths = new List<string>();
-
-        [HideInInspector]
-        public List<string> DstPaths = new List<string>();
-
+        #region Serialized Properties
         [HideInInspector]
         public string SrcPropertyName = null;
 
@@ -41,20 +26,19 @@ namespace UnityMVVM.Binding
         [HideInInspector]
         public string DstPropertyPath = null;
 
-        #endregion
-
-        [SerializeField]
+        [HideInInspector]
         public Component _dstView;
 
-        [SerializeField]
-        protected ValueConverterBase _converter;
+        [HideInInspector]
+        public ValueConverterBase _converter;
+
+        #endregion
+        private bool _isBound;
 
         bool _isStartup = true;
 
         public override void RegisterDataBinding()
         {
-            base.RegisterDataBinding();
-
             if (_viewModel == null)
             {
                 Debug.LogErrorFormat("Binding Error | Could not Find ViewModel {0} for Property {1}", ViewModelName, SrcPropertyName);
@@ -68,36 +52,16 @@ namespace UnityMVVM.Binding
 
             if (KeepConnectionAliveOnDisable || isActiveAndEnabled)
                 _connection.Bind();
+
+            _isBound = true;
         }
 
         public override void UnregisterDataBinding()
         {
-            base.UnregisterDataBinding();
-
             if (_connection != null)
                 _connection.Unbind();
-        }
 
-        public override void UpdateBindings()
-        {
-            base.UpdateBindings();
-
-            DstProps = _dstView?.GetBindablePropertyList(false, true);
-
-            DstPaths.Clear();
-            _dstView?.GetPropertiesAndFieldsList(DstPropertyName, ref DstPaths);
-
-            SrcPaths.Clear();
-            if (!string.IsNullOrEmpty(ViewModelName))
-            {
-                var vmType = ViewModelProvider.GetViewModelType(ViewModelName);
-                var propType = vmType.GetProperty(SrcPropertyName).PropertyType;
-
-                SrcProps = ViewModelProvider.GetViewModelPropertyList(ViewModelName);
-                propType.GetNestedFields(ref SrcPaths);
-
-            }
-
+            _isBound = false;
         }
 
         private void Start()

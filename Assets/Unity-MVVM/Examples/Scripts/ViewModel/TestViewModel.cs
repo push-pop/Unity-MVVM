@@ -3,11 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityMVVM.ViewModel;
 
-namespace UnityMVVM
+namespace UnityMVVM.Examples
 {
-    namespace Examples
-    {
-
         public enum ApplicationState
         {
             State1,
@@ -17,6 +14,23 @@ namespace UnityMVVM
 
         public class TestViewModel : ViewModelBase
         {
+
+            public float NewFloatProp
+            {
+                get { return _newFloatField; }
+                set
+                {
+                    if (value != _newFloatField)
+                    {
+                        _newFloatField = value;
+                        NotifyPropertyChanged(nameof(NewFloatProp));
+                    }
+                }
+            }
+
+            [SerializeField]
+            private float _newFloatField;
+
 
             public ApplicationState State
             {
@@ -154,6 +168,23 @@ namespace UnityMVVM
                 }
             }
 
+            public bool TwoWayBool
+            {
+                get { return _twoWayBool; }
+                set
+                {
+                    if (value != _twoWayBool)
+                    {
+                        _twoWayBool = value;
+                        NotifyPropertyChanged(nameof(TwoWayBool));
+                    }
+                }
+            }
+
+            [SerializeField]
+            private bool _twoWayBool;
+
+
 
             // Use this for initialization
             void Start()
@@ -161,6 +192,7 @@ namespace UnityMVVM
                 Text = System.DateTime.Now.ToShortTimeString();
 
                 StartCoroutine(StateChangeRoutine());
+                StartCoroutine(BoolChangeRoutine());
             }
 
             IEnumerator StateChangeRoutine()
@@ -172,6 +204,16 @@ namespace UnityMVVM
                 }
             }
 
+            IEnumerator BoolChangeRoutine()
+            {
+                while (true)
+                {
+                    TwoWayBool = !TwoWayBool;
+                    yield return new WaitForSeconds(5f);
+                }
+
+            }
+
             // Update is called once per frame
             void Update()
             {
@@ -179,11 +221,11 @@ namespace UnityMVVM
                 {
                     Text = System.DateTime.Now.ToShortTimeString();
                 }
-
             }
 
             public void ChangeColor()
             {
+                Debug.Log("Change Color Button Handler");
                 Color = Random.ColorHSV();
             }
 
@@ -192,6 +234,4 @@ namespace UnityMVVM
                 Text = text;
             }
         }
-
     }
-}

@@ -1,73 +1,152 @@
 ﻿using UnityEditor;
+using UnityEngine;
 using UnityMVVM.Binding;
+using UnityMVVM.Extensions;
+using UnityMVVM.Types;
+using UnityMVVM.Util;
 
 namespace UnityMVVM.Editor
 {
     [CanEditMultipleObjects]
     [CustomEditor(typeof(EventPropertyBinding), true)]
-    public class EventPropertyBindingEditor : UnityEditor.Editor
+    public class EventPropertyBindingEditor : DataBindingBaseEditor
     {
-        SerializedProperty _dstMethodNameProp;
-        SerializedProperty _eventNameProp;
-        SerializedProperty _viewModelName;
+        EventArgType _argTypeIdx = EventArgType.Int;
 
-        int _eventIdx = 0;
-        int _dstMethodIdx = 0;
-        int _viewModelIdx = 0;
+        SerializedList _dstNames = new SerializedList("DstPropName");
+        SerializedList _dstPaths = new SerializedList("DstPath");
+        SerializedList _eventNames = new SerializedList("SrcEventName");
+        SerializedList _srcPropNames = new SerializedList("SrcPropName");
+        SerializedList _srcPathNames = new SerializedList("SrcPropPath");
 
-        private void OnEnable()
+        SerializedProperty _srcViewProp;
+        SerializedProperty _argTypeProp;
+
+        SerializedProperty _floatArgProp;
+        SerializedProperty _intArgProp;
+        SerializedProperty _stringArgProp;
+        SerializedProperty _boolArgProp;
+
+
+        protected override void CollectSerializedProperties()
         {
-            CollectSerializedProperties();
+            base.CollectSerializedProperties();
+
+            _dstNames.Init(serializedObject);
+            _dstPaths.Init(serializedObject);
+            _eventNames.Init(serializedObject);
+            _srcPropNames.Init(serializedObject);
+            _srcPathNames.Init(serializedObject);
+
+            _srcViewProp = serializedObject.FindProperty("SrcView");
+            _argTypeProp = serializedObject.FindProperty("ArgType");
+
+            _floatArgProp = serializedObject.FindProperty("FloatArg");
+            _intArgProp = serializedObject.FindProperty("IntArg");
+            _stringArgProp = serializedObject.FindProperty("StringArg");
+            _boolArgProp = serializedObject.FindProperty("BoolArg");
+
         }
 
-        protected void CollectSerializedProperties()
+        protected override void DrawChangeableElements()
         {
-            _dstMethodNameProp = serializedObject.FindProperty("DstPropName");
-            _eventNameProp = serializedObject.FindProperty("SrcEventName");
-            _viewModelName = serializedObject.FindProperty("ViewModelName");
-        }
+            base.DrawChangeableElements();
 
-        public override void OnInspectorGUI()
-        {
-            serializedObject.Update();
+            GUIUtils.BindingField("Destination property", _dstNames, _dstPaths);
 
-            DrawDefaultInspector();
+            GUIUtils.ObjectField("Source View", _srcViewProp, typeof(Component));
 
-            var myClass = target as EventPropertyBinding;
+            GUIUtils.BindingField("Source Event", _eventNames);
 
-            _dstMethodIdx = myClass.DstProps.IndexOf(_dstMethodNameProp.stringValue);
-            _eventIdx = myClass.SrcEvents.IndexOf(_eventNameProp.stringValue);
-            _viewModelIdx = myClass.ViewModels.IndexOf(_viewModelName.stringValue);
+            EditorGUILayout.BeginHorizontal();
+            GUIUtils.EnumField("Argument", ref _argTypeIdx);
 
-            EditorGUI.BeginChangeCheck();
-
-            EditorGUILayout.LabelField("Source Event");
-            _eventIdx = EditorGUILayout.Popup(_eventIdx, myClass.SrcEvents.ToArray());
-
-            EditorGUILayout.LabelField("Destination ViewModel");
-            _viewModelIdx = EditorGUILayout.Popup(_viewModelIdx, myClass.ViewModels.ToArray());
-
-            EditorGUILayout.LabelField("Destination Property");
-            _dstMethodIdx = EditorGUILayout.Popup(_dstMethodIdx, myClass.DstProps.ToArray());
-
-
-            if (EditorGUI.EndChangeCheck())
+            switch (_argTypeIdx)
             {
-                myClass.ViewModelName = _viewModelIdx > -1 ?
-                    myClass.ViewModels[_viewModelIdx] : null;
-
-                myClass.SrcEventName = _eventIdx > -1 ?
-                    myClass.SrcEvents[_eventIdx] : null;
-
-                myClass.DstPropName = _dstMethodIdx > -1 ?
-                    myClass.DstProps[_dstMethodIdx] : null;
-
-                EditorUtility.SetDirty(target);
-
-                serializedObject.ApplyModifiedProperties();
-
-                myClass.UpdateBindings();
+                case EventArgType.Property:
+                    GUIUtils.BindingField(null, _srcPropNames);
+                    break;
+                case EventArgType.String:
+                    _stringArgProp.stringValue = EditorGUILayout.TextField(_stringArgProp.stringValue);
+                    break;
+                case EventArgType.Int:
+                    _intArgProp.intValue = EditorGUILayout.IntField(_intArgProp.intValue);
+                    break;
+                case EventArgType.Float:
+                    _floatArgProp.floatValue = EditorGUILayout.FloatField(_floatArgProp.floatValue);
+                    break;
+                case EventArgType.Bool:
+                    _boolArgProp.boolValue = EditorGUILayout.Toggle(_boolArgProp.boolValue);
+                    break;
+                default:
+                    break;
             }
+
+            EditorGUILayout.EndHorizontal();
+        }
+
+
+
+        protected override void SetupDropdownIndices()
+        {
+            base.SetupDropdownIndices();
+
+            _dstNames.SetupIndex();
+            _dstPaths.SetupIndex();
+            _eventNames.SetupIndex();
+            _srcPropNames.SetupIndex();
+            _srcPathNames.SetupIndex();
+
+            _argTypeIdx = (EventArgType)_argTypeProp.enumValueIndex;
+        }
+
+        protected override void UpdateSerializedProperties()
+        {
+            base.UpdateSerializedProperties();
+
+            _dstNames.UpdateProperty();
+            _dstPaths.UpdateProperty();
+            _eventNames.UpdateProperty();
+            _srcPathNames.UpdateProperty();
+            _srcPropNames.UpdateProperty();
+
+            _argTypeProp.enumValueIndex = (int)_argTypeIdx;
+        }
+
+        protected override void CollectPropertyLists()
+        {
+            base.CollectPropertyLists();
+
+            if (_viewModelChanged)
+            {
+                _dstNames.Value = null;
+                _dstPaths.Value = null;
+            }
+
+            _dstNames.Clear();
+            _dstPaths.Clear();
+            _eventNames.Clear();
+            _srcPropNames.Clear();
+            _srcPathNames.Clear();
+
+            var view = _srcViewProp.objectReferenceValue as Component;
+
+            if (view)
+            {
+                _eventNames.Values = view.GetBindableEventsList();
+                _srcPropNames.Values = view.GetBindablePropertyList(needsSetter: false);
+
+                _srcPathNames.Values = view.GetPropertiesAndFieldsList(_srcPropNames.Value);
+            }
+            else
+                _eventNames.Value = null;
+
+            _dstNames.Values = ViewModelProvider.GetViewModelPropertyList(ViewModelName);
+
+            var vmType = ViewModelProvider.GetViewModelType(ViewModelName);
+
+            var propType = vmType.GetProperty(_dstNames.Value)?.PropertyType;
+           _dstPaths.Values =  propType?.GetNestedFields();
         }
 
     }

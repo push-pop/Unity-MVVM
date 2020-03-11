@@ -14,28 +14,26 @@ namespace UnityMVVM.Extensions
             return component.GetType().GetBindablePropertyNames(needsGetter, needsSetter);
         }
 
-       public static List<string> GetBindableEventsList(this Component component)
+        public static List<string> GetBindableEventsList(this Component component)
         {
-            return component.GetType().GetBindableProperties(false, false).Where(p => p.PropertyType.IsSubclassOf(typeof(UnityEngine.Events.UnityEventBase))
-                                               && !p.GetCustomAttributes(typeof(ObsoleteAttribute), true).Any())
-                                        .Select(p => p.Name).ToList();
+            return component.GetType().GetBindableProperties(false, false)
+                .Where(p => p.PropertyType.IsSubclassOf(typeof(UnityEngine.Events.UnityEventBase))
+                        && !p.GetCustomAttributes(typeof(ObsoleteAttribute), true).Any())
+                .Select(p => p.Name).ToList();
         }
 
-
-        public static void GetPropertiesAndFieldsListRecursive(this Component component, ref List<string> list, Type parentProp)
+        public static List<string> GetPropertiesAndFieldsList(this Component component, string parentPropName)
         {
+            var list = new List<string>();
 
-        }
-
-        public static void GetPropertiesAndFieldsList(this Component component, string parentPropName, ref List<string> list)
-        {
             if (string.IsNullOrEmpty(parentPropName))
-                return;
+                return new List<string>();
 
-            var parentPropType = component.GetType().GetProperty(parentPropName).PropertyType;
+            var parentPropType = component?.GetType().GetProperty(parentPropName)?.PropertyType;
 
-            parentPropType.GetNestedFields(ref list);
+            parentPropType?.GetNestedFields(ref list);
 
+            return list;
         }
     }
 }

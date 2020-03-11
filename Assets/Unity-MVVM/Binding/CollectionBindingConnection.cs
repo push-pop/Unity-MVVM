@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace UnityMVVM.Binding
 {
-    public class CollectionBinding : MonoBehaviour
+    public class CollectionBindingConnection : MonoBehaviour
     {
         [SerializeField]
         CollectionViewSource src;
@@ -14,15 +14,6 @@ namespace UnityMVVM.Binding
 
         [SerializeField]
         string PropertyName;
-
-        private void Start()
-        {
-            //foreach (var item in src[index].GetType().GetProperties())
-            //{
-            //    Debug.Log(item.PropertyType);
-            //} 
-
-        }
 
         private void Update()
         {

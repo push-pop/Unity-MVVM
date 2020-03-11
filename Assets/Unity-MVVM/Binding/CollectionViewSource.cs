@@ -1,12 +1,9 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System.Collections.Specialized;
 using System;
-using System.Linq;
-using System.Reflection;
-using UnityMVVM.Util;
 using UnityMVVM.Model;
+using System.Collections.Generic;
 
 namespace UnityMVVM.Binding
 {
@@ -14,10 +11,6 @@ namespace UnityMVVM.Binding
     {
         INotifyCollectionChanged srcCollection;
 
-        [HideInInspector]
-        public List<string> SrcCollections = new List<string>();
-
-        [HideInInspector]
         public string SrcCollectionName;
 
         public Action<int, IList> OnElementsAdded;
@@ -25,30 +18,9 @@ namespace UnityMVVM.Binding
         public Action<int, IList> OnCollectionReset;
         public Action<int, IList> OnElementUpdated;
 
-        public Action<IModel> OnSelectedItemUpdated;
-
-        public IModel SelectedItem
-        {
-            get { return _selectedItem; }
-
-            set
-            {
-                if (value != _selectedItem)
-                {
-                    _selectedItem = value;
-
-                    OnSelectedItemUpdated?.Invoke(value);
-                }
-            }
-        }
-
-        IModel _selectedItem;
-
         BindTarget src;
 
         DataBindingConnection _conn;
-
-        bool isBound = false;
 
         public override bool KeepConnectionAliveOnDisable => true;
 
@@ -60,7 +32,9 @@ namespace UnityMVVM.Binding
             }
         }
 
-        public string SelectedItemPropName;
+        public override bool IsBound { get => _isBound; protected set => _isBound = value; }
+
+        bool _isBound;
 
         public object this[int key]
         {
@@ -77,6 +51,9 @@ namespace UnityMVVM.Binding
 
         public override void RegisterDataBinding()
         {
+            if (_isBound)
+                return;
+
             if (_viewModel == null)
             {
                 Debug.LogErrorFormat("Binding Error | Could not Find ViewModel {0} for collection {1}", ViewModelName, SrcCollectionName);
@@ -87,23 +64,18 @@ namespace UnityMVVM.Binding
             src = new BindTarget(_viewModel, SrcCollectionName);
             srcCollection = src.GetValue() as INotifyCollectionChanged;
 
-            if (srcCollection != null && !isBound)
+            if (srcCollection != null && !_isBound)
                 srcCollection.CollectionChanged += CollectionChanged;
 
-            if (!string.IsNullOrEmpty(SelectedItemPropName) && _conn == null)
-            {
-                _conn = new DataBindingConnection(gameObject, new BindTarget(_viewModel, SelectedItemPropName), new BindTarget(this, nameof(SelectedItem)));
-                _conn.OnSrcUpdated();
-                _conn.Bind();
-            }
-
-            isBound = true;
+            _isBound = true;
         }
 
         public override void UnregisterDataBinding()
         {
-            if (srcCollection != null && isBound)
+            if (srcCollection != null && _isBound)
                 srcCollection.CollectionChanged -= CollectionChanged;
+
+            _isBound = false;
         }
 
         protected virtual void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -127,26 +99,8 @@ namespace UnityMVVM.Binding
                 default:
                     break;
             }
-
-            OnSelectedItemUpdated?.Invoke(SelectedItem);
         }
 
-        public override void UpdateBindings()
-        {
-            base.UpdateBindings();
-
-            if (!string.IsNullOrEmpty(ViewModelName))
-            {
-                var props = ViewModelProvider.GetViewModelProperties(ViewModelName, BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public);
-
-                SrcCollections = props.Where(prop =>
-                        typeof(INotifyCollectionChanged).IsAssignableFrom(prop.PropertyType)
-                        && !prop.GetCustomAttributes(typeof(ObsoleteAttribute), true).Any()
-                    ).Select(e => e.Name).ToList();
-
-
-            }
-        }
         protected override void OnDestroy()
         {
             if (_conn != null && !_conn.isDisposed)

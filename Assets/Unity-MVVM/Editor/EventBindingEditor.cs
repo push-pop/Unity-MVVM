@@ -1,74 +1,75 @@
-﻿using UnityEditor;
+﻿using System.Collections.Generic;
+using System.Linq;
+using UnityEditor;
+using UnityEngine;
 using UnityMVVM.Binding;
+using UnityMVVM.Extensions;
+using UnityMVVM.Util;
+
 
 namespace UnityMVVM.Editor
 {
     [CanEditMultipleObjects]
     [CustomEditor(typeof(EventBinding), true)]
-    public class EventBindingEditor : UnityEditor.Editor
+    public class EventBindingEditor : DataBindingBaseEditor
     {
-        SerializedProperty _dstMethodNameProp;
-        SerializedProperty _eventNameProp;
-        SerializedProperty _viewModelName;
+        SerializedList _eventNames = new SerializedList("SrcEventName");
+        SerializedList _methodNames = new SerializedList("DstMethodName");
 
-        int _eventIdx = 0;
-        int _dstMethodIdx = 0;
-        int _viewModelIdx = 0;
+        SerializedProperty _srcViewProp;
 
-        private void OnEnable()
+        protected override void DrawChangeableElements()
         {
-            CollectSerializedProperties();
+            base.DrawChangeableElements();
+
+            GUIUtils.BindingField("Destination Method", _methodNames);
+            GUIUtils.ObjectField("Source View", _srcViewProp, typeof(Component));
+            GUIUtils.BindingField("Source Event", _eventNames);
         }
 
-        protected virtual void CollectSerializedProperties()
+        protected override void SetupDropdownIndices()
         {
-            _dstMethodNameProp = serializedObject.FindProperty("DstMethodName");
-            _eventNameProp = serializedObject.FindProperty("SrcEventName");
-            _viewModelName = serializedObject.FindProperty("ViewModelName");
+            base.SetupDropdownIndices();
+
+            _eventNames.SetupIndex();
+            _methodNames.SetupIndex();
         }
 
-        public override void OnInspectorGUI()
+        protected override void UpdateSerializedProperties()
         {
-            serializedObject.Update();
+            base.UpdateSerializedProperties();
 
-            DrawDefaultInspector();
-
-            var myClass = target as EventBinding;
-
-            _dstMethodIdx = myClass.DstMethods.IndexOf(_dstMethodNameProp.stringValue);
-            _eventIdx = myClass.SrcEvents.IndexOf(_eventNameProp.stringValue);
-            _viewModelIdx = myClass.ViewModels.IndexOf(_viewModelName.stringValue);
-
-            EditorGUI.BeginChangeCheck();
-
-            EditorGUILayout.LabelField("Source Event");
-            _eventIdx = EditorGUILayout.Popup(_eventIdx, myClass.SrcEvents.ToArray());
-
-            EditorGUILayout.LabelField("Destination ViewModel");
-            _viewModelIdx = EditorGUILayout.Popup(_viewModelIdx, myClass.ViewModels.ToArray());
-
-            EditorGUILayout.LabelField("Destination Method");
-            _dstMethodIdx = EditorGUILayout.Popup(_dstMethodIdx, myClass.DstMethods.ToArray());
-
-
-            if (EditorGUI.EndChangeCheck())
-            {
-                myClass.ViewModelName = _viewModelIdx > -1 ?
-                    myClass.ViewModels[_viewModelIdx] : null;
-
-                myClass.SrcEventName = _eventIdx > -1 ?
-                    myClass.SrcEvents[_eventIdx] : null;
-
-                myClass.DstMethodName = _dstMethodIdx > -1 ?
-                    myClass.DstMethods[_dstMethodIdx] : null;
-
-                EditorUtility.SetDirty(target);
-
-                serializedObject.ApplyModifiedProperties();
-
-                myClass.UpdateBindings();
-            }
+            _eventNames.UpdateProperty();
+            _methodNames.UpdateProperty();
         }
 
+        protected override void CollectSerializedProperties()
+        {
+            base.CollectSerializedProperties();
+
+            _eventNames.Init(serializedObject);
+            _methodNames.Init(serializedObject);
+
+            _srcViewProp = serializedObject.FindProperty("SrcView");
+        }
+
+        protected override void CollectPropertyLists()
+        {
+            base.CollectPropertyLists();
+
+            _eventNames.Clear();
+            _methodNames.Clear();
+
+            var view = _srcViewProp.objectReferenceValue as Component;
+
+            if (view)
+                _eventNames.Values = view.GetBindableEventsList();
+
+            else
+                _eventNames.Value = null;
+
+
+            _methodNames.Values = ViewModelProvider.GetViewModelMethodNames(ViewModelName);
+        }
     }
 }

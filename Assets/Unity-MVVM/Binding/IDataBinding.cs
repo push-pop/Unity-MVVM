@@ -4,5 +4,7 @@
     {
         void RegisterDataBinding();
         void UnregisterDataBinding();
+
+        bool IsBound { get; }
     }
 }

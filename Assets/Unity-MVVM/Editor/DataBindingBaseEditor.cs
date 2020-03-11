@@ -1,82 +1,186 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
+using UnityEngine;
 using UnityMVVM.Binding;
 using UnityMVVM.Util;
 
 namespace UnityMVVM.Editor
 {
-    [CustomEditor(typeof(DataBindingBase), true)]
-    public class DataBindingBaseEditor : UnityEditor.Editor
+    #region GUI Utilities
+    public static class GUIUtils
     {
+        public static GUILayoutOption[] labelOptions = { GUILayout.ExpandWidth(false), GUILayout.MaxWidth(120) };
+        public static GUILayoutOption[] objectFieldOptions = { GUILayout.ExpandWidth(true) };
+
+        public static void ObjectField(string label, SerializedProperty prop, Type t = null)
+        {
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.LabelField(label, labelOptions);
+            EditorGUILayout.ObjectField(prop, t, GUIContent.none, objectFieldOptions);
+            EditorGUILayout.EndHorizontal();
+        }
+
+        public static void BindingField(string label, SerializedList propsList, SerializedList pathsList = null)
+        {
+
+            bool hasPaths = pathsList != null && pathsList.Values.Count > 0;
+
+            EditorGUILayout.BeginHorizontal();
+
+            if (!string.IsNullOrEmpty(label))
+                EditorGUILayout.LabelField(label, labelOptions);
+
+            propsList.Index = EditorGUILayout.Popup(propsList.Index, propsList.Values.ToArray());
+
+            if (hasPaths)
+                pathsList.Index = EditorGUILayout.Popup(pathsList.Index, pathsList.Values.ToArray());
+
+            EditorGUILayout.EndHorizontal();
+        }
+
+
+        public static void BindingField(string label, ref int propIdx, List<string> props)
+        {
+            int idx = 0;
+            BindingField(label, ref propIdx, props, ref idx, null);
+        }
+
+        public static void BindingField(string label, ref int propIdx, List<string> props, ref int pathIdx, List<string> paths)
+        {
+            bool hasPaths = paths != null && paths.Count > 0;
+
+            EditorGUILayout.BeginHorizontal();
+
+            if (!string.IsNullOrEmpty(label))
+                EditorGUILayout.LabelField(label, labelOptions);
+
+            propIdx = EditorGUILayout.Popup(propIdx, props.ToArray());
+
+            if (hasPaths)
+                pathIdx = EditorGUILayout.Popup(pathIdx, paths.ToArray());
+
+            EditorGUILayout.EndHorizontal();
+        }
+
+        public static void ViewModelField(SerializedList viewModelList)
+        {
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.LabelField("View Model", labelOptions);
+            viewModelList.Index = EditorGUILayout.Popup(viewModelList.Index, viewModelList.Values.ToArray());
+            if (UnityEngine.GUILayout.Button("Open"))
+            {
+                var type = ViewModelProvider.GetViewModelType(viewModelList.Value).Name;
+                var str = AssetDatabase.FindAssets(type).FirstOrDefault();
+                var path = AssetDatabase.GUIDToAssetPath(str);
+                var asset = EditorGUIUtility.Load(path);
+                AssetDatabase.OpenAsset(asset);
+            }
+            EditorGUILayout.EndHorizontal();
+        }
+
+        public static void ViewModelField(ref int viewModelIdx, List<string> viewModels, SerializedProperty selectedViewModel)
+        {
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.LabelField("View Model", labelOptions);
+            viewModelIdx = EditorGUILayout.Popup(viewModelIdx, viewModels.ToArray());
+            if (UnityEngine.GUILayout.Button("Open"))
+            {
+                var type = ViewModelProvider.GetViewModelType(selectedViewModel.stringValue).Name;
+                var str = AssetDatabase.FindAssets(type).FirstOrDefault();
+                var path = AssetDatabase.GUIDToAssetPath(str);
+                var asset = EditorGUIUtility.Load(path);
+                AssetDatabase.OpenAsset(asset);
+            }
+            EditorGUILayout.EndHorizontal();
+        }
+
+        public static void ToggleField(string label, SerializedProperty prop)
+        {
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.LabelField(label, labelOptions);
+
+            prop.boolValue = EditorGUILayout.Toggle(prop.boolValue);
+
+            EditorGUILayout.EndHorizontal();
+        }
+
+        internal static void EnumField<T>(string label, ref T idx)
+            where T : Enum
+        {
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.LabelField(label, labelOptions);
+            idx = (T)EditorGUILayout.EnumPopup((T)idx);
+            EditorGUILayout.EndHorizontal();
+        }
+    }
+    #endregion
+
+    [CustomEditor(typeof(DataBindingBase), true)]
+    public class DataBindingBaseEditor : MVVMBaseEditor
+    {
+        public string ViewModelName { get => _viewModelProp.Value; }
 
         public int _viewModelIdx = 0;
-        List<string> _viewModels = new List<string>();
+        protected List<string> _viewModels = new List<string>();
 
-        SerializedProperty _viewmodelNameProp;
+        protected SerializedList _viewModelProp = new SerializedList("ViewModelName");
 
-        private void OnEnable()
+        protected bool _viewModelChanged { get; set; }
+
+        protected override void OnEnable()
         {
+            _viewModels = ViewModelProvider.Viewmodels;
+
             CollectSerializedProperties();
-            (target as DataBindingBase).UpdateBindings();
+
+            CollectPropertyLists();
+
+            serializedObject.ApplyModifiedProperties();
+
+            UpdateSerializedProperties();
         }
 
-        protected virtual void CollectSerializedProperties()
+        protected override void CollectSerializedProperties()
         {
-            _viewmodelNameProp = serializedObject.FindProperty("ViewModelName");
+            _viewModelProp.Init(serializedObject);
         }
 
-        protected virtual void DrawChangeableElements()
+        protected void DrawViewModelDrawer()
         {
-            var myClass = target as DataBindingBase;
+            EditorGUI.BeginChangeCheck();
 
-            EditorGUILayout.LabelField("Source ViewModel");
-            _viewModelIdx = EditorGUILayout.Popup(_viewModelIdx, _viewModels.ToArray());
+            GUIUtils.ViewModelField(_viewModelProp);
 
+            _viewModelChanged = EditorGUI.EndChangeCheck();
         }
 
-        protected virtual void UpdateSerializedProperties()
+        protected override void DrawChangeableElements()
         {
-            var myClass = target as DataBindingBase;
+            DrawViewModelDrawer();
+        }
 
-            myClass.ViewModelName = _viewModelIdx > -1 ?
-                         _viewModels[_viewModelIdx] : null;
+        protected override void UpdateSerializedProperties()
+        {
+            _viewModelProp.UpdateProperty();
+        }
+
+        protected override void SetupDropdownIndices()
+        {
+            _viewModelProp.SetupIndex();
         }
 
         public override void OnInspectorGUI()
         {
-            CollectSerializedProperties();
+            base.OnInspectorGUI();
+            _viewModelChanged = false;
 
-            _viewModels = ViewModelProvider.Viewmodels;
+        }
 
-            serializedObject.Update();
-
-            DrawDefaultInspector();
-
-            var myClass = target as DataBindingBase;
-
-            _viewModelIdx = _viewModels.ToList().IndexOf(_viewmodelNameProp.stringValue);
-
-            if (_viewModelIdx < 0 && _viewModels.Count > 0)
-            {
-                _viewModelIdx = 0;
-                myClass.ViewModelName = _viewModels.FirstOrDefault();
-            }
-
-            EditorGUI.BeginChangeCheck();
-
-            DrawChangeableElements();
-
-            if (EditorGUI.EndChangeCheck())
-            {
-                UpdateSerializedProperties();
-
-                EditorUtility.SetDirty(target);
-
-                serializedObject.ApplyModifiedProperties();
-
-                myClass.UpdateBindings();
-            }
+        protected override void CollectPropertyLists()
+        {
+            _viewModelProp.Values = ViewModelProvider.GetViewModels();
         }
     }
 }
