@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityMVVM.Binding.Converters;
-using UnityMVVM.Extensions;
-using UnityMVVM.Util;
 
 namespace UnityMVVM.Binding
 {
@@ -13,6 +7,9 @@ namespace UnityMVVM.Binding
         : DataBindingBase
     {
         public DataBindingConnection Connection { get { return _connection; } }
+
+        public override bool IsBound { get => _isBound; protected set => _isBound = value; }
+
 
         protected DataBindingConnection _connection;
 
@@ -36,13 +33,12 @@ namespace UnityMVVM.Binding
         public ValueConverterBase _converter;
 
         #endregion
+        private bool _isBound;
 
         bool _isStartup = true;
 
         public override void RegisterDataBinding()
         {
-            base.RegisterDataBinding();
-
             if (_viewModel == null)
             {
                 Debug.LogErrorFormat("Binding Error | Could not Find ViewModel {0} for Property {1}", ViewModelName, SrcPropertyName);
@@ -56,14 +52,16 @@ namespace UnityMVVM.Binding
 
             if (KeepConnectionAliveOnDisable || isActiveAndEnabled)
                 _connection.Bind();
+
+            _isBound = true;
         }
 
         public override void UnregisterDataBinding()
         {
-            base.UnregisterDataBinding();
-
             if (_connection != null)
                 _connection.Unbind();
+
+            _isBound = false;
         }
 
         private void Start()

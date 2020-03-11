@@ -23,10 +23,14 @@ namespace UnityMVVM.Binding
 
         bool _isEventBound = false;
 
+        public override bool IsBound
+        {
+            get => _isEventBound;
+            protected set => _isEventBound = value;
+        }
+
         public override void RegisterDataBinding()
         {
-            base.RegisterDataBinding();
-
             if (_viewModel == null)
             {
                 Debug.LogErrorFormat("Binding Error | Could not Find ViewModel {0} for Event {1}", ViewModelName, SrcEventName);
@@ -36,6 +40,18 @@ namespace UnityMVVM.Binding
 
             if (!_isEventBound)
                 BindEvent();
+        }
+
+        public override void UnregisterDataBinding()
+        {
+            var method = UnityEventBinder.GetRemoveListener(_srcEventProp.GetValue(SrcView));
+
+            if (d == null || method == null)
+                return;
+
+            var p = new object[] { d };
+
+            method.Invoke(_srcEventProp.GetValue(SrcView), p);
         }
 
         protected virtual void BindEvent()
@@ -67,19 +83,6 @@ namespace UnityMVVM.Binding
             method.Invoke(_srcEventProp.GetValue(SrcView), p);
 
             _isEventBound = true;
-        }
-
-        protected override void OnDestroy()
-        {
-            base.OnDestroy();
-            var method = UnityEventBinder.GetRemoveListener(_srcEventProp.GetValue(SrcView));
-
-            if (d == null || method == null)
-                return;
-
-            var p = new object[] { d };
-
-            method.Invoke(_srcEventProp.GetValue(SrcView), p);
         }
     }
 }

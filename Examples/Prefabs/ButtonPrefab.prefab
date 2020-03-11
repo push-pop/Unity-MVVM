@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 2607329967445629446}
   - component: {fileID: 783063964094514536}
   - component: {fileID: 7171392946075829165}
-  - component: {fileID: 1268245170497047769}
   m_Layer: 5
   m_Name: ButtonPrefab
   m_TagString: Untagged
@@ -138,32 +137,6 @@ MonoBehaviour:
   - {fileID: 5869609829937943557}
   _unselectedItems:
   - {fileID: 4550481574851192870}
---- !u!114 &1268245170497047769
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2719066888251376324}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6f248b5151f42845bdafc611cf5193b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _viewModel: {fileID: 0}
-  ViewModelName: UnityMVVM.Examples.OtherViewModel
-  SrcEventName: OnClick
-  SrcPropName: Model
-  SrcPropPath: 
-  DstPropName: SelectedModel
-  DstPath: --
-  ArgType: 0
-  FloatArg: 0
-  IntArg: 0
-  StringArg: 
-  SrcView: {fileID: 7171392946075829165}
-  _dstViewModel: {fileID: 0}
-  converter: {fileID: 0}
 --- !u!1 &2720010959384200278
 GameObject:
   m_ObjectHideFlags: 0

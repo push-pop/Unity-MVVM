@@ -1,8 +1,10 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace UnityMVVM.Model
 {
+    public class CollectionViewItemSelectedEvent : UnityEvent<IModel> { }
     public abstract class CollectionViewItemBase : MonoBehaviour, ICollectionViewItem
     {
         public abstract IModel Model { get; set; }
@@ -25,8 +27,12 @@ namespace UnityMVVM.Model
         public abstract void ToggleSelected();
         public bool Equals(ICollectionViewItem other)
         {
-            return other.Model.Equals(Model);
+            return other.Model.Equals(Model) && other.Equals(this);
         }
+
+        public Action<IModel> OnSelected { get; set; }
+        public Action<IModel> OnDeselected { get; set; }
+
     }
 
     public abstract class CollectionViewItemBase<T> : MonoBehaviour, ICollectionViewItem
@@ -53,7 +59,6 @@ namespace UnityMVVM.Model
                 _isSelected = value;
                 SetSelected(value);
             }
-
         }
         bool _isSelected;
 
@@ -63,7 +68,9 @@ namespace UnityMVVM.Model
             Model = model;
         }
         public abstract void SetSelected(bool v);
-        public abstract void ToggleSelected();
         public abstract void UpdateItem(IModel model);
+
+        public Action<IModel> OnSelected { get; set; }
+        public Action<IModel> OnDeselected { get; set; }
     }
 }
