@@ -1,14 +1,19 @@
 {
-    "samples": [
-      {
-        "displayName": "Sample Name 1",
-        "description": "Description for sample 1",
-        "path": "Samples~/Sample Folder 1"
-      },
-      {
-        "displayName": "Sample Name 2",
-        "description": "Description for sample 2",
-        "path": "Samples~/Sample Folder 2"
-      }
-    ]
+  "samples": [
+    {
+      "displayName": "MVVM Tests",
+      "description": "Basic Demo of many different binding types",
+      "path": "Samples~/MVVMTest"
+    },
+    {
+      "displayName": "Property Paths",
+      "description": "Shows usage for property paths",
+      "path": "Samples~/PropertyPaths"
+    },
+    {
+      "displayName": "Selactable CollectionView",
+      "description": "Shows usage for binding SelectedItem to CollectionView",
+      "path": "Samples~/SelectableCollectionView"
+    }
+  ]
   }
