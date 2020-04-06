@@ -227,7 +227,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f7b84aeead54a42b13d40839c1b658, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _srcProp: message
+  _srcProp: label
   _srcPath: 
   _dstPath: 
   _dstProp: text

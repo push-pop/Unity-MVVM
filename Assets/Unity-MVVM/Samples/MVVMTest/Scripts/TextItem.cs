@@ -1,16 +1,15 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityMVVM.Examples;
-using UnityMVVM.View;
+﻿using UnityMVVM.View;
 
-public class TextItem : CollectionViewItemBase<DataModel>
+namespace UnityMVVM.Samples.MVVMTest
 {
-    public override void InitItem(DataModel model, int idx)
+    public class TextItem : CollectionViewItemBase<TextItemModel>
     {
-    }
+        public override void InitItem(TextItemModel model, int idx)
+        {
+        }
 
-    public override void UpdateItem(DataModel model, int newIdx)
-    {
+        public override void UpdateItem(TextItemModel model, int newIdx)
+        {
+        }
     }
 }

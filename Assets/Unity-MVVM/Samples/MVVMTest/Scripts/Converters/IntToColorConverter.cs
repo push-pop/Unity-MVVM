@@ -4,10 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityMVVM.Binding.Converters;
 
-namespace UnityMVVM
-{
-    namespace Examples
-    {
+namespace UnityMVVM.Samples.MVVMTest { 
         public class IntToColorConverter : ValueConverterBase
         {
 
@@ -38,4 +35,3 @@ namespace UnityMVVM
             }
         }
     }
-}
