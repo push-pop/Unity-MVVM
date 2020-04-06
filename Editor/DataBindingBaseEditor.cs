@@ -11,8 +11,33 @@ namespace UnityMVVM.Editor
     #region GUI Utilities
     public static class GUIUtils
     {
+        public static GUILayoutOption[] messageOptions = { GUILayout.ExpandWidth(true) };
         public static GUILayoutOption[] labelOptions = { GUILayout.ExpandWidth(false), GUILayout.MaxWidth(120) };
         public static GUILayoutOption[] objectFieldOptions = { GUILayout.ExpandWidth(true) };
+
+        public static void Message(string msg, MessageType msgType)
+        {
+
+            GUIStyle labelStyle = new GUIStyle(GUI.skin.label);
+            labelStyle.richText = true;
+
+            switch (msgType)
+            {
+                case MessageType.Warning:
+                    msg = msg.Color(Color.yellow).Bold();
+                    break;
+                case MessageType.Info:
+                    msg = msg.Color(Color.blue).Bold();
+                    break;
+                case MessageType.Error:
+                    msg = msg.Color(Color.red).Bold();
+                    break;
+
+
+            }
+            EditorGUILayout.LabelField(msg, labelStyle);
+
+        }
 
         public static void ObjectField(string label, SerializedProperty prop, Type t = null)
         {

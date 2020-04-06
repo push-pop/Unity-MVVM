@@ -9,7 +9,7 @@ namespace UnityMVVM.View
 {
     public class AnimationDefaults
     {
-        public const float FadeTime = 1f;
+        public const float FadeTime = .2f;
 #if UNITY_MVVM_LEANTWEEN
     public const LeanTweenType Ease = LeanTweenType.easeInCubic;
 #endif

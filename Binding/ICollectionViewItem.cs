@@ -1,18 +1,21 @@
 ﻿using System;
+using UnityMVVM.Model;
 
-namespace UnityMVVM.Model
+namespace UnityMVVM.View
 {
     public interface ICollectionViewItem
     {
-        void Init(IModel model);
-        void UpdateItem(IModel model);
-        void Cleanup();
-        void SetSelected(bool v);
         IModel Model { get; set; }
-        bool IsSelected { get; set; }
-        Action<IModel> OnSelected { get; set; }
-        Action<IModel> OnDeselected { get; set; }
+        int Index { get; set; }
+        void Init(IModel model, int idx);
+        void Update(IModel model, int newIdx);
+        Type ModelType { get; set; }
+    }
 
-        //void OnSelectedChange(Action callback);
+    public interface ICollectionViewItem<T> : ICollectionViewItem
+        where T : IModel
+    {
+        void InitItem(T model, int idx);
+        void UpdateItem(T model, int newIdx);
     }
 }

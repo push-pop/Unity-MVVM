@@ -1,21 +1,33 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Linq.Expressions;
 
 namespace UnityMVVM.Model
 {
-    public abstract class ModelBase : IModel
+    [Serializable]
+    public abstract class ModelBase :
+        IModel, INotifyPropertyChanged, IEquatable<ModelBase>
     {
-    }
-
-    public abstract class ModelBase<T> : IModel, IEquatable<T>
-        where T : class
-    {
-        public abstract bool Equals(T other);
-        public override bool Equals(object obj) => Equals(obj as T);
-        public override abstract int GetHashCode();
-
-        T GetUnderlyingValue()
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void NotifyPropertyChanged<T>(Expression<Func<T>> memberExpr)
         {
-            return this as T;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(GetName(memberExpr)));
+        }
+
+        public void NotifyPropertyChanged(string name)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
+
+        public static string GetName<T>(Expression<Func<T>> e)
+        {
+            var member = (MemberExpression)e.Body;
+            return member.Member.Name;
+        }
+
+        public virtual bool Equals(ModelBase other)
+        {
+            return Object.ReferenceEquals(this, other);
         }
     }
 }

@@ -1,76 +1,76 @@
 ﻿using System;
 using UnityEngine;
-using UnityEngine.Events;
+using UnityMVVM.Binding;
+using UnityMVVM.Model;
+using System.Linq;
 
-namespace UnityMVVM.Model
+namespace UnityMVVM.View
 {
-    public class CollectionViewItemSelectedEvent : UnityEvent<IModel> { }
-    public abstract class CollectionViewItemBase : MonoBehaviour, ICollectionViewItem
+    public abstract class CollectionViewItemBase<T> : MonoBehaviour, ICollectionViewItem<T>
+    where T : class, IModel
     {
-        public abstract IModel Model { get; set; }
-        public bool IsSelected
-        {
-            get => _isSelected;
-            set
-            {
-                _isSelected = value;
-                SetSelected(value);
-            }
-
-        }
-        bool _isSelected;
-        public abstract void Cleanup();
-        public abstract void Init(IModel model);
-        public abstract void UpdateItem(IModel model);
-        public abstract void SetSelected(bool v);
-
-        public abstract void ToggleSelected();
-        public bool Equals(ICollectionViewItem other)
-        {
-            return other.Model.Equals(Model) && other.Equals(this);
-        }
-
-        public Action<IModel> OnSelected { get; set; }
-        public Action<IModel> OnDeselected { get; set; }
-
-    }
-
-    public abstract class CollectionViewItemBase<T> : MonoBehaviour, ICollectionViewItem
-        where T : class, IModel
-    {
-        public virtual IModel Model
+        public virtual T Model
         {
             get
             {
                 return _model;
             }
-            set
+            private set
             {
                 _model = value;
             }
         }
-        IModel _model;
 
-        public bool IsSelected
+        IModel ICollectionViewItem.Model { get => Model; set => Model = (T)value; }
+        public Type ModelType { get => typeof(T); set { } }
+
+
+        public virtual int Index
         {
-            get => _isSelected;
+            get
+            {
+                return _index;
+            }
             set
             {
-                _isSelected = value;
-                SetSelected(value);
+                _index = value;
             }
         }
-        bool _isSelected;
 
-        public abstract void Cleanup();
-        public virtual void Init(IModel model)
+
+        int _index = -1;
+
+        T _model;
+
+        public abstract void InitItem(T model, int idx);
+        public abstract void UpdateItem(T model, int newIdx);
+
+        void ICollectionViewItem.Init(IModel model, int idx)
         {
-            Model = model;
-        }
-        public abstract void SetSelected(bool v);
-        public abstract void UpdateItem(IModel model);
+            Model = model as T;
+            Index = idx;
 
-        public Action<IModel> OnSelected { get; set; }
-        public Action<IModel> OnDeselected { get; set; }
+            InitItem(model as T, idx);
+            var bindings = GetComponentsInChildren<CollectionItemBinding>(true);
+            foreach (var item in bindings)
+            {
+                item.RegisterDataBinding(model);
+            }
+        }
+
+        void ICollectionViewItem.Update(IModel model, int newIdx)
+        {
+            UpdateItem(model as T, newIdx);
+        }
+
+        void ICollectionViewItem<T>.InitItem(T model, int idx)
+        {
+            throw new NotImplementedException();
+        }
+
+        void ICollectionViewItem<T>.UpdateItem(T model, int newIdx)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

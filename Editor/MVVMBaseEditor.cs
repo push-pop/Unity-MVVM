@@ -2,7 +2,7 @@
 using UnityMVVM.Types;
 
 [CustomEditor(typeof(MVVMBase))]
-public class MVVMBaseEditor : UnityEditor.Editor
+public abstract class MVVMBaseEditor : UnityEditor.Editor
 {
     protected virtual void OnEnable()
     {
@@ -15,15 +15,15 @@ public class MVVMBaseEditor : UnityEditor.Editor
         UpdateSerializedProperties();
     }
 
-    protected virtual void CollectSerializedProperties() { }
+    protected abstract void CollectSerializedProperties();
 
-    protected virtual void DrawChangeableElements() { }
+    protected abstract void DrawChangeableElements();
 
-    protected virtual void UpdateSerializedProperties() { }
+    protected abstract void UpdateSerializedProperties();
 
-    protected virtual void SetupDropdownIndices() { }
+    protected abstract void SetupDropdownIndices();
 
-    protected virtual void CollectPropertyLists() { }
+    protected abstract void CollectPropertyLists();
 
     public override void OnInspectorGUI()
     {
@@ -39,11 +39,11 @@ public class MVVMBaseEditor : UnityEditor.Editor
         {
             UpdateSerializedProperties();
 
-            serializedObject.ApplyModifiedProperties();
-
             EditorUtility.SetDirty(target);
 
             CollectPropertyLists();
+
+            serializedObject.ApplyModifiedProperties();
         }
 
     }

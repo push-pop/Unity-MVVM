@@ -20,7 +20,6 @@ namespace UnityMVVM.Editor
 
         protected override void CollectSerializedProperties()
         {
-            base.CollectSerializedProperties();
 
             _selectedItemNames.Init(serializedObject);
             _selectedItemCollectionNames.Init(serializedObject);
@@ -32,7 +31,6 @@ namespace UnityMVVM.Editor
 
         protected override void DrawChangeableElements()
         {
-            base.DrawChangeableElements();
             GUIUtils.ObjectField("Source Collection", _srcCollectionProp, typeof(CollectionViewSource));
             GUIUtils.ObjectField("List Item Prefab", _listItemPrefabProp, typeof(GameObject));
             //GUIUtils.ToggleField("Can Select Multiple", _canSelectMultipleProp);
@@ -44,15 +42,11 @@ namespace UnityMVVM.Editor
 
         protected override void UpdateSerializedProperties()
         {
-            base.UpdateSerializedProperties();
-
             _selectedItemNames.UpdateProperty();
             _selectedItemCollectionNames.UpdateProperty();
         }
         protected override void SetupDropdownIndices()
         {
-            base.SetupDropdownIndices();
-
             _selectedItemNames.SetupIndex();
             _selectedItemCollectionNames.SetupIndex();
         }
@@ -60,8 +54,6 @@ namespace UnityMVVM.Editor
         protected override void CollectPropertyLists()
         {
             var myClass = target as CollectionViewBase;
-
-            base.CollectPropertyLists();
 
             _selectedItemNames.Clear();
             _selectedItemCollectionNames.Clear();
