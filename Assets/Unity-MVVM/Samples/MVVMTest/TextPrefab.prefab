@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 224439391291360196}
   - component: {fileID: 222475415086263634}
   - component: {fileID: 114439605050043270}
+  - component: {fileID: 1822015231}
+  - component: {fileID: 1822015235}
   m_Layer: 5
   m_Name: TextPrefab
   m_TagString: Untagged
@@ -25,7 +27,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1576776248439620}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -74,6 +76,37 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1822015231
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1576776248439620}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1f7b84aeead54a42b13d40839c1b658, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _srcProp: color
+  _srcPath: --
+  _dstPath: --
+  _dstProp: color
+  _dstView: {fileID: 114439605050043270}
+  _converter: {fileID: 0}
+  SrcViewName: 
+--- !u!114 &1822015235
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1576776248439620}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e779f647aee11154fbb27dff89319f97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1936729698104790
 GameObject:
   m_ObjectHideFlags: 0
@@ -85,6 +118,7 @@ GameObject:
   - component: {fileID: 224763189410589350}
   - component: {fileID: 222572792300032540}
   - component: {fileID: 114352550398163202}
+  - component: {fileID: 1822015234}
   m_Layer: 5
   m_Name: TextPrefab
   m_TagString: Untagged
@@ -151,3 +185,22 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: TEST
+--- !u!114 &1822015234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1936729698104790}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1f7b84aeead54a42b13d40839c1b658, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _srcProp: message
+  _srcPath: 
+  _dstPath: 
+  _dstProp: text
+  _dstView: {fileID: 114352550398163202}
+  _converter: {fileID: 0}
+  SrcViewName: 

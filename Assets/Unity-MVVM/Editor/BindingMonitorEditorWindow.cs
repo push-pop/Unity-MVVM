@@ -55,7 +55,7 @@ namespace UnityMVVM.Editor
         static void Init()
         {
             var window = (BindingMonitorEditorWindow)EditorWindow.GetWindow(typeof(BindingMonitorEditorWindow));
-
+            window.titleContent = new GUIContent("Binding Monitor");
             window.Show();
         }
 

@@ -8,5 +8,10 @@ namespace UnityMVVM.Binding
     public class VisibilityBinding : OneWayDataBinding
     {
         public override bool KeepConnectionAliveOnDisable => true;
+
+        private void OnValidate()
+        {
+            DstPropertyName = "ElementVisibility";
+        }
     }
 }

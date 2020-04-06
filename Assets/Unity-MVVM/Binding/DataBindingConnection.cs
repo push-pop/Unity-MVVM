@@ -78,7 +78,13 @@ namespace UnityMVVM.Binding
         {
             if (!IsBound)
             {
-                (_src.propertyOwner as INotifyPropertyChanged).PropertyChanged += PropertyChangedHandler;
+                var notifyPropChanged = (_src.propertyOwner as INotifyPropertyChanged);
+                if (notifyPropChanged == null)
+                {
+                    Debug.LogError("Property Owner Doesn't Inherit from INotifyPropertyChanged - " + _src.propertyOwner);
+                    return;
+                }
+                notifyPropChanged.PropertyChanged += PropertyChangedHandler;
                 IsBound = true;
             }
         }

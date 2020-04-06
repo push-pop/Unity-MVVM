@@ -14,7 +14,9 @@ namespace UnityMVVM.Editor
             {
                 values = value;
                 if (string.IsNullOrEmpty(Value))
+                {
                     Value = values.FirstOrDefault();
+                }
             }
         }
 
@@ -49,10 +51,12 @@ namespace UnityMVVM.Editor
         public void SetupIndex()
         {
             _idx = values.IndexOf(_backingProp.stringValue);
+
             if (_idx < 0 && values.Count > 0)
             {
                 _idx = 0;
-                _backingProp.stringValue = values.FirstOrDefault();
+                if (_backingProp != null && values != null)
+                    _backingProp.stringValue = values.FirstOrDefault();
             }
         }
 

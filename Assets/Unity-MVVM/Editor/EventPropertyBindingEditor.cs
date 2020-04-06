@@ -146,7 +146,8 @@ namespace UnityMVVM.Editor
             var vmType = ViewModelProvider.GetViewModelType(ViewModelName);
 
             var propType = vmType.GetProperty(_dstNames.Value)?.PropertyType;
-           _dstPaths.Values =  propType?.GetNestedFields();
+            if (propType != null)
+                _dstPaths.Values = propType.GetNestedFields();
         }
 
     }

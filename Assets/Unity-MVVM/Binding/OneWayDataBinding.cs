@@ -50,7 +50,7 @@ namespace UnityMVVM.Binding
                 _connection = new DataBindingConnection(gameObject, new BindTarget(_viewModel, SrcPropertyName, SrcPropertyPath), new BindTarget(_dstView, DstPropertyName, DstPropertyPath), _converter);
             }
 
-            if (KeepConnectionAliveOnDisable || isActiveAndEnabled)
+            if ((KeepConnectionAliveOnDisable || isActiveAndEnabled) && !_isBound)
                 _connection.Bind();
 
             _isBound = true;

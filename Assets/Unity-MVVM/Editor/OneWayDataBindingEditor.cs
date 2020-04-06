@@ -92,7 +92,7 @@ namespace UnityMVVM.Editor
             if (view)
             {
                 _dstNames.Values = view.GetBindablePropertyList(needsGetter: false);
-                _dstPaths.Values = view?.GetPropertiesAndFieldsList(_dstNames.Value);
+                _dstPaths.Values = view.GetPropertiesAndFieldsList(_dstNames.Value);
             }
             else
             {
@@ -105,7 +105,8 @@ namespace UnityMVVM.Editor
             _srcNames.Values = ViewModelProvider.GetViewModelPropertyList(ViewModelName);
 
             var propType = vmType.GetProperty(_srcNames.Value)?.PropertyType;
-            _srcPaths.Values = propType?.GetNestedFields();
+            if (propType != null)
+                _srcPaths.Values = propType.GetNestedFields();
         }
     }
 }

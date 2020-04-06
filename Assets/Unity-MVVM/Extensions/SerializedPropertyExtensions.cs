@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿#if UNITY_EDITOR
+using UnityEditor;
 
 namespace UnityMVVM.Extensions
 {
@@ -15,3 +16,4 @@ namespace UnityMVVM.Extensions
         }
     }
 }
+#endif

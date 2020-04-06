@@ -52,7 +52,7 @@ namespace UnityMVVM.View
         }
 
         [SerializeField]
-        float _alpha;
+        float _alpha = 1f;
 
 
 
@@ -61,8 +61,7 @@ namespace UnityMVVM.View
         [SerializeField]
         protected float _fadeTime = AnimationDefaults.FadeTime;
 
-
-        private void Start()
+        private void Awake()
         {
             SetInitialVisibility();
         }

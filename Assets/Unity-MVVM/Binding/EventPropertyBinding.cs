@@ -67,6 +67,8 @@ namespace UnityMVVM.Binding
             var p = new object[] { d };
 
             method.Invoke(_srcEventProp.GetValue(SrcView), p);
+
+            _isBound = false;
         }
 
         protected virtual void BindEvent()
