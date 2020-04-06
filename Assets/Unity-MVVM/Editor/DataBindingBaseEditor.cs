@@ -176,7 +176,11 @@ namespace UnityMVVM.Editor
         {
             EditorGUI.BeginChangeCheck();
 
-            GUIUtils.ViewModelField(_viewModelProp);
+            if (string.IsNullOrEmpty(_viewModelProp.Value))
+                GUIUtils.Message("No ViewModels. Maybe you should make one!", MessageType.Error);
+            else
+                GUIUtils.ViewModelField(_viewModelProp);
+
 
             _viewModelChanged = EditorGUI.EndChangeCheck();
         }
@@ -205,7 +209,7 @@ namespace UnityMVVM.Editor
 
         protected override void CollectPropertyLists()
         {
-            _viewModelProp.Values = ViewModelProvider.GetViewModels();
+            _viewModelProp.Values = ViewModelProvider.Viewmodels;
         }
     }
 }
