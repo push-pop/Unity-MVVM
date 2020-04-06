@@ -3,7 +3,7 @@ using UnityEngine.Events;
 using UnityEngine.UI;
 using UnityMVVM.View;
 
-namespace UnityMVVM.Examples
+namespace UnityMVVM.Samples.MVVMTest
 {
     public class UnityBoolEvent : UnityEvent<bool> { }
 

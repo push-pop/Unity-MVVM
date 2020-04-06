@@ -6,9 +6,9 @@ using UnityEngine.UI;
 using UnityMVVM.Model;
 using UnityMVVM.View;
 
-namespace UnityMVVM.Examples
+namespace UnityMVVM.Samples.SelectableCollectionView
 {
-    public class ButtonItem : CollectionViewItemBase<DataModel>,
+    public class ButtonItem : CollectionViewItemBase<ButtonModel>,
         ISelectable
     {
         public bool IsSelected
@@ -46,9 +46,9 @@ namespace UnityMVVM.Examples
         }
 
 
-        public override void InitItem(DataModel model, int idx)
+        public override void InitItem(ButtonModel model, int idx)
         {
-            GetComponent<Image>().color = model.color;
+
         }
 
         public void SetSelected(bool v)
@@ -64,14 +64,9 @@ namespace UnityMVVM.Examples
         }
 
 
-        public override void UpdateItem(DataModel model, int newIdx)
+        public override void UpdateItem(ButtonModel model, int newIdx)
         {
             GetComponent<Image>().color = model.color;
-        }
-
-        public IModel GetModel()
-        {
-            return Model;
         }
     }
 }

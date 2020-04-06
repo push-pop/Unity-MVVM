@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using UnityMVVM.Binding.Converters;
 using UnityMVVM.View;
 
-namespace UnityMVVM.Examples
+namespace UnityMVVM.Samples.MVVMTest
 {
     public class StateToVisibilityConverter : ValueConverterBase
     {

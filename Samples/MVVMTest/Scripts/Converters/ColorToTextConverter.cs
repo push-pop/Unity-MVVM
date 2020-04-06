@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityMVVM.Binding.Converters;
 
-namespace UnityMVVM.Examples
+namespace UnityMVVM.Samples.MVVMTest
 {
     public class ColorToTextConverter : ValueConverterBase
     {
