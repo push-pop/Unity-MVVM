@@ -9,21 +9,20 @@
         "type": "git",
         "url": "https://github.com/push-pop/Unity-MVVM.git#upm"
     },
-    "samples": [
-        {
-          "displayName": "MVVM Tests",
-          "description": "Basic Demo of many different binding types",
-          "path": "Samples~/MVVMTest"
+    "samples": [{
+            "displayName": "MVVM Tests",
+            "description": "Basic Demo of many different binding types",
+            "path": "Samples~/MVVMTest"
         },
         {
-          "displayName": "Property Paths",
-          "description": "Shows usage for property paths",
-          "path": "Samples~/PropertyPaths"
+            "displayName": "Property Paths",
+            "description": "Shows usage for property paths",
+            "path": "Samples~/PropertyPaths"
         },
         {
-          "displayName": "Selactable CollectionView",
-          "description": "Shows usage for binding SelectedItem to CollectionView",
-          "path": "Samples~/SelectableCollectionView"
+            "displayName": "Selactable CollectionView",
+            "description": "Shows usage for binding SelectedItem to CollectionView",
+            "path": "Samples~/SelectableCollectionView"
         }
-      ]
+    ]
 }
