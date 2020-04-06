@@ -1,19 +1,28 @@
 {
-  "samples": [
-    {
-      "displayName": "MVVM Tests",
-      "description": "Basic Demo of many different binding types",
-      "path": "Samples~/MVVMTest"
+    "name": "com.push-pop.unitymvvm",
+    "displayName": "Unity-MVVM",
+    "version": "1.0.0",
+    "unity": "2019.1",
+    "description": "Lightweight MVVM Framework for Unity3D",
+    "author": "Nate Turley",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/push-pop/Unity-MVVM.git#upm"
     },
-    {
-      "displayName": "Property Paths",
-      "description": "Shows usage for property paths",
-      "path": "Samples~/PropertyPaths"
-    },
-    {
-      "displayName": "Selactable CollectionView",
-      "description": "Shows usage for binding SelectedItem to CollectionView",
-      "path": "Samples~/SelectableCollectionView"
-    }
-  ]
-  }
+    "samples": [{
+            "displayName": "MVVM Tests",
+            "description": "Basic Demo of many different binding types",
+            "path": "Samples~/MVVMTest"
+        },
+        {
+            "displayName": "Property Paths",
+            "description": "Shows usage for property paths",
+            "path": "Samples~/PropertyPaths"
+        },
+        {
+            "displayName": "Selactable CollectionView",
+            "description": "Shows usage for binding SelectedItem to CollectionView",
+            "path": "Samples~/SelectableCollectionView"
+        }
+    ]
+}
