@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -10,6 +9,25 @@ namespace UnityMVVM.Util
 {
     public class ViewModelProvider : Singleton<ViewModelProvider>
     {
+        public static Type ViewModelBaseType => typeof(ViewModelBase);
+
+        public static Assembly UnityAssembly
+        {
+            get
+            {
+                if (_unityAssembly == null)
+                {
+                    _unityAssembly = Assembly.Load("Assembly-CSharp");
+
+                    if (_unityAssembly != null)
+                        Debug.Log("[Unity-MVVM] - Successfully loaded assembly " + _unityAssembly.GetName().Name + " for reflection");
+                }
+
+                return _unityAssembly;
+            }
+        }
+        static Assembly _unityAssembly;
+
         public static List<string> Viewmodels
         {
             get
@@ -23,24 +41,25 @@ namespace UnityMVVM.Util
         }
         static List<string> _viewModels = null;
 
+        public static List<string> GetViewModels(Assembly asm)
+        {
+            return asm.GetTypes().Where(e => e.IsSubclassOf(ViewModelBaseType)).Select(e => e.ToString()).ToList();
+        }
+
         public static List<string> GetViewModels()
         {
-            Assembly mscorlib = Assembly.GetExecutingAssembly();
-            Type t = typeof(ViewModelBase);
-
-            return mscorlib.GetTypes().Where(e => e.IsSubclassOf(t)).Select(e => e.ToString()).ToList();
+            return GetViewModels(UnityAssembly);
         }
 
         public static Type GetViewModelType(string typeString)
         {
-            Assembly asm = Assembly.GetExecutingAssembly();
-            return asm.GetType(typeString);
+            return UnityAssembly.GetType(typeString);
         }
 
         internal ViewModelBase GetViewModelBehaviour(string viewModelName)
         {
-
             var vm = GetComponent(ViewModelProvider.GetViewModelType(viewModelName));
+
             if (vm == null)
                 vm = FindObjectOfType(ViewModelProvider.GetViewModelType(viewModelName)) as ViewModelBase;
 
@@ -48,7 +67,6 @@ namespace UnityMVVM.Util
                 return gameObject.AddComponent(ViewModelProvider.GetViewModelType(viewModelName)) as ViewModelBase;
 
             return vm as ViewModelBase;
-
         }
 
         public static List<string> GetViewModelPropertyList<T>(string viewModelTypeString)
@@ -80,14 +98,12 @@ namespace UnityMVVM.Util
 
         public static PropertyInfo[] GetViewModelProperties(string viewModelTypeString, BindingFlags bindingFlags = BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public)
         {
-            Assembly asm = Assembly.GetExecutingAssembly();
-            return asm.GetType(viewModelTypeString).GetProperties(bindingFlags);
+            return UnityAssembly.GetType(viewModelTypeString).GetProperties(bindingFlags);
         }
 
         internal static MethodInfo[] GetViewModelMethods(string viewModelName, BindingFlags bindingFlags = BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public)
         {
-            Assembly asm = Assembly.GetExecutingAssembly();
-            return asm.GetType(viewModelName).GetMethods(bindingFlags);
+            return UnityAssembly.GetType(viewModelName).GetMethods(bindingFlags);
         }
     }
 }

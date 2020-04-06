@@ -39,6 +39,12 @@ namespace UnityMVVM.Editor
 
         protected override void DrawChangeableElements()
         {
+            if (string.IsNullOrEmpty(_viewModelProp.Value))
+            {
+                base.DrawChangeableElements();
+                return;
+            }
+
             GUIUtils.ObjectField("Dest View", _dstViewProp);
 
             base.DrawChangeableElements();
@@ -64,6 +70,7 @@ namespace UnityMVVM.Editor
         protected override void UpdateSerializedProperties()
         {
             base.UpdateSerializedProperties();
+
             _srcNames.UpdateProperty();
             _srcPaths.UpdateProperty();
 
@@ -80,6 +87,9 @@ namespace UnityMVVM.Editor
                 _srcNames.Value = null;
                 _srcPaths.Value = null;
             }
+
+            if (string.IsNullOrEmpty(_viewModelProp.Value))
+                return;
 
             var view = _dstViewProp.objectReferenceValue as Component;
 

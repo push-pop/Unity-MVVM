@@ -268,8 +268,8 @@ MonoBehaviour:
   ViewModelName: UnityMVVM.Samples.MVVMTest.TestViewModel
   SrcPropertyName: Color
   DstPropertyName: color
-  SrcPropertyPath: --
-  DstPropertyPath: --
+  SrcPropertyPath: 
+  DstPropertyPath: 
   _dstView: {fileID: 174998486}
   _converter: {fileID: 0}
 --- !u!114 &174998485
@@ -1408,7 +1408,7 @@ MonoBehaviour:
   ViewModelName: UnityMVVM.Samples.MVVMTest.TestViewModel
   SrcPropertyName: Color
   DstPropertyName: text
-  SrcPropertyPath: --
+  SrcPropertyPath: 
   DstPropertyPath: 
   _dstView: {fileID: 663722362}
   _converter: {fileID: 663722365}
@@ -1496,8 +1496,8 @@ MonoBehaviour:
   ViewModelName: UnityMVVM.Samples.MVVMTest.TestViewModel
   SrcPropertyName: Color
   DstPropertyName: color
-  SrcPropertyPath: --
-  DstPropertyPath: --
+  SrcPropertyPath: 
+  DstPropertyPath: 
   _dstView: {fileID: 691889571}
   _converter: {fileID: 0}
 --- !u!114 &691889570
@@ -1869,7 +1869,7 @@ MonoBehaviour:
   SrcPropertyName: BoolProp
   DstPropertyName: color
   SrcPropertyPath: 
-  DstPropertyPath: --
+  DstPropertyPath: 
   _dstView: {fileID: 1383601613}
   _converter: {fileID: 1383601610}
 --- !u!114 &1383601610
