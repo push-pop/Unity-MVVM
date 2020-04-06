@@ -34,11 +34,3 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
-
-# Meta files
-*.meta
-
-# Project Settings
-ProjectSettings
-ProjectSettings/*
-
