@@ -1,22 +1,0 @@
-[1mdiff --git a/Assets/Unity-MVVM/Binding/DataBindingConnection.cs b/Assets/Unity-MVVM/Binding/DataBindingConnection.cs[m
-[1mindex efb7258..c435f42 100644[m
-[1m--- a/Assets/Unity-MVVM/Binding/DataBindingConnection.cs[m
-[1m+++ b/Assets/Unity-MVVM/Binding/DataBindingConnection.cs[m
-[36m@@ -2,6 +2,7 @@[m
- using System.Collections;[m
- using System.Collections.Generic;[m
- using System.ComponentModel;[m
-[32m+[m[32musing System.Diagnostics;[m[41m[m
- using System.Linq.Expressions;[m
- using UnityEngine;[m
- [m
-[36m@@ -77,7 +78,8 @@[m [mnamespace UnityMVVM[m
- [m
-             private void NotifyChange_PropertyChanged(object sender, PropertyChangedEventArgs e)[m
-             {[m
-[31m-                if (e.PropertyName == PropertyName)[m
-[32m+[m[32m                //if (e.PropertyName == PropertyName)[m[41m[m
-[32m+[m[32m                if (e.PropertyName.GetHashCode().Equals(PropertyName.GetHashCode()))[m[41m[m
-                     PropertyChangedAction?.Invoke();// ((T)Convert.ChangeType(GetPropValue(sender, e.PropertyName), typeof(T)));[m
-             }[m
- [m
