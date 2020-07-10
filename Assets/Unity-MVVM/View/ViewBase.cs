@@ -33,6 +33,9 @@ namespace UnityMVVM.View
         [SerializeField]
         Visibility _visibility;
 
+        [SerializeField]
+        bool _collapse = false;
+
         public RectTransform rectTransform
         {
             get
@@ -53,6 +56,8 @@ namespace UnityMVVM.View
 
         [SerializeField]
         float _alpha = 1f;
+
+
 
 
 

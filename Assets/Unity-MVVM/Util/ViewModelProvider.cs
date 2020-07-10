@@ -10,30 +10,38 @@ namespace UnityMVVM.Util
     public class ViewModelProvider : Singleton<ViewModelProvider>
     {
         public static Type ViewModelBaseType => typeof(ViewModelBase);
+        public static Assembly ExecutingAssembly => Assembly.GetExecutingAssembly();
 
-        public static Assembly UnityAssembly
+        public static Assembly UserAssembly
         {
             get
             {
-                if (_unityAssembly == null)
+                if (_userAssembly == null)
                 {
-                    _unityAssembly = Assembly.Load("Assembly-CSharp");
-
-                    if (_unityAssembly != null)
-                        Debug.Log("[Unity-MVVM] - Successfully loaded assembly " + _unityAssembly.GetName().Name + " for reflection");
+                    if (_userAssembly != null)
+                        Debug.Log("[Unity-MVVM] - Successfully loaded assembly " + _userAssembly.GetName().Name + " for reflection");
                 }
 
-                return _unityAssembly;
+                return _userAssembly;
             }
         }
-        static Assembly _unityAssembly;
+        static Assembly _userAssembly;
+
+
 
         public static List<string> Viewmodels
         {
             get
             {
                 if (_viewModels == null)
-                    _viewModels = GetViewModels();
+                {
+                    // Get ViewModels from Samples
+                    _viewModels = GetViewModels(Assembly.GetExecutingAssembly());
+
+                    // Search the project Assembly
+                    if (UserAssembly != null)
+                        _viewModels.Concat(GetViewModels(UserAssembly));
+                }
 
                 return _viewModels;
 
@@ -46,14 +54,19 @@ namespace UnityMVVM.Util
             return asm.GetTypes().Where(e => e.IsSubclassOf(ViewModelBaseType)).Select(e => e.ToString()).ToList();
         }
 
-        public static List<string> GetViewModels()
-        {
-            return GetViewModels(UnityAssembly);
-        }
-
         public static Type GetViewModelType(string typeString)
         {
-            return UnityAssembly.GetType(typeString);
+            Type t = null;
+
+            t = UserAssembly?.GetType(typeString);
+
+            if (t == null)
+                t = ExecutingAssembly.GetType(typeString);
+
+            if (t == null)
+                Debug.LogError($"ViewModel type {typeString} not found. Is it in a different Assembly?");
+
+            return t;
         }
 
         internal ViewModelBase GetViewModelBehaviour(string viewModelName)
@@ -96,14 +109,14 @@ namespace UnityMVVM.Util
                 .Select(e => e.Name).ToList();
         }
 
-        public static PropertyInfo[] GetViewModelProperties(string viewModelTypeString, BindingFlags bindingFlags = BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public)
+        public static PropertyInfo[] GetViewModelProperties(string typeString, BindingFlags bindingFlags = BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public)
         {
-            return UnityAssembly.GetType(viewModelTypeString).GetProperties(bindingFlags);
+            return GetViewModelType(typeString).GetProperties(bindingFlags);
         }
 
-        internal static MethodInfo[] GetViewModelMethods(string viewModelName, BindingFlags bindingFlags = BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public)
+        internal static MethodInfo[] GetViewModelMethods(string typeString, BindingFlags bindingFlags = BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public)
         {
-            return UnityAssembly.GetType(viewModelName).GetMethods(bindingFlags);
+            return GetViewModelType(typeString).GetMethods(bindingFlags);
         }
     }
 }
