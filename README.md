@@ -6,7 +6,7 @@ For a background on MVVM checkout the [Wikipedia page](https://en.wikipedia.org/
 The goal of this project is to implement some of the concepts I knew and loved from developing WPF applications, mainly that they be very quick to build, and easy to maintain. It also attempts to solve some of the Unity-specific pain points I've uncovered over the last few years working with Unity.
 
 ## Add to a project
-This project now supports Unity's package manager. The easiest way to get Unity-MVVM + Samples and keep it up to date is to add it in the package manager window. Click the + icon at the top left and select "Add from git url." Then copy+paste the https url from this repo: https://github.com/push-pop/Unity-MVVM.git
+This project now supports Unity's package manager. The easiest way to get Unity-MVVM + Samples and keep it up to date is to add it in the package manager window. Click the + icon at the top left and select "Add from git url." Then copy+paste the https url from this repo and make sure to add the #upm to get the right branch: https://github.com/push-pop/Unity-MVVM.git#upm
 
 The library will be automatically added to your project, and you can download samples from the package manager to see demonstrated usage.
 
