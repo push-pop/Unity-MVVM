@@ -51,7 +51,7 @@ namespace UnityMVVM.Editor
         public OrderType _orderBy = OrderType.ViewModel;
         public FilterType _filterBy = FilterType.None;
 
-        [MenuItem("Window/Unity-MVVM/Binding Monitor")]
+        [MenuItem("Unity-MVVM/Binding Monitor")]
         static void Init()
         {
             var window = (BindingMonitorEditorWindow)EditorWindow.GetWindow(typeof(BindingMonitorEditorWindow));
