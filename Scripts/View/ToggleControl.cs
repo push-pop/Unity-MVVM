@@ -4,7 +4,6 @@ using UnityEngine.UI;
 
 namespace UnityMVVM.View
 {
-    public class UnityBoolEvent : UnityEvent<bool> { }
     [RequireComponent(typeof(Toggle))]
     public class ToggleControl : MonoBehaviour
     {
@@ -16,12 +15,12 @@ namespace UnityMVVM.View
             set => _toggle.isOn = value;
         }
 
-        public UnityBoolEvent OnValueChanged { get; set; } = new UnityBoolEvent();
+        public Toggle.ToggleEvent OnValueChanged { get; set; } = new Toggle.ToggleEvent();
 
         private void Awake()
         {
             _toggle = GetComponent<Toggle>();
-            _toggle.onValueChanged.AddListener(new UnityAction<bool>((newVal) => { OnValueChanged.Invoke(newVal); }));
+            _toggle.onValueChanged.AddListener(newVal => OnValueChanged?.Invoke(newVal));
         }
     }
 }

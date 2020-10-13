@@ -1,0 +1,17 @@
+{
+    "name": "Unity-MVVM-Editor",
+    "references": [
+        "GUID:889b57d9d5be29f419d21d9c7a4b24fa"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
