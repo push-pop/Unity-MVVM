@@ -18,7 +18,14 @@ namespace UnityMVVM.Util
             {
                 if (_userAssembly == null)
                 {
-                    _userAssembly = Assembly.Load("Assembly-CSharp");
+                    try
+                    {
+                        _userAssembly = Assembly.Load("Assembly-CSharp");
+                    }
+                    catch
+                    {
+
+                    }
 
                     if (_userAssembly != null)
                         Debug.Log("[Unity-MVVM] - Successfully loaded assembly " + _userAssembly.GetName().Name + " for reflection");
@@ -37,12 +44,13 @@ namespace UnityMVVM.Util
             {
                 if (_viewModels == null)
                 {
-                    _viewModels = 
-                        GetViewModels(Assembly.GetExecutingAssembly()) // Samples
-                        .Concat(GetViewModels(UserAssembly)).ToList(); // User Assembly
+                    _viewModels = GetViewModels(Assembly.GetExecutingAssembly()); // Samples
+
+                    if (UserAssembly != null)
+                        _viewModels = _viewModels.Concat(GetViewModels(UserAssembly)).ToList(); // User Assembly
                 }
 
-                return _viewModels; 
+                return _viewModels;
 
             }
         }
@@ -53,7 +61,7 @@ namespace UnityMVVM.Util
             if (asm == null) return new List<string>();
             return asm.GetTypes().Where(e => e.IsSubclassOf(ViewModelBaseType)).Select(e => e.ToString()).ToList();
         }
-         
+
         public static Type GetViewModelType(string typeString)
         {
             Type t = null;
