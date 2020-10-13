@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityMVVM.Binding.Converters;
 
 namespace UnityMVVM.Binding
@@ -36,6 +37,9 @@ namespace UnityMVVM.Binding
         private bool _isBound;
 
         bool _isStartup = true;
+
+        public List<string> TestList = new List<string>()
+        { "option1", "option2"};
 
         public override void RegisterDataBinding()
         {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
+using UnityEditorInternal;
 using UnityEngine;
 using UnityMVVM.Binding;
 using UnityMVVM.Binding.Converters;
@@ -23,6 +24,8 @@ namespace UnityMVVM.Editor
         protected SerializedList _dstNames = new SerializedList("DstPropertyName");
         protected SerializedList _dstPaths = new SerializedList("DstPropertyPath");
 
+        ReorderableList _list;
+
         protected override void CollectSerializedProperties()
         {
             base.CollectSerializedProperties();
@@ -34,8 +37,23 @@ namespace UnityMVVM.Editor
 
             _dstViewProp = serializedObject.FindProperty("_dstView");
             _converterProp = serializedObject.FindProperty("_converter");
+
+            Debug.Log("Reorderable List");
+
+            _list = new ReorderableList(
+serializedObject,
+serializedObject.FindProperty("TestList"), true, true, true, true)
+            {
+                 draggable= true,
+                  displayAdd = true,
+                   displayRemove = false
+            };
+            _list.drawElementCallback += DrawElement;
         }
 
+        private void DrawElement(Rect rect, int index, bool isActive, bool isFocused)
+        {
+        }
 
         protected override void DrawChangeableElements()
         {
@@ -45,13 +63,16 @@ namespace UnityMVVM.Editor
                 return;
             }
 
+
             GUIUtils.ObjectField("Dest View", _dstViewProp);
 
             base.DrawChangeableElements();
-
             GUIUtils.BindingField("Source Property", _srcNames, _srcPaths);
-
             GUIUtils.ObjectField("Converter", _converterProp);
+
+            _list.DoLayoutList();
+            serializedObject.ApplyModifiedProperties();
+            EditorUtility.SetDirty(this);
 
             GUIUtils.BindingField("Destination Property", _dstNames, _dstPaths);
         }
@@ -76,6 +97,7 @@ namespace UnityMVVM.Editor
 
             _dstNames.UpdateProperty();
             _dstPaths.UpdateProperty();
+
         }
 
         protected override void CollectPropertyLists()
