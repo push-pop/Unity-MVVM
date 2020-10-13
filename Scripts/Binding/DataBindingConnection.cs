@@ -46,10 +46,19 @@ namespace UnityMVVM.Binding
 
         public void DstUpdated()
         {
-            if (_converter != null)
-                _src.SetValue(_converter.ConvertBack(_dst.GetValue(), _src.property.PropertyType, null));
-            else
-                _src.SetValue(Convert.ChangeType(_dst.GetValue(), _src.property.PropertyType));
+            try
+            {
+                if (_converter != null)
+                    _src.SetValue(_converter.ConvertBack(_dst.GetValue(), _src.property.PropertyType, null));
+                else
+                    _src.SetValue(Convert.ChangeType(_dst.GetValue(), _src.property.PropertyType));
+            }
+            catch(Exception e)
+            {
+                Debug.LogError("Data binding error in: " + _gameObject.name);
+
+                throw (e);
+            }
         }
 
         internal void ClearHandler()
@@ -97,10 +106,9 @@ namespace UnityMVVM.Binding
             }
             catch (Exception e)
             {
-                Debug.LogError("Data binding error in: " + _gameObject.name + ": " + e.Message);
+                Debug.LogError("Data binding error in: " + _gameObject.name);
 
-                if (e.InnerException != null)
-                    Debug.LogErrorFormat("Inner Exception: {0}", e.InnerException.Message);
+                throw (e);
             }
         }
 
