@@ -8,7 +8,7 @@ namespace UnityMVVM.Binding
     {
         public DataBindingConnection Connection { get { return _connection; } }
 
-        public override bool IsBound { get => _isBound; protected set => _isBound = value; }
+        public override bool IsBound { get => _connection != null && _connection.IsBound; }
 
 
         protected DataBindingConnection _connection;
@@ -33,7 +33,6 @@ namespace UnityMVVM.Binding
         public ValueConverterBase _converter;
 
         #endregion
-        private bool _isBound;
 
         bool _isStartup = true;
 
@@ -50,18 +49,14 @@ namespace UnityMVVM.Binding
                 _connection = new DataBindingConnection(gameObject, new BindTarget(_viewModel, SrcPropertyName, SrcPropertyPath), new BindTarget(_dstView, DstPropertyName, DstPropertyPath), _converter);
             }
 
-            if ((KeepConnectionAliveOnDisable || isActiveAndEnabled) && !_isBound)
+            if ((KeepConnectionAliveOnDisable || isActiveAndEnabled) && !IsBound)
                 _connection.Bind();
-
-            _isBound = true;
         }
 
         public override void UnregisterDataBinding()
         {
             if (_connection != null)
                 _connection.Unbind();
-
-            _isBound = false;
         }
 
         private void Start()

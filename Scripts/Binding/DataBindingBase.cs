@@ -63,7 +63,7 @@ namespace UnityMVVM.Binding
         }
 
         #region IDataBinding Abstract Implementation
-        public abstract bool IsBound { get; protected set; }
+        public abstract bool IsBound { get; }
         public abstract void RegisterDataBinding();
         public abstract void UnregisterDataBinding();
         #endregion

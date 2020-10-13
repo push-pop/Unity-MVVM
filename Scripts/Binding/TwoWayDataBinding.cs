@@ -32,8 +32,6 @@ namespace UnityMVVM.Binding
             _binder.OnChange += _connection.DstUpdated;
 
             addListenerMethod.Invoke(propInfo.GetValue(_dstView), p);
-
-            IsBound = true;
         }
 
         public override void UnregisterDataBinding()
@@ -48,8 +46,6 @@ namespace UnityMVVM.Binding
             _binder.OnChange -= _connection.DstUpdated;
 
             removeListenerMethod.Invoke(propInfo.GetValue(_dstView), p);
-
-            IsBound = false;
         }
     }
 }

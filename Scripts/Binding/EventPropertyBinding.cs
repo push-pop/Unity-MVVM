@@ -41,7 +41,7 @@ namespace UnityMVVM.Binding
 
         Delegate d;
 
-        public override bool IsBound { get => _isBound; protected set => _isBound = value; }
+        public override bool IsBound { get => _isBound;  }
         bool _isBound;
 
         public override void RegisterDataBinding()

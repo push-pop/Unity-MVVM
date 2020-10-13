@@ -23,11 +23,8 @@ namespace UnityMVVM.Binding
 
         bool _isEventBound = false;
 
-        public override bool IsBound
-        {
-            get => _isEventBound;
-            protected set => _isEventBound = value;
-        }
+        public override bool IsBound => _isEventBound;
+
 
         public override void RegisterDataBinding()
         {
