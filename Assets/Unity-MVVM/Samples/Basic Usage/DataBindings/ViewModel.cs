@@ -155,10 +155,48 @@ namespace UnityMVVM.Samples.BasicUsage
         [SerializeField]
         private DateTime _now;
 
+        public Color DemoBackgroundColor
+        {
+            get { return _demoBackgroundColor; }
+            set
+            {
+                if (value != _demoBackgroundColor)
+                {
+                    _demoBackgroundColor = value;
+                    NotifyPropertyChanged(nameof(DemoBackgroundColor));
+                }
+            }
+        }
+
+        [SerializeField]
+        private Color _demoBackgroundColor = new Color(192f / 255f, 100f / 255f, 67f / 255f);
+
+
+        public TimeSpan TimerVal
+        {
+            get { return _timerVal; }
+            set
+            {
+                if (value != _timerVal)
+                {
+                    _timerVal = value;
+                    NotifyPropertyChanged(nameof(TimerVal));
+                }
+            }
+        }
+
+        [SerializeField]
+        private TimeSpan _timerVal;
+
 
         #endregion
 
         #region public Methods
+        public void SetRandomBackgroundColor()
+        {
+            DemoBackgroundColor = UnityEngine.Random.ColorHSV();
+        }
+
         public void NextPage()
         {
             CurrPage++;
@@ -176,6 +214,7 @@ namespace UnityMVVM.Samples.BasicUsage
             CurrTime = Time.time;
             IsMouseClicked = Input.GetMouseButton(0);
             Now = DateTime.Now;
+            TimerVal += TimeSpan.FromSeconds(Time.deltaTime);
         }
     }
 }

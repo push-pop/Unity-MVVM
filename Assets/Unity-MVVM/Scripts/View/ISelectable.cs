@@ -2,7 +2,7 @@
 
 namespace UnityMVVM.Model
 {
-    internal interface ISelectable
+    public interface ISelectable
     {
         bool IsSelected { get; set; }
         void SetSelected(bool selected);
