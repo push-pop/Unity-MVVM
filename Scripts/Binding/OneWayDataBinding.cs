@@ -1,8 +1,11 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityMVVM.Binding.Converters;
 
 namespace UnityMVVM.Binding
 {
+    [Obsolete("This component is obsolete and will be removed. please use DataBinding component")]
+
     public class OneWayDataBinding
         : DataBindingBase
     {
@@ -48,9 +51,12 @@ namespace UnityMVVM.Binding
             {
                 _connection = new DataBindingConnection(gameObject, new BindTarget(_viewModel, SrcPropertyName, SrcPropertyPath), new BindTarget(_dstView, DstPropertyName, DstPropertyPath), _converter);
             }
-
+            
             if ((KeepConnectionAliveOnDisable || isActiveAndEnabled) && !IsBound)
+            {
+              //  Debug.Log($"Bind on {gameObject.name}. KeepAlive:{KeepConnectionAliveOnDisable} isActive:{isActiveAndEnabled}");
                 _connection.Bind();
+            }
         }
 
         public override void UnregisterDataBinding()

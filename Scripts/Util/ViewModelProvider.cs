@@ -26,9 +26,6 @@ namespace UnityMVVM.Util
                     {
 
                     }
-
-                    if (_userAssembly != null)
-                        Debug.Log("[Unity-MVVM] - Successfully loaded assembly " + _userAssembly.GetName().Name + " for reflection");
                 }
 
                 return _userAssembly;
