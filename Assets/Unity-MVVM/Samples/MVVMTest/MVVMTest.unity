@@ -262,16 +262,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 174998481}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7fd1823d6abceb84d80263c9039299ac, type: 3}
+  m_Script: {fileID: 11500000, guid: f6254f6ce704a4a448c7af06a9bf9d09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ViewModelName: UnityMVVM.Samples.MVVMTest.TestViewModel
+  BindingMode: 0
   SrcPropertyName: Color
   DstPropertyName: color
-  SrcPropertyPath: 
-  DstPropertyPath: 
-  _dstView: {fileID: 174998486}
-  _converter: {fileID: 0}
+  SrcPropertyPath: --
+  DstPropertyPath: --
+  DstView: {fileID: 174998486}
+  Converter: {fileID: 0}
+  DstChangedEventName: onCullStateChanged
 --- !u!114 &174998485
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -330,6 +332,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 0.2509804}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -469,6 +472,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -501,9 +505,9 @@ GameObject:
   - component: {fileID: 224709566}
   - component: {fileID: 224709570}
   - component: {fileID: 224709569}
-  - component: {fileID: 224709567}
   - component: {fileID: 224709571}
   - component: {fileID: 224709568}
+  - component: {fileID: 224709567}
   m_Layer: 5
   m_Name: Two Way DataBinding Bool Test
   m_TagString: Untagged
@@ -540,17 +544,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 224709565}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d2197614377b1a4b89c05fd563b3d82, type: 3}
+  m_Script: {fileID: 11500000, guid: f6254f6ce704a4a448c7af06a9bf9d09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ViewModelName: UnityMVVM.Samples.MVVMTest.TestViewModel
+  BindingMode: 1
   SrcPropertyName: TwoWayBool
   DstPropertyName: BoolProp
   SrcPropertyPath: 
   DstPropertyPath: 
-  _dstView: {fileID: 224709571}
-  _converter: {fileID: 0}
-  _dstChangedEventName: OnBoolChanged
+  DstView: {fileID: 224709571}
+  Converter: {fileID: 0}
+  DstChangedEventName: OnBoolChanged
 --- !u!114 &224709568
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -609,6 +614,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 0.2509804}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -643,6 +649,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _visibility: 0
+  _collapse: 0
   _alpha: 0
   _fadeTime: 1
   _indicator: {fileID: 224709569}
@@ -731,6 +738,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -804,6 +812,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -959,6 +968,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 0.2509804}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -989,17 +999,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 458916784}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d2197614377b1a4b89c05fd563b3d82, type: 3}
+  m_Script: {fileID: 11500000, guid: f6254f6ce704a4a448c7af06a9bf9d09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ViewModelName: UnityMVVM.Samples.MVVMTest.TestViewModel
+  BindingMode: 1
   SrcPropertyName: Text
   DstPropertyName: text
   SrcPropertyPath: 
   DstPropertyPath: 
-  _dstView: {fileID: 458916786}
-  _converter: {fileID: 0}
-  _dstChangedEventName: onEndEdit
+  DstView: {fileID: 458916786}
+  Converter: {fileID: 0}
+  DstChangedEventName: onEndEdit
 --- !u!1 &489623733
 GameObject:
   m_ObjectHideFlags: 0
@@ -1135,6 +1146,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1212,6 +1224,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1289,6 +1302,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1325,8 +1339,8 @@ GameObject:
   - component: {fileID: 663722361}
   - component: {fileID: 663722363}
   - component: {fileID: 663722362}
-  - component: {fileID: 663722364}
   - component: {fileID: 663722365}
+  - component: {fileID: 663722364}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -1368,6 +1382,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1402,16 +1417,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 663722360}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7fd1823d6abceb84d80263c9039299ac, type: 3}
+  m_Script: {fileID: 11500000, guid: f6254f6ce704a4a448c7af06a9bf9d09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ViewModelName: UnityMVVM.Samples.MVVMTest.TestViewModel
+  BindingMode: 0
   SrcPropertyName: Color
   DstPropertyName: text
   SrcPropertyPath: 
   DstPropertyPath: 
-  _dstView: {fileID: 663722362}
-  _converter: {fileID: 663722365}
+  DstView: {fileID: 663722362}
+  Converter: {fileID: 663722365}
+  DstChangedEventName: 
 --- !u!114 &663722365
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1490,16 +1507,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 691889566}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7fd1823d6abceb84d80263c9039299ac, type: 3}
+  m_Script: {fileID: 11500000, guid: f6254f6ce704a4a448c7af06a9bf9d09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ViewModelName: UnityMVVM.Samples.MVVMTest.TestViewModel
+  BindingMode: 0
   SrcPropertyName: Color
   DstPropertyName: color
   SrcPropertyPath: 
   DstPropertyPath: 
-  _dstView: {fileID: 691889571}
-  _converter: {fileID: 0}
+  DstView: {fileID: 691889571}
+  Converter: {fileID: 0}
+  DstChangedEventName: 
 --- !u!114 &691889570
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1558,6 +1577,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 0.2509804}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1710,6 +1730,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1787,6 +1808,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1824,8 +1846,8 @@ GameObject:
   - component: {fileID: 1383601614}
   - component: {fileID: 1383601613}
   - component: {fileID: 1383601612}
-  - component: {fileID: 1383601609}
   - component: {fileID: 1383601610}
+  - component: {fileID: 1383601609}
   m_Layer: 5
   m_Name: Bool To Color Converter
   m_TagString: Untagged
@@ -1862,16 +1884,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 1383601607}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7fd1823d6abceb84d80263c9039299ac, type: 3}
+  m_Script: {fileID: 11500000, guid: f6254f6ce704a4a448c7af06a9bf9d09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ViewModelName: UnityMVVM.Samples.MVVMTest.TestViewModel
+  BindingMode: 0
   SrcPropertyName: BoolProp
   DstPropertyName: color
   SrcPropertyPath: 
   DstPropertyPath: 
-  _dstView: {fileID: 1383601613}
-  _converter: {fileID: 1383601610}
+  DstView: {fileID: 1383601613}
+  Converter: {fileID: 1383601610}
+  DstChangedEventName: 
 --- !u!114 &1383601610
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1944,6 +1968,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 0.2509804}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2017,6 +2042,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2174,6 +2200,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2208,6 +2235,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _visibility: 0
+  _collapse: 0
   _alpha: 0
   _fadeTime: 1
 --- !u!114 &1630440238
@@ -2277,6 +2305,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2381,6 +2410,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _visibility: 0
+  _collapse: 0
   _alpha: 1
   _fadeTime: 0.2
   SelectedItemName: --
@@ -2418,6 +2448,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0.3018868, g: 0.27110407, b: 0.252047, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2683,6 +2714,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0.3019608, g: 0.27058825, b: 0.2509804, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2756,6 +2788,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2844,6 +2877,7 @@ MonoBehaviour:
   IntArg: 15
   StringArg: Helllo Event!
   BoolArg: 1
+  ColorArg: {r: 1, g: 1, b: 1, a: 1}
   SrcView: {fileID: 2073544136}
   _dstViewModel: {fileID: 0}
   converter: {fileID: 0}
@@ -2905,6 +2939,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 0.2509804}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -3036,6 +3071,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []

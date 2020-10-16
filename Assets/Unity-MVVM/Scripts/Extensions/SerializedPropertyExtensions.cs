@@ -14,6 +14,12 @@ namespace UnityMVVM.Extensions
 
             return arr;
         }
+
+        public static T GetEnumValue<T>(this SerializedProperty prop)
+            where T : System.Enum
+        {
+            return (T)(object)prop.enumValueIndex;
+        }
     }
 }
 #endif

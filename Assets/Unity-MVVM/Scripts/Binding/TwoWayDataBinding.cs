@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace UnityMVVM.Binding
 {
+    [Obsolete("This component is obsolete and will be removed. please use DataBinding component")]
     public class TwoWayDataBinding
         : OneWayDataBinding
     {

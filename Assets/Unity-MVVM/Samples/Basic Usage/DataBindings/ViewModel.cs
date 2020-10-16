@@ -197,6 +197,11 @@ namespace UnityMVVM.Samples.BasicUsage
             DemoBackgroundColor = UnityEngine.Random.ColorHSV();
         }
 
+        public void ResetFrameCounter()
+        {
+            FrameCount = 0;
+        }
+
         public void NextPage()
         {
             CurrPage++;
@@ -210,7 +215,7 @@ namespace UnityMVVM.Samples.BasicUsage
 
         private void Update()
         {
-            FrameCount = Time.frameCount;
+            FrameCount++;// = Time.frameCount;
             CurrTime = Time.time;
             IsMouseClicked = Input.GetMouseButton(0);
             Now = DateTime.Now;
