@@ -44,12 +44,13 @@ namespace UnityMVVM.Editor
                 base.DrawChangeableElements();
                 return;
             }
-
-            GUIUtils.Message("Use button below to update component.");
-            GUIUtils.Message("THIS WILL REPLACE THIS COMPONENT AND CANNOT BE UNDONE", MessageType.Error);
-            if (GUILayout.Button("Update Component"))
+            if (target.GetType().GetCustomAttributes(typeof(ObsoleteAttribute), false).FirstOrDefault() != null)
             {
-                (target as DataBindingBase).UpdateComponent();
+                
+                GUIUtils.Message("Use button below to update component.");
+                GUIUtils.Message("THIS WILL REPLACE THIS COMPONENT AND CANNOT BE UNDONE", MessageType.Error);
+                if (GUILayout.Button("Update Component"))
+                    (target as DataBindingBase).UpdateComponent();
             }
 
             GUIUtils.ObjectField("Dest View", _dstViewProp);
