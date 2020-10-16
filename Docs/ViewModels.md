@@ -4,7 +4,7 @@
 A ViewModel (or VM) is what holds the data that will be presented on a view. It contains all the properties that can be bound to view elements. All ViewModels inherit from INotifyPropertyChanged which alerts the system when data changes and a UI element needs to be updated.
 
 ## Writing your own ViewModel
-You can use as many or as fiew ViewModels as you want in your application. Typically you would create one for each screen on an app: `Screen1ViewModel` or `SettingsPageViewModel` for example. A ViewModel should inherit from `ViewModelBase` which implements `INotifyPropertyChanged` and provides a method alerting subscribers of changes.
+You can use as many or as fiew ViewModels as you want in your application. Typically you would create one for each screen on an app: `Screen1ViewModel` or `SettingsPageViewModel` for example. A ViewModel should inherit from [`ViewModelBase`](../Assets/Unity-MVVM/Scripts/ViewModel/ViewModelBase.cs) which implements `INotifyPropertyChanged` and provides a method alerting subscribers of changes.
 
 When writing a ViewModel, you want to think about what sort of data is needed to be provided to your view and create bindable properties for each element or collection of elements. 
 

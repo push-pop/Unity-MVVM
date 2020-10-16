@@ -3,7 +3,7 @@
 Views are what we display to the user. They can be interactive or simply informational. It's also how we move through the User Experience of an app by cycling in and out with changing data.
 
 ## ViewBase
-Custom Views can be created by inheriting from `ViewBase`. ViewBase types all have a Visibility Enum property to hold ViewStates (`Visible`, `Hidden`, `Collapsed`.) Collapsed in the context of Unity means that the GameObject gets deactivated after fading out. 
+Custom Views can be created by inheriting from [`ViewBase`](../Assets/Unity-MVVM/Scripts/View/ViewBase.cs). ViewBase types all have a [`Visibility`](../Assets/Unity-MVVM/Scripts/View/Visibility.cs)) Enum property to hold ViewStates (`Visible`, `Hidden`, `Collapsed`.) Collapsed in the context of Unity means that the GameObject gets deactivated after fading out. 
 
 ViewBase implements a simple fade animation by default. Create a custom view to define behaviours for Visibility state transitions.
 
