@@ -26,6 +26,8 @@ The library will be automatically added to your project, and you can download sa
 
 [Events](Docs/Events.md)
 
+[ChangeLog](ChangeLog.md)
+
 # Contributing
 
 I am open to contributions, requests, PRs etc... however know that this is mostly a personal project for my own use in my [production projects](https://nateturley.com/), so I can't guarantee I will accept a change.
