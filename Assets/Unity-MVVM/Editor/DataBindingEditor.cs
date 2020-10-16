@@ -100,6 +100,8 @@ namespace UnityMVVM.Editor
 
         protected override void CollectPropertyLists()
         {
+            var bindingMode = (BindingMode)_bindingModeProp.enumValueIndex;
+
             base.CollectPropertyLists();
 
             if (_viewModelChanged)
@@ -123,7 +125,10 @@ namespace UnityMVVM.Editor
 
             if (view)
             {
-                _dstNames.Values = view.GetBindablePropertyList(needsGetter: false);
+                var dstNeedsGetter = bindingMode != BindingMode.OneWay;
+                var dstNeedsSetter = bindingMode != BindingMode.OneWayToSource;
+
+                _dstNames.Values = view.GetBindablePropertyList(needsGetter: dstNeedsGetter, needsSetter: dstNeedsSetter);
                 _dstPaths.Values = view.GetPropertiesAndFieldsList(_dstNames.Value);
                 _dstChangeEvents.Values = view.GetBindableEventsList();
             }
