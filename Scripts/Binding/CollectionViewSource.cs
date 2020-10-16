@@ -33,7 +33,7 @@ namespace UnityMVVM.Binding
         }
 
         public override bool IsBound { get => _isBound; }
-        bool _isBound = true;
+        bool _isBound = false;
 
         public object this[int key]
         {
