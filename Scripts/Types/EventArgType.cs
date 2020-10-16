@@ -7,6 +7,7 @@
         String,
         Int,
         Float,
-        Bool
+        Bool,
+        Color
     }
 }

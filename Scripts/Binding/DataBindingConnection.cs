@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Linq.Expressions;
 using UnityEngine;
 using UnityMVVM.Binding.Converters;
+using UnityMVVM.Enums;
 
 namespace UnityMVVM.Binding
 {
@@ -20,9 +21,15 @@ namespace UnityMVVM.Binding
         readonly BindTarget _src;
         readonly BindTarget _dst;
         IValueConverter _converter;
-        GameObject _gameObject;
+        public GameObject _gameObject;
 
         public bool IsBound;
+
+        public BindingMode _mode = BindingMode.OneWay;
+
+        public string _dstChangeEventName;
+        UnityEventBinder _eventBinder = new UnityEventBinder();
+        Delegate changeDelegate;
 
         public DataBindingConnection()
         { }
@@ -39,17 +46,36 @@ namespace UnityMVVM.Binding
             BindingMonitor.RegisterConnection(this);
         }
 
-        public void AddHandler(Action action)
+        public DataBindingConnection(GameObject owner, BindTarget src, BindTarget dst, BindingMode bindingMode, string dstChangeEventName, IValueConverter converter = null)
         {
-            PropertyChangedAction = action;
+            _gameObject = owner;
+            _src = src;
+            _dst = dst;
+            _converter = converter;
+
+            PropertyChangedAction = OnSrcUpdated;
+            _dstChangeEventName = dstChangeEventName;
+            _mode = bindingMode;
+
+            BindingMonitor.RegisterConnection(this);
         }
+
 
         public void DstUpdated()
         {
-            if (_converter != null)
-                _src.SetValue(_converter.ConvertBack(_dst.GetValue(), _src.property.PropertyType, null));
-            else
-                _src.SetValue(Convert.ChangeType(_dst.GetValue(), _src.property.PropertyType));
+            try
+            {
+                if (_converter != null)
+                    _src.SetValue(_converter.ConvertBack(_dst.GetValue(), _src.property.PropertyType, null));
+                else
+                    _src.SetValue(Convert.ChangeType(_dst.GetValue(), _src.property.PropertyType));
+            }
+            catch (Exception e)
+            {
+                Debug.LogError("Data binding error in: " + _gameObject.name);
+
+                throw (e);
+            }
         }
 
         internal void ClearHandler()
@@ -62,10 +88,57 @@ namespace UnityMVVM.Binding
         {
             if (IsBound)
             {
-                (_src.propertyOwner as INotifyPropertyChanged).PropertyChanged -= PropertyChangedHandler;
+
+                if (_mode != BindingMode.OneWayToSource)
+                {
+                    //Debug.Log($"Unbind {_src.propertyOwner}:{_src.propertyName}{(string.IsNullOrEmpty(_src.propertyPath) ? "" : ":" + _src.propertyPath)}");
+                    (_src.propertyOwner as INotifyPropertyChanged).PropertyChanged -= PropertyChangedHandler;
+                }
+
+                if (_mode == BindingMode.TwoWay || _mode == BindingMode.OneWayToSource)
+                    UnbindDstchangedHandler();
+
                 IsBound = false;
             }
 
+        }
+
+        private void BindDstChangedHandler()
+        {
+            //Debug.Log($"Bind DstChangedHandler {_gameObject}");
+
+            var owner = DstTarget.propertyOwner;
+            var propInfo = owner.GetType().GetProperty(DstTarget.eventName);
+
+            var type = propInfo.PropertyType.BaseType;
+            var args = type.GetGenericArguments();
+
+            var evn = propInfo.GetValue(owner);
+
+            var addListenerMethod = UnityEventBinder.GetAddListener(propInfo.GetValue(owner));
+
+            changeDelegate = UnityEventBinder.GetDelegate(_eventBinder, args);
+
+            var p = new object[] { changeDelegate };
+
+            _eventBinder.OnChange += DstUpdated;
+
+            addListenerMethod.Invoke(propInfo.GetValue(owner), p);
+        }
+
+        private void UnbindDstchangedHandler()
+        {
+            //Debug.Log($"UnBind DstChangedHandler {_gameObject}");
+
+            var owner = DstTarget.propertyOwner;
+            var propInfo = owner.GetType().GetProperty(DstTarget.eventName);
+            var removeListenerMethod = UnityEventBinder.GetRemoveListener(propInfo.GetValue(owner));
+
+            var p = new object[] { changeDelegate };
+
+            _eventBinder.OnChange -= DstUpdated;
+
+            removeListenerMethod.Invoke(propInfo.GetValue(owner), p);
         }
 
         public static string GetName<T>(Expression<Func<T>> e)
@@ -78,13 +151,23 @@ namespace UnityMVVM.Binding
         {
             if (!IsBound)
             {
-                var notifyPropChanged = (_src.propertyOwner as INotifyPropertyChanged);
-                if (notifyPropChanged == null)
+                if (_mode != BindingMode.OneWayToSource)
                 {
-                    Debug.LogError("Property Owner Doesn't Inherit from INotifyPropertyChanged - " + _src.propertyOwner);
-                    return;
+                    var notifyPropChanged = (_src.propertyOwner as INotifyPropertyChanged);
+                    if (notifyPropChanged == null)
+                    {
+                        Debug.LogError("Property Owner Doesn't Inherit from INotifyPropertyChanged - " + _src.propertyOwner);
+                        return;
+                    }
+
+               //     Debug.Log($"Bind {_src.propertyOwner}:{_src.propertyName}{(string.IsNullOrEmpty(_src.propertyPath) ? "" : ":" + _src.propertyPath)}");
+
+                    notifyPropChanged.PropertyChanged += PropertyChangedHandler;
                 }
-                notifyPropChanged.PropertyChanged += PropertyChangedHandler;
+
+                if (_mode == BindingMode.TwoWay || _mode == BindingMode.OneWayToSource)
+                    BindDstChangedHandler();
+
                 IsBound = true;
             }
         }
@@ -97,10 +180,9 @@ namespace UnityMVVM.Binding
             }
             catch (Exception e)
             {
-                Debug.LogError("Data binding error in: " + _gameObject.name + ": " + e.Message);
+                Debug.LogError("Data binding error in: " + _gameObject.name);
 
-                if (e.InnerException != null)
-                    Debug.LogErrorFormat("Inner Exception: {0}", e.InnerException.Message);
+                throw (e);
             }
         }
 
@@ -117,8 +199,12 @@ namespace UnityMVVM.Binding
 
         private void PropertyChangedHandler(object sender, PropertyChangedEventArgs e)
         {
+           
             if (e.PropertyName.Equals(_src.propertyName))
+            {
+            //    Debug.Log($"PropertyChanged: {e.PropertyName}");
                 PropertyChangedAction?.Invoke();
+            }
         }
 
         public void Dispose()

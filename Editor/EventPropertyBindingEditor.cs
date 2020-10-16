@@ -26,6 +26,7 @@ namespace UnityMVVM.Editor
         SerializedProperty _intArgProp;
         SerializedProperty _stringArgProp;
         SerializedProperty _boolArgProp;
+        SerializedProperty _colorArgProp;
 
 
         protected override void CollectSerializedProperties()
@@ -45,6 +46,7 @@ namespace UnityMVVM.Editor
             _intArgProp = serializedObject.FindProperty("IntArg");
             _stringArgProp = serializedObject.FindProperty("StringArg");
             _boolArgProp = serializedObject.FindProperty("BoolArg");
+            _colorArgProp = serializedObject.FindProperty("ColorArg");
 
         }
 
@@ -77,6 +79,9 @@ namespace UnityMVVM.Editor
                     break;
                 case EventArgType.Bool:
                     _boolArgProp.boolValue = EditorGUILayout.Toggle(_boolArgProp.boolValue);
+                    break;
+                case EventArgType.Color:
+                    _colorArgProp.colorValue = EditorGUILayout.ColorField(_colorArgProp.colorValue);
                     break;
                 default:
                     break;

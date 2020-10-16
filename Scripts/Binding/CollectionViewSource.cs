@@ -32,9 +32,7 @@ namespace UnityMVVM.Binding
             }
         }
 
-        public override bool IsBound { get => _isBound; protected set => _isBound = value; }
-
-        bool _isBound;
+        public override bool IsBound { get => _conn != null && _conn.IsBound; }
 
         public object this[int key]
         {
@@ -51,7 +49,7 @@ namespace UnityMVVM.Binding
 
         public override void RegisterDataBinding()
         {
-            if (_isBound)
+            if (IsBound)
                 return;
 
             if (_viewModel == null)
@@ -64,18 +62,15 @@ namespace UnityMVVM.Binding
             src = new BindTarget(_viewModel, SrcCollectionName);
             srcCollection = src.GetValue() as INotifyCollectionChanged;
 
-            if (srcCollection != null && !_isBound)
+            if (srcCollection != null && !IsBound)
                 srcCollection.CollectionChanged += CollectionChanged;
 
-            _isBound = true;
         }
 
         public override void UnregisterDataBinding()
         {
-            if (srcCollection != null && _isBound)
+            if (srcCollection != null && IsBound)
                 srcCollection.CollectionChanged -= CollectionChanged;
-
-            _isBound = false;
         }
 
         protected virtual void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)

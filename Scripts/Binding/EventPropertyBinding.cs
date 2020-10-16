@@ -22,6 +22,7 @@ namespace UnityMVVM.Binding
         public int IntArg = 0;
         public string StringArg = "";
         public bool BoolArg = false;
+        public Color ColorArg = Color.white;
         #endregion
 
         [HideInInspector]
@@ -41,7 +42,7 @@ namespace UnityMVVM.Binding
 
         Delegate d;
 
-        public override bool IsBound { get => _isBound; protected set => _isBound = value; }
+        public override bool IsBound { get => _isBound; }
         bool _isBound;
 
         public override void RegisterDataBinding()
@@ -123,6 +124,9 @@ namespace UnityMVVM.Binding
                         break;
                     case EventArgType.Bool:
                         toSet = BoolArg;
+                        break;
+                    case EventArgType.Color:
+                        toSet = ColorArg;
                         break;
                     default:
                         break;

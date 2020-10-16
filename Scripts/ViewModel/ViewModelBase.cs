@@ -15,6 +15,7 @@ namespace UnityMVVM.ViewModel
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
+        [Obsolete("This method is obsolete and SLOWWW. Use NotifyPropertyChanged(string) instead")]
         public void NotifyPropertyChanged<T>(Expression<Func<T>> memberExpr)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(GetName(memberExpr)));
