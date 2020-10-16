@@ -20,36 +20,54 @@ namespace UnityMVVM.Binding
 
         public FieldInfo field;
 
+        public string eventName;
+
+        public BindTarget()
+        {
+           
+        }
+
+        public BindTarget Init()
+        {
+            if (propertyOwner == null)
+            {
+                Debug.LogErrorFormat("Could not find ViewModel for Property {0}", propertyName);
+            }
+
+            // Default value for setting just prop with no path
+            propertyPath = propertyPath?.Replace("--", "");
+            property = propertyOwner.GetType().GetProperty(propertyName);
+            if (property == null)
+                Debug.LogError($"Error finding property {propertyName} on object: {propertyOwner}");
+
+            PropertyInfo prop2;
+            FieldInfo Field2;
+
+            if (!string.IsNullOrEmpty(propertyPath))
+            {
+                property.PropertyType.GetPropertyOrField(propertyPath, out prop2, out Field2);
+                field = property.PropertyType.GetField(propertyPath);
+            }
+
+            return this;
+        }
+
         public BindTarget(object propOwner, string propName, string path = null, UnityEvent dstChangedEvent = null)
         {
-            // Default value for setting just prop with no path
-            path = path?.Replace("--", "");
 
             propertyOwner = propOwner;
             propertyName = propName;
             propertyPath = path;
 
-            if (propertyOwner == null)
-            {
-                Debug.LogErrorFormat("Could not find ViewModel for Property {0}", propName);
-            }
-
-            property = propertyOwner.GetType().GetProperty(propertyName);
-
-            PropertyInfo prop2;
-            FieldInfo Field2;
-
-            if (!string.IsNullOrEmpty(path))
-            {
-                property.PropertyType.GetPropertyOrField(path, out prop2, out Field2);
-                field = property.PropertyType.GetField(path);
-            }
+            Init();
         }
 
         public object GetValue()
         {
             if (string.IsNullOrEmpty(propertyPath))
+            {
                 return property?.GetValue(propertyOwner, null);
+            }
             else
             {
                 var parentProp = property.GetValue(propertyOwner, null);
@@ -77,7 +95,11 @@ namespace UnityMVVM.Binding
         public void SetValue(object value, IValueConverter converter = null)
         {
 
-            if (property == null) return;
+            if (property == null)
+            {
+                Debug.LogError("SetValue property NULL");
+                return;
+            }
 
             if (field != null)
             {
@@ -100,7 +122,10 @@ namespace UnityMVVM.Binding
                 else if (value is IConvertible)
                     property.SetValue(propertyOwner, Convert.ChangeType(value, property.PropertyType));
                 else
+                {
                     property.SetValue(propertyOwner, value, null);
+                }
+
 
             }
         }

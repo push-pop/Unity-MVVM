@@ -8,6 +8,7 @@ namespace UnityMVVM.ViewModel
     public interface IViewModel
     {
         void NotifyPropertyChanged<T>(Expression<Func<T>> memberExpr);
+        void NotifyPropertyChanged(string propertyName);
     }
 }
 

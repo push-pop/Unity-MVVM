@@ -8,6 +8,7 @@ namespace UnityMVVM.Binding
         MonoBehaviour,
         IDataBinding
     {
+
         public ViewModelBase ViewModelSrc
         {
             get
@@ -26,6 +27,49 @@ namespace UnityMVVM.Binding
         public virtual bool KeepConnectionAliveOnDisable { get { return _keepConnectionAliveOnDisable; } }
 
         protected bool _keepConnectionAliveOnDisable = false;
+
+        [ContextMenu("UpdateComponent")]
+        public bool UpdateComponent()
+        {
+            bool result = true;
+
+            try
+            {
+                var db = gameObject.AddComponent<DataBinding>();
+                db.ViewModelName = ViewModelName;
+
+                var oneWay = this as OneWayDataBinding;
+
+                if (oneWay != null)
+                {
+                    db.SrcPropertyName = oneWay.SrcPropertyName;
+                    db.SrcPropertyPath = oneWay.SrcPropertyPath;
+                    db.DstPropertyName = oneWay.DstPropertyName;
+                    db.DstPropertyPath = oneWay.DstPropertyPath;
+
+                    db.DstView = oneWay._dstView;
+                    db.Converter = oneWay._converter;
+
+                    db.BindingMode = Enums.BindingMode.OneWay;
+                }
+
+                var twoWay = this as TwoWayDataBinding;
+
+                if (twoWay != null)
+                {
+                    db.DstChangedEventName = twoWay._dstChangedEventName;
+
+                    db.BindingMode = Enums.BindingMode.TwoWay;
+                }
+                DestroyImmediate(this);
+            }
+            catch(System.Exception e)
+            {
+                result = false;
+            }
+
+            return result;
+        }
 
         protected void FindViewModel()
         {
@@ -63,7 +107,7 @@ namespace UnityMVVM.Binding
         }
 
         #region IDataBinding Abstract Implementation
-        public abstract bool IsBound { get; protected set; }
+        public abstract bool IsBound { get; }
         public abstract void RegisterDataBinding();
         public abstract void UnregisterDataBinding();
         #endregion

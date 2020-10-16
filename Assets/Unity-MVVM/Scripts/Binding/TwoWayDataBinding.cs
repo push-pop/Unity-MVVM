@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace UnityMVVM.Binding
 {
+    [Obsolete("This component is obsolete and will be removed. please use DataBinding component")]
     public class TwoWayDataBinding
         : OneWayDataBinding
     {
@@ -32,8 +33,6 @@ namespace UnityMVVM.Binding
             _binder.OnChange += _connection.DstUpdated;
 
             addListenerMethod.Invoke(propInfo.GetValue(_dstView), p);
-
-            IsBound = true;
         }
 
         public override void UnregisterDataBinding()
@@ -48,8 +47,6 @@ namespace UnityMVVM.Binding
             _binder.OnChange -= _connection.DstUpdated;
 
             removeListenerMethod.Invoke(propInfo.GetValue(_dstView), p);
-
-            IsBound = false;
         }
     }
 }
