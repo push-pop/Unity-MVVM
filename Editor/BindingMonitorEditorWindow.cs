@@ -66,7 +66,6 @@ namespace UnityMVVM.Editor
             var oneWay = arg as OneWayDataBinding;
             var dataBinding = arg as DataBinding;
 
-
             if (oneWay)
             {
                 if (_filterBy == FilterType.None) return true;
@@ -153,7 +152,7 @@ namespace UnityMVVM.Editor
 
             var goStr = item.gameObject.name.Color(Color.white);
 
-            bool contains = ignoreCase ? bindingStr.ToLower().Contains(filter.ToLower()) : bindingStr.Contains(filter);
+            bool contains = ignoreCase ? bindingStr.ToLowerInvariant().Contains(filter.ToLowerInvariant()) : bindingStr.Contains(filter);
 
             if (string.IsNullOrEmpty(filter) || contains)
             {
@@ -203,28 +202,11 @@ namespace UnityMVVM.Editor
 
             GUILayout.Label(string.Format("Data Bindings: {0}", bindings.Count()), EditorStyles.boldLabel);
 
+            DrawHeader();
 
-            EditorGUILayout.BeginHorizontal();
-            GUILayout.Label("GameObject".Color(GameObjectColor).Bold(), GUIStyles.LabelLeft);
-            GUILayout.Label(
-                 string.Format(
-                "{1}.{2}.{3}<->{4}.{5}.{6} -- {7}",
-                "GameObject".Color(GameObjectColor).Bold(),
-                "ViewModel".Color(ViewModelColor),
-                "SrcProperty".Color(PropertyColor),
-                "SrcField".Color(FieldColor),
-                "TargetView".Color(ViewColor),
-                "TargetProperty".Color(PropertyColor),
-                "TargetField".Color(FieldColor),
-                "DestChangeEvent".Color(EventColor)
-
-                ), GUIStyles.LabelLeft);
-            EditorGUILayout.EndHorizontal();
             onewWayScrollPos = EditorGUILayout.BeginScrollView(onewWayScrollPos, GUILayout.MaxHeight(600));
 
             bindings.ToList().ForEach(DrawBindings);
-
-
 
 
             EditorGUILayout.EndScrollView();
@@ -232,99 +214,11 @@ namespace UnityMVVM.Editor
             GUILayout.Label(string.Format("Event Bindings: {0}", eventPropBindings.Count() + eventBindings.Count()), EditorStyles.boldLabel);
 
             eventPropScrollPos = EditorGUILayout.BeginScrollView(eventPropScrollPos, GUILayout.MaxHeight(400));
-            foreach (var item in eventPropBindings)
-            {
-                var goStr = string.Format("{0}", item.gameObject.name.Color(GameObjectColor).Bold());
 
-                item.DstPath.Replace("--", "");
+            eventPropBindings.ToList().ForEach(DrawEventPropertyBindings);
+            eventBindings.ToList().ForEach(DrawEventBindings);
 
-                var argFmt = "";
-                switch (item.ArgType)
-                {
-                    case UnityMVVM.Types.EventArgType.None:
-                        break;
-                    case UnityMVVM.Types.EventArgType.Property:
-                        argFmt += string.Format("[Property] {0}.{1}", item.SrcView.GetType().Name.Color(ViewColor), item.SrcPropName.Color(PropertyColor));
-                        break;
-                    case UnityMVVM.Types.EventArgType.String:
-                        argFmt += string.Format("[String] \"{0}\"", item.StringArg);
-                        break;
-                    case UnityMVVM.Types.EventArgType.Int:
-                        argFmt += "[int] " + item.IntArg;
-                        break;
-                    case UnityMVVM.Types.EventArgType.Float:
-                        argFmt += "[float] " + item.FloatArg;
-                        break;
-                    case UnityMVVM.Types.EventArgType.Bool:
-                        argFmt += "[bool] " + item.BoolArg;
-                        break;
-                    default:
-                        break;
-                }
-
-                var fmt = "";
-                fmt += "{0}.{1}->{2}.{3}{4} -- {5}";
-                var bindingStr = string.Format(
-                    fmt,
-                    item.SrcView.GetType().Name.Color(ViewColor),
-                    item.SrcEventName.Color(EventColor),
-                    item.ViewModelName.Color(ViewModelColor),
-                    item.DstPropName.Color(PropertyColor),
-                    item.DstPath.Length > 0 ? "." + item.DstPath : "",
-                    argFmt
-                    );
-
-                if (string.IsNullOrEmpty(filter) || bindingStr.Contains(filter))
-                {
-                    if (GUILayout.Button("", GUIStyles.BindingButton))
-                        Selection.activeGameObject = item.gameObject;
-
-                    var btnRect = GUILayoutUtility.GetLastRect();
-                    var goLabelRect = new Rect(btnRect);
-
-                    goLabelRect.width /= 4;
-
-                    GUI.Box(goLabelRect, goStr, GUIStyles.LabelLeft);
-
-                    btnRect.x = goLabelRect.width;
-                    btnRect.width -= goLabelRect.width;
-                    GUI.Box(btnRect, bindingStr, GUIStyles.LabelLeft);
-                }
-            }
-
-            foreach (var item in eventBindings)
-            {
-                var fmt = "";
-                fmt += "{0}.{1}->{2}.{3} ";
-
-                var bindingStr = string.Format(
-                    fmt,
-                    item.SrcView.GetType().Name.Color(ViewColor),
-                    item.SrcEventName.Color(EventColor),
-                    item.ViewModelName.Color(ViewModelColor),
-                   (item.DstMethodName + "()").Color(MethodColor),
-                    item.gameObject.name.Color(GameObjectColor));
-                var goStr = string.Format("{0}", item.gameObject.name.Color(GameObjectColor).Bold());
-
-                if (string.IsNullOrEmpty(filter) || bindingStr.Contains(filter))
-                {
-                    if (GUILayout.Button("", GUIStyles.BindingButton))
-                        Selection.activeGameObject = item.gameObject;
-
-                    var btnRect = GUILayoutUtility.GetLastRect();
-                    var goLabelRect = new Rect(btnRect);
-
-                    goLabelRect.width /= 4;
-
-                    GUI.Box(goLabelRect, goStr, GUIStyles.LabelLeft);
-
-                    btnRect.x = goLabelRect.width;
-                    btnRect.width -= goLabelRect.width;
-                    GUI.Box(btnRect, bindingStr, GUIStyles.LabelLeft);
-                }
-            }
             EditorGUILayout.EndScrollView();
-
 
             var conns = BindingMonitor.Connections;
 
@@ -348,6 +242,122 @@ namespace UnityMVVM.Editor
 
             if (GUILayout.Button("Reset"))
                 BindingMonitor.Reset();
+        }
+
+        private void DrawHeader()
+        {
+            EditorGUILayout.BeginHorizontal();
+            GUILayout.Label("GameObject".Color(GameObjectColor).Bold(), GUIStyles.LabelLeft);
+            GUILayout.Label(
+                 string.Format(
+                "{1}.{2}.{3}<->{4}.{5}.{6} -- {7}",
+                "GameObject".Color(GameObjectColor).Bold(),
+                "ViewModel".Color(ViewModelColor),
+                "SrcProperty".Color(PropertyColor),
+                "SrcField".Color(FieldColor),
+                "TargetView".Color(ViewColor),
+                "TargetProperty".Color(PropertyColor),
+                "TargetField".Color(FieldColor),
+                "DestChangeEvent".Color(EventColor)
+
+                ), GUIStyles.LabelLeft);
+            EditorGUILayout.EndHorizontal();
+        }
+
+        private void DrawEventBindings(EventBinding item)
+        {
+            var fmt = "";
+            fmt += "{0}.{1}->{2}.{3} ";
+
+            var bindingStr = string.Format(
+                fmt,
+                item.SrcView.GetType().Name.Color(ViewColor),
+                item.SrcEventName.Color(EventColor),
+                item.ViewModelName.Color(ViewModelColor),
+               (item.DstMethodName + "()").Color(MethodColor),
+                item.gameObject.name.Color(GameObjectColor));
+            var goStr = string.Format("{0}", item.gameObject.name.Color(GameObjectColor).Bold());
+            var lineStr = bindingStr.Concat(goStr).ToString();
+            var contains = ignoreCase ? lineStr.ToLowerInvariant().Contains(filter.ToLowerInvariant()) : lineStr.Contains(filter);
+
+            if (string.IsNullOrEmpty(filter) || contains)
+            {
+                if (GUILayout.Button("", GUIStyles.BindingButton))
+                    Selection.activeGameObject = item.gameObject;
+
+                var btnRect = GUILayoutUtility.GetLastRect();
+                var goLabelRect = new Rect(btnRect);
+
+                goLabelRect.width /= 4;
+
+                GUI.Box(goLabelRect, goStr, GUIStyles.LabelLeft);
+
+                btnRect.x = goLabelRect.width;
+                btnRect.width -= goLabelRect.width;
+                GUI.Box(btnRect, bindingStr, GUIStyles.LabelLeft);
+            }
+        }
+
+        private void DrawEventPropertyBindings(EventPropertyBinding item)
+        {
+            var goStr = string.Format("{0}", item.gameObject.name.Color(GameObjectColor).Bold());
+
+            item.DstPath.Replace("--", "");
+
+            var argFmt = "";
+            switch (item.ArgType)
+            {
+                case UnityMVVM.Types.EventArgType.None:
+                    break;
+                case UnityMVVM.Types.EventArgType.Property:
+                    argFmt += string.Format("[Property] {0}.{1}", item.SrcView.GetType().Name.Color(ViewColor), item.SrcPropName.Color(PropertyColor));
+                    break;
+                case UnityMVVM.Types.EventArgType.String:
+                    argFmt += string.Format("[String] \"{0}\"", item.StringArg);
+                    break;
+                case UnityMVVM.Types.EventArgType.Int:
+                    argFmt += "[int] " + item.IntArg;
+                    break;
+                case UnityMVVM.Types.EventArgType.Float:
+                    argFmt += "[float] " + item.FloatArg;
+                    break;
+                case UnityMVVM.Types.EventArgType.Bool:
+                    argFmt += "[bool] " + item.BoolArg;
+                    break;
+                default:
+                    break;
+            }
+
+            var fmt = "";
+            fmt += "{0}.{1}->{2}.{3}{4} -- {5}";
+            var bindingStr = string.Format(
+                fmt,
+                item.SrcView.GetType().Name.Color(ViewColor),
+                item.SrcEventName.Color(EventColor),
+                item.ViewModelName.Color(ViewModelColor),
+                item.DstPropName.Color(PropertyColor),
+                item.DstPath.Length > 0 ? "." + item.DstPath : "",
+                argFmt
+                );
+            var lineStr = bindingStr.Concat(goStr).ToString();
+
+            var contains = ignoreCase ? lineStr.ToLowerInvariant().Contains(filter.ToLowerInvariant()) : lineStr.Contains(filter);
+            if (string.IsNullOrEmpty(filter) || contains)
+            {
+                if (GUILayout.Button("", GUIStyles.BindingButton))
+                    Selection.activeGameObject = item.gameObject;
+
+                var btnRect = GUILayoutUtility.GetLastRect();
+                var goLabelRect = new Rect(btnRect);
+
+                goLabelRect.width /= 4;
+
+                GUI.Box(goLabelRect, goStr, GUIStyles.LabelLeft);
+
+                btnRect.x = goLabelRect.width;
+                btnRect.width -= goLabelRect.width;
+                GUI.Box(btnRect, bindingStr, GUIStyles.LabelLeft);
+            }
         }
 
         private object ApplyOrder(DataBindingBase arg)
