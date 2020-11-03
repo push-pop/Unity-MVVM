@@ -33,9 +33,9 @@ namespace UnityMVVM.View
 
         private CanvasGroup _cg;
 
-        public override void SetVisibility(Visibility visibility)
+        public override void SetVisibility(Visibility visibility, bool isInitialValue)
         {
-            base.SetVisibility(visibility);
+            base.SetVisibility(visibility, isInitialValue);
 
             switch (visibility)
             {

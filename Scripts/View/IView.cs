@@ -8,6 +8,6 @@ namespace UnityMVVM.View
     {
         void Show();
         void Hide();
-        void SetVisibility(Visibility visibility);
+        void SetVisibility(Visibility visibility, bool isInitialValue);
     }
 }

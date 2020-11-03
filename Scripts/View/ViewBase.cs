@@ -15,8 +15,10 @@ namespace UnityMVVM.View
                 if (_visibility != value)
                 {
                     _visibility = value;
-                    SetVisibility(_visibility);
+                    SetVisibility(_visibility, _isInitialValue);
                 }
+
+                _isInitialValue = false;
             }
             get
             {
@@ -28,6 +30,8 @@ namespace UnityMVVM.View
 
         [SerializeField]
         bool _collapse = false;
+
+        bool _isInitialValue = true;
 
         public RectTransform rectTransform
         {
@@ -59,12 +63,7 @@ namespace UnityMVVM.View
         [SerializeField]
         protected float _fadeTime = AnimationDefaults.FadeTime;
 
-        private void Awake()
-        {
-            SetInitialVisibility();
-        }
-
-        private void SetInitialVisibility()
+        protected virtual void SetInitialVisibility()
         {
             switch (_visibility)
             {
@@ -86,8 +85,11 @@ namespace UnityMVVM.View
         {
         }
 
-        public virtual void SetVisibility(Visibility visibility)
+        public virtual void SetVisibility(Visibility visibility, bool isInitialValue)
         {
+            if (isInitialValue)
+                SetInitialVisibility();
+
             switch (visibility)
             {
                 case Visibility.Visible:
