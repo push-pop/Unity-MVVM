@@ -37,15 +37,21 @@ namespace UnityMVVM.Editor
 
         protected void DrawViewModelDrawer()
         {
-            EditorGUI.BeginChangeCheck();
+            //EditorGUI.BeginChangeCheck();
 
             if (string.IsNullOrEmpty(_viewModelProp.Value))
                 GUIUtils.Message("No ViewModels. Maybe you should make one!", MessageType.Error);
             else
-                GUIUtils.ViewModelField(_viewModelProp);
+              _viewModelChanged =  GUIUtils.ViewModelField(_viewModelProp);
 
 
-            _viewModelChanged = EditorGUI.EndChangeCheck();
+            if(_viewModelChanged)
+                //var changed = EditorGUI.EndChangeCheck();
+                //if (changed)
+                UnityEngine.Debug.Log("ViewModelChanged");
+
+            //_viewModelChanged = changed;
+            //EditorGUI.EndChangeCheck();
         }
 
         protected override void DrawChangeableElements()

@@ -65,10 +65,7 @@ namespace UnityMVVM.Binding
         {
             try
             {
-                if (_converter != null)
-                    _src.SetValue(_converter.ConvertBack(_dst.GetValue(), _src.property.PropertyType, null));
-                else
-                    _src.SetValue(Convert.ChangeType(_dst.GetValue(), _src.property.PropertyType));
+                _src.SetValue(_dst.GetValue(), _converter);
             }
             catch (Exception e)
             {
@@ -160,7 +157,7 @@ namespace UnityMVVM.Binding
                         return;
                     }
 
-               //     Debug.Log($"Bind {_src.propertyOwner}:{_src.propertyName}{(string.IsNullOrEmpty(_src.propertyPath) ? "" : ":" + _src.propertyPath)}");
+                    //     Debug.Log($"Bind {_src.propertyOwner}:{_src.propertyName}{(string.IsNullOrEmpty(_src.propertyPath) ? "" : ":" + _src.propertyPath)}");
 
                     notifyPropChanged.PropertyChanged += PropertyChangedHandler;
                 }
@@ -176,7 +173,8 @@ namespace UnityMVVM.Binding
         {
             try
             {
-                _dst.SetValue(_src.GetValue(), _converter);
+                if (_mode != BindingMode.OneWayToSource)
+                    _dst.SetValue(_src.GetValue(), _converter);
             }
             catch (Exception e)
             {
@@ -199,10 +197,10 @@ namespace UnityMVVM.Binding
 
         private void PropertyChangedHandler(object sender, PropertyChangedEventArgs e)
         {
-           
+
             if (e.PropertyName.Equals(_src.propertyName))
             {
-            //    Debug.Log($"PropertyChanged: {e.PropertyName}");
+                //    Debug.Log($"PropertyChanged: {e.PropertyName}");
                 PropertyChangedAction?.Invoke();
             }
         }

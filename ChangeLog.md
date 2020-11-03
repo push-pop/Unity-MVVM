@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.2
+- Fixes OnewWayToSource bug that fires OnSrcUpdated on start
+- Fixes not checking if type is IConvertable in DstUpdated
+- Fixes change check on ViewModel resetting src property in editor
+- Fixes issue with nested views not able to start coroutines
+
 ## 1.1.1
 - Fix filtering lowercase invariant in BindingMonitorEditorWindow
 
