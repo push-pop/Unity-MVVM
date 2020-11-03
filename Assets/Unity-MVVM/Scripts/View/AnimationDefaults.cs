@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityMVVM.Util;
 
 namespace UnityMVVM.View
 {
@@ -54,15 +55,14 @@ namespace UnityMVVM.View
         public static void FadeTo(this ViewBase vb, float target, Action callback = null, float fadeTime = AnimationDefaults.FadeTime)
         {
             vb.CancelAnimation();
-
-            vb.animationRoutine = vb.StartCoroutine(vb.FadeRoutine(target, fadeTime, callback));
+            vb.animationRoutine = AnimationDispatcher.DispatchCoroutine(vb.FadeRoutine(target, fadeTime, callback));
         }
 
         public static void CancelAnimation(this ViewBase vb)
         {
             if (vb.animationRoutine != null)
             {
-                vb.StopCoroutine(vb.animationRoutine);
+                AnimationDispatcher.Stop(vb.animationRoutine);
                 vb.animationRoutine = null;
             }
         }

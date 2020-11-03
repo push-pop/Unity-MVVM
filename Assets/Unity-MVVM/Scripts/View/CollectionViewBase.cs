@@ -136,10 +136,11 @@ namespace UnityMVVM.View
             OnSelectionChanged?.Invoke();
         }
 
-
-
-        public override void SetVisibility(Visibility visibility)
+        public override void SetVisibility(Visibility visibility, bool isInitialVisibility)
         {
+            if (isInitialVisibility)
+                SetInitialVisibility();
+
             switch (visibility)
             {
                 case Visibility.Visible:
