@@ -90,11 +90,17 @@ namespace UnityMVVM.Editor
             EditorGUILayout.EndHorizontal();
         }
 
-        public static void ViewModelField(SerializedList viewModelList)
+        public static bool ViewModelField(SerializedList viewModelList)
         {
+            var changed = false;
+
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.LabelField("View Model", labelOptions);
+            
+            EditorGUI.BeginChangeCheck();
             viewModelList.Index = EditorGUILayout.Popup(viewModelList.Index, viewModelList.Values.ToArray());
+            changed = EditorGUI.EndChangeCheck();
+
             if (UnityEngine.GUILayout.Button("Open"))
             {
                 var type = ViewModelProvider.GetViewModelType(viewModelList.Value).Name;
@@ -104,6 +110,8 @@ namespace UnityMVVM.Editor
                 AssetDatabase.OpenAsset(asset);
             }
             EditorGUILayout.EndHorizontal();
+
+            return changed;
         }
 
         public static void ViewModelField(ref int viewModelIdx, List<string> viewModels, SerializedProperty selectedViewModel)
