@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace UnityMVVM.Binding.Converters
 {
+    [AddComponentMenu("Unity MVVM/Converters/String to Bool")]
     public class StringToBoolConverter : ValueConverterBase
     {
         [SerializeField]

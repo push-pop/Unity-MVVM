@@ -1,10 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace UnityMVVM.View
 {
-    [RequireComponent(typeof(CanvasGroup))]
+    [RequireComponent(typeof(CanvasGroup)), AddComponentMenu("Unity MVVM/Views/Canvas")]
     public class CanvasView : ViewBase
     {
         public override float Alpha

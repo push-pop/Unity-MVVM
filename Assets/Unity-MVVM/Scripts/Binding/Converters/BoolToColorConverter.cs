@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace UnityMVVM.Binding.Converters
 {
+    [AddComponentMenu("Unity MVVM/Converters/Bool to Color")]
     public class BoolToColorConverter : ValueConverterBase
     {
         [SerializeField] Color _trueColor = Color.green;

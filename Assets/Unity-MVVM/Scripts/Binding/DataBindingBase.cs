@@ -4,9 +4,7 @@ using UnityMVVM.ViewModel;
 
 namespace UnityMVVM.Binding
 {
-    public abstract class DataBindingBase :
-        MonoBehaviour,
-        IDataBinding
+    public abstract class DataBindingBase : MonoBehaviour, IDataBinding
     {
 
         public ViewModelBase ViewModelSrc

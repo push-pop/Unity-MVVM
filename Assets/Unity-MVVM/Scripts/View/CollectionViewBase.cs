@@ -6,11 +6,10 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityMVVM.Binding;
 using UnityMVVM.Model;
-using UnityMVVM.Util;
 
 namespace UnityMVVM.View
 {
-    [RequireComponent(typeof(CollectionViewSource))]
+    [RequireComponent(typeof(CollectionViewSource)), AddComponentMenu("Unity MVVM/Views/Canvas")]
     public class CollectionViewBase : ViewBase, IDataBinding
     {
         public string SrcCollectionName

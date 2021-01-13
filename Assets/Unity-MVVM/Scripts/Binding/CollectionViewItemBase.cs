@@ -2,10 +2,10 @@
 using UnityEngine;
 using UnityMVVM.Binding;
 using UnityMVVM.Model;
-using System.Linq;
 
 namespace UnityMVVM.View
 {
+    [AddComponentMenu("Unity MVVM/Bindings/Colection View Item Base")]
     public abstract class CollectionViewItemBase<T> : MonoBehaviour, ICollectionViewItem<T>
     where T : class, IModel
     {

@@ -1,6 +1,8 @@
-﻿
+﻿using UnityEngine;
+
 namespace UnityMVVM.Binding
 {
+    [AddComponentMenu("Unity MVVM/Bindings/Data Bound Activator")]
     public class DataBoundActivator : OneWayDataBinding
     {
         public bool IsActive

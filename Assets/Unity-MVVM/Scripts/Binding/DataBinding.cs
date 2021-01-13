@@ -5,8 +5,8 @@ using UnityMVVM.Enums;
 
 namespace UnityMVVM.Binding
 {
-    public class DataBinding
-        : DataBindingBase
+    [AddComponentMenu("Unity MVVM/Bindings/Data")]
+    public class DataBinding : DataBindingBase
     {
         public DataBindingConnection Connection { get { return _connection; } }
 
@@ -61,7 +61,7 @@ namespace UnityMVVM.Binding
                 {
                     propertyOwner = _viewModel,
                     propertyName = SrcPropertyName,
-                    propertyPath= SrcPropertyPath
+                    propertyPath = SrcPropertyPath
                 }.Init();
 
                 var dstTarget = new BindTarget()
@@ -91,8 +91,8 @@ namespace UnityMVVM.Binding
             {
                 _connection.Unbind();
 
-                if(BindingMode == BindingMode.TwoWay || BindingMode == BindingMode.OneWayToSource)
-                UnbindChangeEvent();
+                if (BindingMode == BindingMode.TwoWay || BindingMode == BindingMode.OneWayToSource)
+                    UnbindChangeEvent();
             }
         }
 

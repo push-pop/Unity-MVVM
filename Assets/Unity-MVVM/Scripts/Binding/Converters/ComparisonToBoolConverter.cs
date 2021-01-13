@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityMVVM.Binding.Converters;
 
+[AddComponentMenu("Unity MVVM/Converters/Comparison to Bool")]
 public class ComparisonToBoolConverter : ValueConverterBase
 {
     enum ComparisonType

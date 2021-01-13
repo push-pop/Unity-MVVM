@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!162 &1
+EditorUserSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 4
+  m_ConfigSettings:
+    RecentlyUsedScenePath-0:
+      value: 224247031146466e0307183b5d0e69263b582b2b21382a353e663f32f1e93778d7f437eee2751b3d2d03cd350a3a0831f5441c05ff1f13
+      flags: 0
+    RecentlyUsedScenePath-1:
+      value: 224247031146466e0307183b5d0e69263b582b2b21382a353e663f32f1e93778d7f437eee2751a2a3c0cfb2f4a2b0f36e613
+      flags: 0
+    RecentlyUsedScenePath-2:
+      value: 224247031146466e0307183b5d0e69263b582b2b21382a353e663f32f1e93778d7f437eee2751c3d3714ee2f32370428bc1f0702e212
+      flags: 0
+    RecentlyUsedScenePath-3:
+      value: 224247031146466e0307183b5d0e69263b582b2b21382a353e663005d4cd003df1f379c4d10c12083c11fb721130082beb
+      flags: 0
+    vcSharedLogLevel:
+      value: 0d5e400f0650
+      flags: 0
+  m_VCAutomaticAdd: 1
+  m_VCDebugCom: 0
+  m_VCDebugCmd: 0
+  m_VCDebugOut: 0
+  m_SemanticMergeMode: 2
+  m_VCShowFailedCheckout: 1
+  m_VCOverwriteFailedCheckoutAssets: 1
+  m_VCProjectOverlayIcons: 1
+  m_VCHierarchyOverlayIcons: 1
+  m_VCOtherOverlayIcons: 1
+  m_VCAllowAsyncUpdate: 1

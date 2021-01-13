@@ -6,8 +6,7 @@ namespace UnityMVVM.Binding
 {
     [Obsolete("This component is obsolete and will be removed. please use DataBinding component")]
 
-    public class OneWayDataBinding
-        : DataBindingBase
+    public class OneWayDataBinding : DataBindingBase
     {
         public DataBindingConnection Connection { get { return _connection; } }
 

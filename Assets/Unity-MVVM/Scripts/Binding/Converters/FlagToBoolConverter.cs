@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace UnityMVVM.Binding.Converters
 {
+    [AddComponentMenu("Unity MVVM/Converters/Flag to Bool")]
     public class FlagToBoolConverter : ValueConverterBase
     {
         public enum Operation

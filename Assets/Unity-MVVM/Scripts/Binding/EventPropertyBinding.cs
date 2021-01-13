@@ -8,6 +8,7 @@ using UnityMVVM.ViewModel;
 
 namespace UnityMVVM.Binding
 {
+    [AddComponentMenu("Unity MVVM/Bindings/Event Property")]
     public class EventPropertyBinding : DataBindingBase
     {
         #region SerializedProperties

@@ -1,7 +1,9 @@
 ﻿using System;
+using UnityEngine;
 
 namespace UnityMVVM.Binding.Converters
 {
+    [AddComponentMenu("Unity MVVM/Converters/Bool to Not Bool")]
     public class BoolToNotBoolConverter : ValueConverterBase
     {
 

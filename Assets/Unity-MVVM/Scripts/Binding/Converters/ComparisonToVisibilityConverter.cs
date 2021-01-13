@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityMVVM.Binding.Converters;
 using UnityMVVM.View;
 
 namespace UnityMVVM.Binding.Converters
 {
+    [AddComponentMenu("Unity MVVM/Converters/Comparison to Visibility")]
     public class ComparisonToVisibilityConverter : ComparisonToBoolConverter
     {
         [SerializeField]
