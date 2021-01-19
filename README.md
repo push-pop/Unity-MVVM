@@ -40,7 +40,7 @@ I am an independent developer, and most of the development on this project is do
 
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](http://paypal.me/NTurley)
 
-If you're interested in collaborating or hiring me for a project, check out [my portfolio](https://nateturley.com/) and [reach out]!(mailto:turley.nate@gmail.com)
+If you're interested in collaborating or hiring me for a project, check out [my portfolio](https://nateturley.com/) and [reach out](mailto:turley.nate@gmail.com)!
 
 ## License
 MIT License - do with it what you will, just don't blame me if it doesn't work :)
