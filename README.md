@@ -13,7 +13,7 @@ This project now supports Unity's package manager! The easiest way to get Unity-
 The library will be automatically added to your project, and you can download samples from the package manager to see demonstrated usage.
 
 
-# Documentation
+## Documentation
 [MVVM Architechture](Docs/Architechture.md)
 
 [Writing a ViewModel](Docs/ViewModels.md)
@@ -28,15 +28,22 @@ The library will be automatically added to your project, and you can download sa
 
 [ChangeLog](ChangeLog.md)
 
-# Contributing
+## Contributing
 
 I am open to contributions, requests, PRs etc... however know that this is mostly a personal project for my own use in my [production projects](https://nateturley.com/), so I can't guarantee I will accept a change.
 
-Hit me up on [twitter](https://twitter.com/turleyn) if you want to chat!
+DM me up on [twitter](https://twitter.com/turleyn) if you want to chat!
 
+## Support
 
-# License
+I am an independent developer, and most of the development on this project is done in my spare time. If you like using this library, please consider donating:
+
+[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](http://paypal.me/NTurley)
+
+If you're interested in collaborating or hiring me for a project, check out [my portfolio](https://nateturley.com/) and [reach out]!(mailto:turley.nate@gmail.com)
+
+## License
 MIT License - do with it what you will, just don't blame me if it doesn't work :)
 
-Copyright (c) 2018 Nate Turley
+Copyright (c) 2021 Nate Turley
 turley.nate@gmail.com
