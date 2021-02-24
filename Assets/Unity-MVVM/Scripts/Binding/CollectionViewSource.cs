@@ -1,12 +1,11 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using System;
+using System.Collections;
 using System.Collections.Specialized;
-using System;
-using UnityMVVM.Model;
-using System.Collections.Generic;
+using UnityEngine;
 
 namespace UnityMVVM.Binding
 {
+    [AddComponentMenu("Unity-MVVM/Bindings/CollectionViewSource")]
     public class CollectionViewSource : DataBindingBase
     {
         INotifyCollectionChanged srcCollection;

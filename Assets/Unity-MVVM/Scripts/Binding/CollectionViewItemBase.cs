@@ -2,7 +2,6 @@
 using UnityEngine;
 using UnityMVVM.Binding;
 using UnityMVVM.Model;
-using System.Linq;
 
 namespace UnityMVVM.View
 {
