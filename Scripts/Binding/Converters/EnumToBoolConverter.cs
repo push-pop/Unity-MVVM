@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace UnityMVVM.Binding.Converters
 {
+    [AddComponentMenu("Unity-MVVM/Converters/EnumToBool")]
     public class EnumToBoolConverter : ValueConverterBase
     {
         [SerializeField]

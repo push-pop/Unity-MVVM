@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 
 namespace UnityMVVM.View
 {
+    [AddComponentMenu("Unity-MVVM/Views/ViewBase")]
     public class ViewBase : MonoBehaviour, IView
     {
         public Visibility ElementVisibility
