@@ -246,7 +246,7 @@ namespace UnityMVVM.View
 
                 gameObjects.Add(go);
 
-                InitItem(go, item, newStartingIndex);
+                InitItem(go, item, newStartingIndex + idx);
                 idx++;
             }
 
