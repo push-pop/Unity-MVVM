@@ -48,7 +48,7 @@ namespace UnityMVVM.Samples.SelectableCollectionView
 
         public override void InitItem(ButtonModel model, int idx)
         {
-
+            gameObject.name = $"Item {idx}";
         }
 
         public void SetSelected(bool v)
