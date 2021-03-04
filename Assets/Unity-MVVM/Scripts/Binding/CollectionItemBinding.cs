@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.ObjectModel;
 using System.Linq;
 using UnityEngine;
@@ -21,10 +22,21 @@ namespace UnityMVVM.Binding
 
         bool _isBound = false;
         bool _isStartup = true;
+        bool _gotInitialValue = false;
 
         public string SrcViewName;
         protected DataBindingConnection _connection;
 
+        public void UpdateDataBinding(IModel model)
+        {
+            UnregisterDataBinding();
+
+            _connection?.Dispose();
+            _connection = null;
+            _gotInitialValue = false;
+
+            RegisterDataBinding(model);
+        }
 
         public void RegisterDataBinding(IModel model)
         {
@@ -43,12 +55,16 @@ namespace UnityMVVM.Binding
             if (isActiveAndEnabled && !_isBound)
                 _connection.Bind();
 
+            if (!_gotInitialValue)
+            {
+                _connection.OnSrcUpdated();
+                _gotInitialValue = true;
+            }
             _isBound = true;
         }
 
         public void UnregisterDataBinding()
         {
-
             if (_connection != null)
                 _connection.Unbind();
 
@@ -62,8 +78,8 @@ namespace UnityMVVM.Binding
 
         private void Start()
         {
-            if (_connection != null)
-                _connection.OnSrcUpdated();
+            //if (_connection != null)
+            //    _connection.OnSrcUpdated();
             _isStartup = false;
         }
 
@@ -73,6 +89,11 @@ namespace UnityMVVM.Binding
 
             if (!_isStartup)
                 _connection.OnSrcUpdated();
+        }
+
+        public void UpdateFromSource()
+        {
+            _connection?.OnSrcUpdated();
         }
 
         private void OnDisable()

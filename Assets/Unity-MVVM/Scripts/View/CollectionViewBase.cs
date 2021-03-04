@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityMVVM.Binding;
@@ -188,7 +189,7 @@ namespace UnityMVVM.View
             }
         }
 
-        protected virtual void InitItem(GameObject go, object item, int index)
+        protected virtual Task InitItem(GameObject go, object item, int index)
         {
             var model = (item as IModel);
             if (model != null)
@@ -214,6 +215,8 @@ namespace UnityMVVM.View
                 }
 
             }
+
+            return Task.CompletedTask;
         }
 
 
@@ -235,22 +238,25 @@ namespace UnityMVVM.View
             return go;
         }
 
-        protected virtual void AddElements(int newStartingIndex, IList newItems)
+        protected virtual async void AddElements(int newStartingIndex, IList newItems)
         {
             int idx = 0;
-            var gameObjects = new List<GameObject>(newItems.Count);
+
+            var initTasks = new List<Task>();
+
             foreach (var item in newItems)
             {
                 var go = CreateCollectionItem(item, transform);
-                go.transform.SetSiblingIndex(newStartingIndex);
+                InstantiatedItems.Insert(newStartingIndex + idx, go);
 
-                gameObjects.Add(go);
+                initTasks.Add(InitItem(go, item, newStartingIndex + idx));
 
-                InitItem(go, item, newStartingIndex + idx);
+                go.transform.SetSiblingIndex(newStartingIndex + idx);
+
                 idx++;
             }
 
-            InstantiatedItems.InsertRange(newStartingIndex, gameObjects);
+            await Task.WhenAll(initTasks);
         }
 
         protected virtual void UpdateElement(int index, IList newItems)
@@ -262,30 +268,12 @@ namespace UnityMVVM.View
 
             foreach (var item in newItems)
             {
-                //var go = InstantiatedItems[idx];
-                //var view = go.GetComponent<ICollectionViewItem>();
-                //var newModel = item as IModel;
-                //if (view != null && newModel != null)
-                //    view.Update(newModel);
+                var go = InstantiatedItems[idx];
+                var view = go.GetComponent<ICollectionViewItem>();
+                var newModel = item as IModel;
 
-                //idx++;
-
-                //    var model = view.Model;
-                //    var newModel = newItems;
-
-                //    //view.Model = newItems[]
-
-
-
-                //    //go.transform.SetSiblingIndex(newStartingIndex);
-
-                //    gameObjects.Add(go);
-
-                //    InitItem(go, item, idx);
-                //    idx++;
-                //}
-
-                //InstantiatedItems.InsertRange(newStartingIndex, gameObjects);
+                if (view != null && newModel != null)
+                    view.Update(newModel, idx);
             }
         }
 

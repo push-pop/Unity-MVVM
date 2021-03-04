@@ -2,12 +2,10 @@
 using UnityEngine;
 using System.Collections.Specialized;
 using System;
-using UnityMVVM.Model;
-using System.Collections.Generic;
 
 namespace UnityMVVM.Binding
 {
-    public class CollectionViewSource : DataBindingBase
+    public class CollectionViewSource : DataBindingBase, IEnumerable
     {
         INotifyCollectionChanged srcCollection;
 
@@ -24,11 +22,13 @@ namespace UnityMVVM.Binding
 
         public override bool KeepConnectionAliveOnDisable => true;
 
+        public IList UnderlyingList => (src.GetValue() as IList);
+
         public int Count
         {
             get
             {
-                return (src.GetValue() as IList).Count;
+                return UnderlyingList != null ? 0 : Count;
             }
         }
 
@@ -107,6 +107,11 @@ namespace UnityMVVM.Binding
                 _conn.Dispose();
 
             base.OnDestroy();
+        }
+
+        public IEnumerator GetEnumerator()
+        {
+            return UnderlyingList?.GetEnumerator();
         }
     }
 }

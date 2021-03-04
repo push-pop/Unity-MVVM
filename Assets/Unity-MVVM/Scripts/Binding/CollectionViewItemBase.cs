@@ -15,7 +15,7 @@ namespace UnityMVVM.View
             {
                 return _model;
             }
-            private set
+            protected set
             {
                 _model = value;
             }
@@ -51,6 +51,7 @@ namespace UnityMVVM.View
             Index = idx;
 
             InitItem(model as T, idx);
+
             var bindings = GetComponentsInChildren<CollectionItemBinding>(true);
             foreach (var item in bindings)
             {
@@ -58,9 +59,19 @@ namespace UnityMVVM.View
             }
         }
 
+
         void ICollectionViewItem.Update(IModel model, int newIdx)
         {
+            Model = model as T;
+            Index = newIdx;
+
             UpdateItem(model as T, newIdx);
+
+            var bindings = GetComponentsInChildren<CollectionItemBinding>(true);
+            foreach (var item in bindings)
+            {
+                item.UpdateDataBinding(model);
+            }
         }
 
         void ICollectionViewItem<T>.InitItem(T model, int idx)
