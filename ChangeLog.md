@@ -1,5 +1,9 @@
 # Changelog
 
+
+## 1.1.3
+- Fixes indexing with CollectionViewBase and AddRange
+
 ## 1.1.2
 - Fixes OnewWayToSource bug that fires OnSrcUpdated on start
 - Fixes not checking if type is IConvertable in DstUpdated
@@ -17,3 +21,5 @@
 
 ## 1.0.1
 - Fixes issues with making builds due to asmdef
+
+
