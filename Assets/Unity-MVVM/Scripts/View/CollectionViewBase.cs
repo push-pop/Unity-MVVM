@@ -242,7 +242,7 @@ namespace UnityMVVM.View
             foreach (var item in newItems)
             {
                 var go = CreateCollectionItem(item, transform);
-                go.transform.SetSiblingIndex(newStartingIndex);
+                go.transform.SetSiblingIndex(newStartingIndex + idx);
 
                 gameObjects.Add(go);
 

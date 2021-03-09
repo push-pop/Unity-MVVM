@@ -41,6 +41,18 @@ namespace UnityMVVM.Samples.SelectableCollectionView
                     label = $"Item {i}"
                 });
             }
+
+            var more = new List<ButtonModel>();
+            for(int i = 0; i < 10; i++)
+            {
+                more.Add(new ButtonModel()
+                {
+                    color = Color.gray,
+                    label = $"Item {i}"
+                });
+            }
+
+            Collection.AddRange(more);
         }
     }
 }
