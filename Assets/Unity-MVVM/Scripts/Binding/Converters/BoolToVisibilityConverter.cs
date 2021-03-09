@@ -4,6 +4,7 @@ using UnityMVVM.View;
 
 namespace UnityMVVM.Binding.Converters
 {
+    [AddComponentMenu("Unity-MVVM/Converters/BoolToVisibility")]
     public class BoolToVisibilityConverter : ValueConverterBase
     {
         [SerializeField]

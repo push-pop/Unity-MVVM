@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace UnityMVVM.Binding.Converters
 {
+    [AddComponentMenu("Unity-MVVM/Converters/EnumToColor")]
     public class EnumToColorConverter : ValueConverterBase
     {
         [SerializeField]

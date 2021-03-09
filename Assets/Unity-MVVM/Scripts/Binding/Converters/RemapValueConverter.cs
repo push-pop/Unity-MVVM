@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace UnityMVVM.Binding.Converters
 {
+    [AddComponentMenu("Unity-MVVM/Converters/RemapValue")]
     public class RemapValueConverter : ValueConverterBase
     {
         public float InputMax
@@ -26,35 +25,25 @@ namespace UnityMVVM.Binding.Converters
 
         public override object Convert(object value, Type targetType, object parameter)
         {
-            if (value is Single)
+            switch (value)
             {
-                var retVal = ((Single)value).Map(InputRange.x, InputRange.y, InputRange.x, OutputRange.y);
+                case float number:
+                    number = number.Map(InputRange, OutputRange);
+                    return _floorToInt ? number.ToInt(targetType) : number;
 
-                return _floorToInt ? System.Convert.ChangeType(Mathf.FloorToInt(retVal), targetType) : retVal;
+                case double number:
+                    number = number.Map(InputRange, OutputRange);
+                    return _floorToInt ? number.ToInt(targetType) : number;
+
+                case null:
+                    return null;
+
+                default:
+                    Debug.LogWarning(
+                        $"The property {value} is of an unsupported types. " +
+                        $"Please use the float double or their nullable types");
+                    return null;
             }
-            else if (value is Single?)
-            {
-                var retVal = (value as Single?).Map(InputRange.x, InputRange.y, InputRange.x, OutputRange.y);
-
-                return retVal == null ? null : _floorToInt ? System.Convert.ChangeType(Mathf.FloorToInt(retVal.Value), targetType) : retVal;
-            }
-
-            else if (value is Double)
-            {
-                var retVal = ((Double)value).Map(InputRange.x, InputRange.y, InputRange.x, OutputRange.y);
-
-                return _floorToInt ? System.Convert.ChangeType(Mathf.Floor((float)retVal), targetType) : retVal;
-            }
-
-            else if (value is Double?)
-            {
-                var retVal = (value as Double?).Map(InputRange.x, InputRange.y, InputRange.x, OutputRange.y);
-
-                return retVal == null ? null : _floorToInt ? System.Convert.ChangeType(Mathf.FloorToInt((float)retVal.Value), targetType) : retVal;
-            }
-
-            else
-                throw new NotImplementedException();
         }
 
         public override object ConvertBack(object value, Type targetType, object parameter)
@@ -65,24 +54,24 @@ namespace UnityMVVM.Binding.Converters
 
     public static class RemapExt
     {
-        public static float Map(this float value, float from1, float to1, float from2, float to2)
+        public static float Map(this float value, Vector2 input, Vector2 output)
         {
-            return (value - from1) / (to1 - from1) * (to2 - from2) + from2;
+            return (value - input.x) / (input.y - input.x) * (output.y - output.x) + output.x;
         }
 
-        public static float? Map(this float? value, float from1, float to1, float from2, float to2)
+        public static double Map(this double value, Vector2 input, Vector2 output)
         {
-            return (value - from1) / (to1 - from1) * (to2 - from2) + from2;
+            return (value - input.x) / (input.y - input.x) * (output.y - output.x) + output.x;
         }
 
-        public static double Map(this double value, double from1, double to1, double from2, double to2)
+        public static object ToInt(this float value, Type target)
         {
-            return (value - from1) / (to1 - from1) * (to2 - from2) + from2;
+            return Convert.ChangeType(Mathf.FloorToInt(value), target);
         }
 
-        public static double? Map(this double? value, double from1, double to1, double from2, double to2)
+        public static object ToInt(this double value, Type target)
         {
-            return (value - from1) / (to1 - from1) * (to2 - from2) + from2;
+            return Convert.ChangeType(Mathf.FloorToInt((float)value), target);
         }
     }
 }

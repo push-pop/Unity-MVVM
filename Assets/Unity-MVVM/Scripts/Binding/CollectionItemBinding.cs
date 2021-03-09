@@ -1,13 +1,10 @@
-﻿using System.Collections;
-using System.Collections.ObjectModel;
-using System.Linq;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityMVVM.Binding.Converters;
 using UnityMVVM.Model;
-using UnityMVVM.View;
 
 namespace UnityMVVM.Binding
 {
+    [AddComponentMenu("Unity-MVVM/Bindings/CollectionItemBinding")]
     public class CollectionItemBinding : MonoBehaviour, IDataBinding
     {
         public string _srcProp;

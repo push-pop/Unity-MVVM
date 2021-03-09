@@ -1,10 +1,9 @@
 ﻿using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.UI;
 
 namespace UnityMVVM.View
 {
-    [RequireComponent(typeof(Toggle))]
+    [RequireComponent(typeof(Toggle)), AddComponentMenu("Unity-MVVM/Views/ToggleControl")]
     public class ToggleControl : MonoBehaviour
     {
         Toggle _toggle;

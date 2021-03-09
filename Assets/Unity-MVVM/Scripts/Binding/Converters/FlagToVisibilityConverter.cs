@@ -4,6 +4,7 @@ using UnityMVVM.View;
 
 namespace UnityMVVM.Binding.Converters
 {
+    [AddComponentMenu("Unity-MVVM/Converters/FlagToVisibility")]
     public class FlagToVisibilityConverter : FlagToBoolConverter
     {
         [SerializeField]
