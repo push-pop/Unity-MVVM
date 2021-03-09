@@ -3,6 +3,8 @@
 
 ## 1.1.3
 - Fixes indexing with CollectionViewBase and AddRange
+- Adds component menus
+- Fixes RemapValueConverter bug and cleans up code
 
 ## 1.1.2
 - Fixes OnewWayToSource bug that fires OnSrcUpdated on start
