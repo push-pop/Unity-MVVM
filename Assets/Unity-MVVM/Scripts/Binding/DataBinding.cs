@@ -5,6 +5,7 @@ using UnityMVVM.Enums;
 
 namespace UnityMVVM.Binding
 {
+    [AddComponentMenu("Unity-MVVM/Bindings/DataBinding")]
     public class DataBinding
         : DataBindingBase
     {

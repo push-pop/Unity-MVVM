@@ -5,6 +5,7 @@ using UnityMVVM.Util;
 
 namespace UnityMVVM.Binding
 {
+    [AddComponentMenu("Unity-MVVM/Bindings/EventBinding")]
     public class EventBinding : DataBindingBase
     {
         [HideInInspector]

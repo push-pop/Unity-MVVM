@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace UnityMVVM.View
 {
-    [RequireComponent(typeof(Button))]
+    [RequireComponent(typeof(Button)), AddComponentMenu("Unity-MVVM/Views/MultiClickButton")]
     public class MultiClickButton : MonoBehaviour
     {
         public UnityEvent OnMultiClick { get; set; } = new UnityEvent();

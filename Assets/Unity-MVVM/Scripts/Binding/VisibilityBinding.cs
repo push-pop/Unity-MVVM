@@ -1,11 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityMVVM.Binding;
+﻿using UnityEngine;
 using UnityMVVM.View;
 
 namespace UnityMVVM.Binding
 {
+    [AddComponentMenu("Unity-MVVM/Bindings/VisibilityBinding")]
     public class VisibilityBinding : OneWayDataBinding
     {
         public override bool KeepConnectionAliveOnDisable => true;

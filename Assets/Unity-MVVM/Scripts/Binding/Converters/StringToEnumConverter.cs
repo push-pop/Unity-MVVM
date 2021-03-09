@@ -1,7 +1,9 @@
 ﻿using System;
+using UnityEngine;
 
 namespace UnityMVVM.Binding.Converters
 {
+    [AddComponentMenu("Unity-MVVM/Converters/StringToEnum")]
     public class StringToEnumConverter : ValueConverterBase
     {
         public override object Convert(object value, Type targetType, object parameter)
