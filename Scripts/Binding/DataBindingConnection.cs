@@ -65,7 +65,7 @@ namespace UnityMVVM.Binding
         {
             try
             {
-                _src.SetValue(_dst.GetValue(), _converter);
+                _src.SetValue(_dst.GetValue(), true, _converter);
             }
             catch (Exception e)
             {
@@ -174,7 +174,7 @@ namespace UnityMVVM.Binding
             try
             {
                 if (_mode != BindingMode.OneWayToSource)
-                    _dst.SetValue(_src.GetValue(), _converter);
+                    _dst.SetValue(_src.GetValue(), false, _converter);
             }
             catch (Exception e)
             {

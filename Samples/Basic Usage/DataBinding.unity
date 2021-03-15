@@ -5029,7 +5029,7 @@ MonoBehaviour:
   DstPropertyPath: 
   DstView: {fileID: 1042937887}
   Converter: {fileID: 1042937890}
-  DstChangedEventName: 
+  DstChangedEventName: onCullStateChanged
 --- !u!114 &1042937890
 MonoBehaviour:
   m_ObjectHideFlags: 0

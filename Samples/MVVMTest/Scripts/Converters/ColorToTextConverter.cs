@@ -13,7 +13,8 @@ namespace UnityMVVM.Samples.MVVMTest
 
         public override object ConvertBack(object value, Type targetType, object parameter)
         {
-            throw new NotImplementedException();
+            Debug.LogError($"{GetType().Name} ConvertBack not implemented. Override this class if you wish to implement");
+            return null;
         }
     }
 }
