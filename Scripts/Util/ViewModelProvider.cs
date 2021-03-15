@@ -74,7 +74,7 @@ namespace UnityMVVM.Util
             return t;
         }
 
-        public T GetViewModelInstance<T>() where T : UnityEngine.Component
+        public T GetViewModelInstance<T>() where T : ViewModelBase
         {
             var vm = GetComponent<T>();
 
