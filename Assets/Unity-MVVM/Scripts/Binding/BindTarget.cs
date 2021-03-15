@@ -24,7 +24,7 @@ namespace UnityMVVM.Binding
 
         public BindTarget()
         {
-           
+
         }
 
         public BindTarget Init()
@@ -92,7 +92,7 @@ namespace UnityMVVM.Binding
             }
         }
 
-        public void SetValue(object value, IValueConverter converter = null)
+        public void SetValue(object value, bool isToSource, IValueConverter converter = null)
         {
 
             if (property == null)
@@ -106,7 +106,10 @@ namespace UnityMVVM.Binding
                 var parentProp = property.GetValue(propertyOwner, null);
 
                 if (converter != null)
-                    field.SetValue(parentProp, converter.Convert(value, field.GetType(), null));
+                    if (isToSource)
+                        field.SetValue(parentProp, converter.ConvertBack(value, field.GetType(), null));
+                    else
+                        field.SetValue(parentProp, converter.Convert(value, field.GetType(), null));
                 else if (value is IConvertible)
                     field.SetValue(parentProp, Convert.ChangeType(value, field.FieldType));
                 else
@@ -118,7 +121,10 @@ namespace UnityMVVM.Binding
             else
             {
                 if (converter != null)
-                    property.SetValue(propertyOwner, converter.Convert(value, property.PropertyType, null));
+                    if (isToSource)
+                        property.SetValue(propertyOwner, converter.ConvertBack(value, property.PropertyType, null));
+                    else
+                        property.SetValue(propertyOwner, converter.Convert(value, property.PropertyType, null));
                 else if (value is IConvertible)
                     property.SetValue(propertyOwner, Convert.ChangeType(value, property.PropertyType));
                 else
