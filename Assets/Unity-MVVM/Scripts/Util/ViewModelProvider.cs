@@ -74,7 +74,7 @@ namespace UnityMVVM.Util
             return t;
         }
 
-        internal ViewModelBase GetViewModelBehaviour(string viewModelName)
+        public ViewModelBase GetViewModelBehaviour(string viewModelName)
         {
             var vm = GetComponent(ViewModelProvider.GetViewModelType(viewModelName));
 
