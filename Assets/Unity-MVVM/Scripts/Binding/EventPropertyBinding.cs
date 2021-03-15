@@ -134,12 +134,11 @@ namespace UnityMVVM.Binding
                 }
 
                 if (converter != null)
-                    dst.SetValue(converter.Convert(toSet, dst.property.PropertyType, null));
-
+                    dst.SetValue(toSet, true, converter);
                 else if (dst.property.PropertyType.IsEnum)
-                    dst.SetValue(Enum.Parse(dst.property.PropertyType, toSet.ToString()));
+                    dst.SetValue(Enum.Parse(dst.property.PropertyType, toSet.ToString()), true);
                 else
-                    dst.SetValue(Convert.ChangeType(toSet, dst.property.PropertyType));
+                    dst.SetValue(Convert.ChangeType(toSet, dst.property.PropertyType), true);
             }
             catch (Exception exc)
             {

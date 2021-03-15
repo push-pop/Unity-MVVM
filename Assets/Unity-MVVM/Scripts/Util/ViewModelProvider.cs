@@ -74,12 +74,19 @@ namespace UnityMVVM.Util
             return t;
         }
 
+        public T GetViewModelInstance<T>() where T : UnityEngine.Component
+        {
+            var vm = GetComponent<T>();
+
+            if (vm == null)
+                vm = gameObject.AddComponent<T>();
+
+            return vm;
+        }
+
         internal ViewModelBase GetViewModelBehaviour(string viewModelName)
         {
             var vm = GetComponent(ViewModelProvider.GetViewModelType(viewModelName));
-
-            if (vm == null)
-                vm = FindObjectOfType(ViewModelProvider.GetViewModelType(viewModelName)) as ViewModelBase;
 
             if (vm == null)
                 return gameObject.AddComponent(ViewModelProvider.GetViewModelType(viewModelName)) as ViewModelBase;

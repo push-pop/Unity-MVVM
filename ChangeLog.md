@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.1.4
+- Fixes bug where ConvertBack was not getting called
+- Exposes public method for getting ViewModel Instance
 
 ## 1.1.3
 - Fixes indexing with CollectionViewBase and AddRange
