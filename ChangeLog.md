@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.5
+ - Update Samples
+ - Add way to search for ViewModels in UserAssemblies 
+
 ## 1.1.4
 - Fixes bug where ConvertBack was not getting called
 - Exposes public method for getting ViewModel Instance
