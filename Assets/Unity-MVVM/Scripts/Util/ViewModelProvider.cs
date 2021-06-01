@@ -12,15 +12,23 @@ namespace UnityMVVM.Util
         public static Type ViewModelBaseType => typeof(ViewModelBase);
         public static Assembly ExecutingAssembly => Assembly.GetExecutingAssembly();
 
-        public static Assembly UserAssembly
+        public static List<Assembly> UserAssembly
         {
             get
             {
-                if (_userAssembly == null)
+                if (_userAssembly == null || UserAssemblyConfig.UserAssembliesChanged)
                 {
+                    UserAssemblyConfig.UserAssembliesChanged = false;
+
+                    _userAssembly = new List<Assembly>();
                     try
                     {
-                        _userAssembly = Assembly.Load("Assembly-CSharp");
+                        _userAssembly.Add(Assembly.Load("Assembly-CSharp"));
+                        
+                        var userAssembliesObject = Resources.Load<UserAssemblyConfig>("UserAssemblyConfig");
+                        
+                        if (userAssembliesObject != null)
+                            _userAssembly.AddRange(userAssembliesObject.UserAssemblyNames.Select(e => Assembly.Load(e)));
                     }
                     catch
                     {
@@ -31,7 +39,7 @@ namespace UnityMVVM.Util
                 return _userAssembly;
             }
         }
-        static Assembly _userAssembly;
+        static List<Assembly> _userAssembly;
 
 
 
@@ -44,11 +52,10 @@ namespace UnityMVVM.Util
                     _viewModels = GetViewModels(Assembly.GetExecutingAssembly()); // Samples
 
                     if (UserAssembly != null)
-                        _viewModels = _viewModels.Concat(GetViewModels(UserAssembly)).ToList(); // User Assembly
+                        UserAssembly.ForEach(e => _viewModels = _viewModels.Concat(GetViewModels(e)).ToList()); // User Assembly
                 }
 
                 return _viewModels;
-
             }
         }
         static List<string> _viewModels = null;
@@ -63,7 +70,12 @@ namespace UnityMVVM.Util
         {
             Type t = null;
 
-            t = UserAssembly?.GetType(typeString);
+            foreach (var asm in UserAssembly)
+            {
+                t = asm.GetType(typeString);
+                if (t != null)
+                    break;
+            }
 
             if (t == null)
                 t = ExecutingAssembly.GetType(typeString);
