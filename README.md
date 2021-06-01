@@ -1,11 +1,16 @@
 # Unity-MVVM
 Simple, Lightweight MVVM Framework for Unity3D
 
+
 For a background on MVVM checkout the [Wikipedia page](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93viewmodel)
 
 The goal of this project is to implement some of the concepts I knew and loved from developing WPF applications, mainly that they be very quick to build, and easy to maintain. It also attempts to solve some of the Unity-specific pain points I've uncovered over the last few years working with Unity.
 
 ## Add to a project
+This project is available on OpenUPM. This is the recomended way to include Unity-MVVM in your project.
+
+[![openupm](https://img.shields.io/npm/v/com.push-pop.unitymvvm?label=openupm&registry_uri=https://package.openupm.com)](https://openupm.com/packages/com.push-pop.unitymvvm/)
+
 This project now supports Unity's package manager! The easiest way to get Unity-MVVM + Samples and keep it up to date is to add it in the package manager window.
 
  Click the + icon at the top left and select "Add from git url." Then copy+paste the https url from this repo and make sure to add the #upm to get the right branch: https://github.com/push-pop/Unity-MVVM.git#upm
